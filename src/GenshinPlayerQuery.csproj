@@ -72,6 +72,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Avatar.cs" />
+    <Compile Include="Model\CityExploration.cs" />
+    <Compile Include="Model\PlayerInfo.cs" />
+    <Compile Include="Model\PlayerStatistics.cs" />
+    <Compile Include="Model\ServerResponse.cs" />
+    <Compile Include="Model\WorldExploration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -98,5 +104,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
