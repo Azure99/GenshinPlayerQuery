@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GenshinPlayerQuery"
         mc:Ignorable="d"
-        Title="原神玩家信息查询器" Height="450" Width="800">
+        Title="原神玩家信息查询器" Height="450" Width="630">
     <Grid HorizontalAlignment="Left" Height="412" Margin="0,0,0,0" VerticalAlignment="Top" Width="300">
         <Label Content="玩家UID:" HorizontalAlignment="Left" Height="26" Margin="10,14,0,0" VerticalAlignment="Top" Width="63"/>
         <ComboBox Name="ComboBoxUserId" IsEditable="True" HorizontalAlignment="Left" Height="23" Margin="73,17,0,0" VerticalAlignment="Top" Width="217"/>
@@ -120,6 +120,8 @@
             </UniformGrid>
 
         </GroupBox>
+
+        <WebBrowser Name="WebBrowserAvatars" Width="320" Height="480" LoadCompleted="WebBrowserAvatars_LoadCompleted" Margin="300,-60,-345,-14" />
     </Grid>
 
 </Window>

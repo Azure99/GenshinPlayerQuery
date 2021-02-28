@@ -9,8 +9,6 @@ namespace GenshinPlayerQuery.Model
 {
     class PlayerInfo
     {
-        public string UserId = "";
-
         public Avatar[] Avatars { get; set; } = new Avatar[0];
 
         [JsonProperty(PropertyName = "stats")]

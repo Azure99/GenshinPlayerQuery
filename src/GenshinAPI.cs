@@ -22,13 +22,8 @@ namespace GenshinPlayerQuery
             ServerResponse<PlayerInfo> response =
                 Get<PlayerInfo>(
                     $"https://api-takumi.mihoyo.com/game_record/genshin/api/index?role_id={uid}&server={server}");
-
-            PlayerInfo playerInfo = response.Data;
-            if (playerInfo != null)
-            {
-                playerInfo.UserId = uid;
-            }
-            return playerInfo;
+            
+            return response.Data;
         }
 
         private static ServerResponse<T> Get<T>(string url)
