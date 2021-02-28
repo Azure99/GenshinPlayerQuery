@@ -1,0 +1,21 @@
+﻿<Window x:Class="GenshinPlayerQuery.View.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GenshinPlayerQuery.View"
+        mc:Ignorable="d"
+        Title="登录米哈游通行证 (用于调用米游社接口)" Height="510" Width="475" ResizeMode="NoResize" Closing="Window_Closing" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <WebBrowser Name="LoginBrowser" Height="800" Width="500" Source="https://user.mihoyo.com/#/login/password"  Navigated="LoginBrowser_Navigated" >
+            <WebBrowser.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="-20" Y="-170"/>
+                </TransformGroup>
+            </WebBrowser.RenderTransform>
+        </WebBrowser>
+    </Grid>
+</Window>
