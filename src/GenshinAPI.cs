@@ -24,7 +24,10 @@ namespace GenshinPlayerQuery
                     $"https://api-takumi.mihoyo.com/game_record/genshin/api/index?role_id={uid}&server={server}");
 
             PlayerInfo playerInfo = response.Data;
-            playerInfo.UserId = uid;
+            if (playerInfo != null)
+            {
+                playerInfo.UserId = uid;
+            }
             return playerInfo;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using GenshinPlayerQuery.Model;
 
 namespace GenshinPlayerQuery.View
 {
@@ -19,6 +20,11 @@ namespace GenshinPlayerQuery.View
             {
                 MessageBus.Login();
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            DataContext = GenshinApi.GetPlayerInfo(ComboBoxUserId.Text, ComboBoxServer.Text);
         }
     }
 }
