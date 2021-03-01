@@ -34,7 +34,6 @@ namespace GenshinPlayerQuery.View
             string server = ComboBoxServer.Text;
             PlayerData playerData = GenshinApi.GetPlayerData(uid, server);
             WebBrowserMain.NavigateToString(Render.RenderHtml(playerData));
-            Debug.WriteLine(Render.RenderHtml(playerData));
         }
 
         private void WebBrowserMain_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
