@@ -32,6 +32,8 @@ namespace GenshinPlayerQuery
 
             return new PlayerData
             {
+                UserId = uid,
+                Server = server,
                 PlayerInfo = JsonConvert.SerializeObject(playerInfo.Data),
                 SpiralAbyss = spiralAbyss.Data.ToString(),
                 Roles = roles.Data.ToString()

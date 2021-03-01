@@ -13,6 +13,8 @@ namespace GenshinPlayerQuery
         public static string RenderHtml(PlayerData playerData)
         {
             return Resources.ResourceManager.GetString("index")
+                .Replace("$uid$", playerData.UserId)
+                .Replace("$server$", playerData.Server)
                 .Replace("$playerInfo$", playerData.PlayerInfo)
                 .Replace("$spiralAbyss$", playerData.SpiralAbyss)
                 .Replace("$roles$", playerData.Roles);

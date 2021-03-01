@@ -15,9 +15,7 @@
             <ComboBoxItem Content="cn_qd01"/>
         </ComboBox>
         <Button Content="查询玩家信息" HorizontalAlignment="Left" Height="45" Margin="309,25,0,0" VerticalAlignment="Top" Width="241" FontSize="14" Click="Button_Click"/>
-        <WebBrowser Name="WebBrowserMain" HorizontalAlignment="Left" Height="488" Margin="0,82,-6.4,0" VerticalAlignment="Top" Width="900"/>
-
-
+        <WebBrowser Name="WebBrowserMain" HorizontalAlignment="Left" Height="488" Margin="0,82,-6.4,0" VerticalAlignment="Top" Width="900" Navigating="WebBrowserMain_Navigating"/>
     </Grid>
 
 </Window>

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using GenshinPlayerQuery.Model;
 
 namespace GenshinPlayerQuery.View
@@ -32,6 +35,25 @@ namespace GenshinPlayerQuery.View
             PlayerData playerData = GenshinApi.GetPlayerData(uid, server);
             WebBrowserMain.NavigateToString(Render.RenderHtml(playerData));
             Debug.WriteLine(Render.RenderHtml(playerData));
+        }
+
+        private void WebBrowserMain_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
+        {
+            if (e.Uri != null)
+            {
+                if (e.Uri.Scheme == "rainng")
+                {
+                    Dictionary<string, string> dic = new Dictionary<string, string>();
+                    string[] args = e.Uri.Query.Substring(1).Split('&');
+                    foreach (string arg in args)
+                    {
+                        string[] kv = arg.Split('=');
+                        dic[kv[0]] = kv[1];
+                    }
+                    MessageBus.ShowRoleDetails(dic["uid"], dic["server"], dic["role"]);
+                    e.Cancel = true;
+                }
+            }
         }
     }
 }

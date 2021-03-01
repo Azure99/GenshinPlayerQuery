@@ -164,11 +164,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
 
 <script>
+    var uid = $uid$;
+    var server = "$server$";
     var playerInfo = $playerInfo$;
-
     var spiralAbyss = $spiralAbyss$;
-
     var roles = $roles$;
+
 
     // 信息概览
     for (var key in playerInfo.stats) {
@@ -202,10 +203,6 @@
         spiralAbyssHtml += getSpiralAbyssFloorHtml(floor);
     }
     document.getElementById('spiral-abyss').innerHTML = spiralAbyssHtml;
-
-    //floor -> 层
-    //level -> 间
-    //battle -> 半
 
     function getSpiralAbyssFloorHtml(floor) {
         var levelsHtml = "";
@@ -265,10 +262,11 @@
                 }
             }
 
-            return '<div class="az-role" style="width: 60px; float: left; margin-left: 5px">' +
+            var link = "rainng://inner/?server=" + server + "&uid=" + uid + "&role=" + role.id;
+            return '<a href="' + link + '"><div class="az-role" style="width: 60px; float: left; margin-left: 5px">' +
                 '<img style="background-color: ' + getColorByRarity(role.rarity) + '" width="100%" src="' + role.icon + '">' +
                 '<p style="background-color: azure; text-align: center">Lv' + role.level + ' C' + constellations + '</p>' +
-                '</div>';
+                '</div></a>';
         }
     }
 

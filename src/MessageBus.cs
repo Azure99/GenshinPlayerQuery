@@ -41,6 +41,11 @@ namespace GenshinPlayerQuery
             }
         }
 
+        public static void ShowRoleDetails(string uid, string server, string roleId)
+        {
+            new RoleWindow(uid, server, roleId).Show();
+        }
+
         public static void Login()
         {
             MainWindow.Visibility = Visibility.Hidden;
