@@ -3,13 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Genshin Impact</title>
-
     <style>
-        html {
-            height: 100%;
-        }
-
-        body {
+        html, body {
             height: 100%;
         }
 
@@ -22,12 +17,16 @@
 
         .az-frame-inner {
             position: absolute;
-            left: 0;
+            left: 5px;
             top: 0;
             right: -17px;
             bottom: 0;
             overflow-x: hidden;
             overflow-y: scroll;
+        }
+
+        .az-player-overall {
+            margin: auto;
         }
 
         .az-player-overall > tbody > tr > td {
@@ -45,9 +44,11 @@
             font-weight: lighter;
         }
 
+        #world-explorations {
+            text-align: center;
+        }
         .az-world_exploration {
             font-size: 16px;
-            margin-left: 20px;
             margin-bottom: 5px;
         }
     </style>
@@ -233,7 +234,7 @@
     }
 
     function getSpiralAbyssLevelHtml(data) {
-        var html = '第' + data.index + '间&nbsp;&nbsp;' + data.star + '/' + data.max_star + '⭐&nbsp;&nbsp;' + getDateTextByTimestamp(data.battles[0].timestamp * 1000);
+        var html = '<p style="text-align: center">第' + data.index + '间&nbsp;&nbsp;' + data.star + '/' + data.max_star + '⭐&nbsp;&nbsp;' + getDateTextByTimestamp(data.battles[0].timestamp * 1000) + '</p>';
         html += getSpiralAbyssBattleHtml(data.battles[0]);
         html += getSpiralAbyssBattleHtml(data.battles[1]);
 
@@ -241,7 +242,7 @@
     }
 
     function getSpiralAbyssBattleHtml(data) {
-        html = '<div style="margin-left: -5px">';
+        html = '<div style="width: 260px; margin: auto">';
         for (var i = 0; i < data.avatars.length; i++) {
             var roleId = data.avatars[i].id;
             html += getRoleAvatarHtml(roleId);

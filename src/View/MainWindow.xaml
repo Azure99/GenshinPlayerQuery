@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GenshinPlayerQuery"
         mc:Ignorable="d"
-        Title="原神玩家信息查询器" Height="600" Width="655" ResizeMode="NoResize" Closed="Window_Closed">
+        Title="原神玩家信息查询器" Height="600" Width="700" ResizeMode="NoResize" Closed="Window_Closed">
     <Grid>
         <Label Content="玩家UID:" HorizontalAlignment="Left" Height="25" Margin="10,16,0,0" VerticalAlignment="Top" Width="63"/>
         <ComboBox Name="ComboBoxUserId" IsEditable="True" HorizontalAlignment="Left" Height="25" Margin="73,17,0,0" VerticalAlignment="Top" Width="150"/>
@@ -15,7 +15,9 @@
             <ComboBoxItem Content="cn_qd01"/>
         </ComboBox>
         <Button Content="查询玩家信息" HorizontalAlignment="Left" Height="25" Margin="410,17,0,0" VerticalAlignment="Top" Width="121" FontSize="14" Click="Button_Click"/>
-        <WebBrowser Name="WebBrowserMain" HorizontalAlignment="Left" Height="512" Margin="10,58,-16.8,0" VerticalAlignment="Top" Width="650" Navigating="WebBrowserMain_Navigating"/>
+        
+        <WebBrowser Name="WebBrowserMain" HorizontalAlignment="Left" Height="512" Margin="10,58,-16.8,0" VerticalAlignment="Top" Width="695" Navigating="WebBrowserMain_Navigating"/>
+        
         <TextBlock HorizontalAlignment="Left" Margin="570,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
             <Hyperlink Name="HyperlinkProjectAddress" NavigateUri="https://github.com/Azure99/GenshinPlayerQuery" RequestNavigate="HyperlinkProjectAddress_RequestNavigate">
                 项目地址
