@@ -5,17 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GenshinPlayerQuery"
         mc:Ignorable="d"
-        Title="原神玩家信息查询器" Height="600" Width="650" ResizeMode="NoResize" Closed="Window_Closed">
+        Title="原神玩家信息查询器" Height="600" Width="655" ResizeMode="NoResize" Closed="Window_Closed">
     <Grid>
-        <Label Content="玩家UID:" HorizontalAlignment="Left" Height="26" Margin="10,14,0,0" VerticalAlignment="Top" Width="63"/>
-        <ComboBox Name="ComboBoxUserId" IsEditable="True" HorizontalAlignment="Left" Height="23" Margin="73,17,0,0" VerticalAlignment="Top" Width="217"/>
-        <Label Content="服务器:" HorizontalAlignment="Left" Height="26" Margin="10,51,0,0" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.299,0.518"/>
-        <ComboBox Name="ComboBoxServer" IsEditable="True" HorizontalAlignment="Left" Height="23" Margin="73,53,0,0" VerticalAlignment="Top" Width="217" RenderTransformOrigin="0.776,0.42" SelectedIndex="0">
+        <Label Content="玩家UID:" HorizontalAlignment="Left" Height="25" Margin="10,16,0,0" VerticalAlignment="Top" Width="63"/>
+        <ComboBox Name="ComboBoxUserId" IsEditable="True" HorizontalAlignment="Left" Height="25" Margin="73,17,0,0" VerticalAlignment="Top" Width="150"/>
+        <Label Content="服务器:" HorizontalAlignment="Left" Height="25" Margin="245,16,0,0" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.299,0.518"/>
+        <ComboBox Name="ComboBoxServer" IsEditable="True" HorizontalAlignment="Left" Height="25" Margin="295,17,0,0" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.776,0.42" SelectedIndex="0">
             <ComboBoxItem Content="cn_gf01"/>
             <ComboBoxItem Content="cn_qd01"/>
         </ComboBox>
-        <Button Content="查询玩家信息" HorizontalAlignment="Left" Height="45" Margin="309,25,0,0" VerticalAlignment="Top" Width="241" FontSize="14" Click="Button_Click"/>
-        <WebBrowser Name="WebBrowserMain" HorizontalAlignment="Left" Height="488" Margin="10,82,-6.4,0" VerticalAlignment="Top" Width="650" Navigating="WebBrowserMain_Navigating"/>
+        <Button Content="查询玩家信息" HorizontalAlignment="Left" Height="25" Margin="410,17,0,0" VerticalAlignment="Top" Width="121" FontSize="14" Click="Button_Click"/>
+        <WebBrowser Name="WebBrowserMain" HorizontalAlignment="Left" Height="512" Margin="10,58,-16.8,0" VerticalAlignment="Top" Width="650" Navigating="WebBrowserMain_Navigating"/>
+        <TextBlock HorizontalAlignment="Left" Margin="570,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
+            <Hyperlink Name="HyperlinkProjectAddress" NavigateUri="https://github.com/Azure99/GenshinPlayerQuery" RequestNavigate="HyperlinkProjectAddress_RequestNavigate">
+                项目地址
+            </Hyperlink>
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="560,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
+            <Hyperlink Name="HyperlinkByAzure99" NavigateUri="https://github.com/Azure99" RequestNavigate="HyperlinkByAzure99_RequestNavigate">
+                By Azure99
+            </Hyperlink>
+        </TextBlock>
     </Grid>
 
 </Window>
