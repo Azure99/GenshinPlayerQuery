@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GenshinPlayerQuery"
         mc:Ignorable="d"
-        Title="原神玩家信息查询器" Height="450" Width="630">
-    <Grid HorizontalAlignment="Left" Height="412" Margin="0,0,0,0" VerticalAlignment="Top" Width="300">
+        Title="原神玩家信息查询器" Height="600" Width="900">
+    <Grid>
         <Label Content="玩家UID:" HorizontalAlignment="Left" Height="26" Margin="10,14,0,0" VerticalAlignment="Top" Width="63"/>
         <ComboBox Name="ComboBoxUserId" IsEditable="True" HorizontalAlignment="Left" Height="23" Margin="73,17,0,0" VerticalAlignment="Top" Width="217"/>
         <Label Content="服务器:" HorizontalAlignment="Left" Height="26" Margin="10,51,0,0" VerticalAlignment="Top" Width="54" RenderTransformOrigin="0.299,0.518"/>
@@ -14,114 +14,10 @@
             <ComboBoxItem Content="cn_gf01"/>
             <ComboBoxItem Content="cn_qd01"/>
         </ComboBox>
-        <Button Content="查询玩家信息" HorizontalAlignment="Left" Height="45" Margin="15,90,0,0" VerticalAlignment="Top" Width="275" FontSize="14" Click="Button_Click"/>
-        <GroupBox Header="数据总览" HorizontalAlignment="Left" Height="180" Margin="0,148,0,0" VerticalAlignment="Top" Width="300">
-            <UniformGrid Rows="3" Columns="4">
-                <Grid Height="35" Width="80">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="15" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding Path=PlayerStatistics.ActiveDayNumber}" HorizontalAlignment="Center" FontSize="14"/>
-                    <TextBlock Grid.Row="1" Text="活跃天数" HorizontalAlignment="Center" FontSize="10" Foreground="Gray"/>
-                </Grid>
+        <Button Content="查询玩家信息" HorizontalAlignment="Left" Height="45" Margin="309,25,0,0" VerticalAlignment="Top" Width="241" FontSize="14" Click="Button_Click"/>
+        <WebBrowser Name="WebBrowserMain" HorizontalAlignment="Left" Height="488" Margin="0,82,-6.4,0" VerticalAlignment="Top" Width="900"/>
 
-                <Grid Height="35" Width="80">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="15" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding Path=PlayerStatistics.AchievementNumber}" HorizontalAlignment="Center" FontSize="14"/>
-                    <TextBlock Grid.Row="1" Text="达成成就数" HorizontalAlignment="Center" FontSize="10" Foreground="Gray"/>
-                </Grid>
-                <Grid Height="35" Width="80">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="15" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding Path=PlayerStatistics.AnemoculusNumber}" HorizontalAlignment="Center" FontSize="14"/>
-                    <TextBlock Grid.Row="1" Text="风神瞳" HorizontalAlignment="Center" FontSize="10" Foreground="Gray"/>
-                </Grid>
-                <Grid Height="35" Width="80">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="15" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding Path=PlayerStatistics.GeoculusNumber}" HorizontalAlignment="Center" FontSize="14"/>
-                    <TextBlock Grid.Row="1" Text="岩神瞳" HorizontalAlignment="Center" FontSize="10" Foreground="Gray"/>
-                </Grid>
-                <Grid Height="35" Width="80">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="15" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding Path=PlayerStatistics.AvatarNumber}" HorizontalAlignment="Center" FontSize="14"/>
-                    <TextBlock Grid.Row="1" Text="获得角色数" HorizontalAlignment="Center" FontSize="10" Foreground="Gray"/>
-                </Grid>
-                <Grid Height="35" Width="80">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="15" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding Path=PlayerStatistics.WayPointNumber}" HorizontalAlignment="Center" FontSize="14"/>
-                    <TextBlock Grid.Row="1" Text="解锁传送点" HorizontalAlignment="Center" FontSize="10" Foreground="Gray"/>
-                </Grid>
-                <Grid Height="35" Width="80">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="15" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding Path=PlayerStatistics.DomainNumber}" HorizontalAlignment="Center" FontSize="14"/>
-                    <TextBlock Grid.Row="1" Text="解锁秘境" HorizontalAlignment="Center" FontSize="10" Foreground="Gray"/>
-                </Grid>
-                <Grid Height="35" Width="80">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="15" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding Path=PlayerStatistics.SpiralAbyss}" HorizontalAlignment="Center" FontSize="14"/>
-                    <TextBlock Grid.Row="1" Text="深境螺旋" HorizontalAlignment="Center" FontSize="10" Foreground="Gray"/>
-                </Grid>
-                <Grid Height="35" Width="80">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="15" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding Path=PlayerStatistics.PreciousChestNumber}" HorizontalAlignment="Center" FontSize="14"/>
-                    <TextBlock Grid.Row="1" Text="华丽宝箱数" HorizontalAlignment="Center" FontSize="10" Foreground="Gray"/>
-                </Grid>
 
-                <Grid Height="35" Width="80">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="15" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding Path=PlayerStatistics.LuxuriousChestNumber}" HorizontalAlignment="Center" FontSize="14"/>
-                    <TextBlock Grid.Row="1" Text="珍贵宝箱数" HorizontalAlignment="Center" FontSize="10" Foreground="Gray"/>
-                </Grid>
-
-                <Grid Height="35" Width="80">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="15" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding Path=PlayerStatistics.ExquisiteChestNumber}" HorizontalAlignment="Center" FontSize="14"/>
-                    <TextBlock Grid.Row="1" Text="精致宝箱数" HorizontalAlignment="Center" FontSize="10" Foreground="Gray"/>
-                </Grid>
-
-                <Grid Height="35" Width="80">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="15" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding Path=PlayerStatistics.CommonChestNumber}" HorizontalAlignment="Center" FontSize="14"/>
-                    <TextBlock Grid.Row="1" Text="普通宝箱数" HorizontalAlignment="Center" FontSize="10" Foreground="Gray"/>
-                </Grid>
-            </UniformGrid>
-
-        </GroupBox>
-
-        <WebBrowser Name="WebBrowserAvatars" Width="320" Height="480" LoadCompleted="WebBrowserAvatars_LoadCompleted" Margin="300,-60,-345,-14" />
     </Grid>
 
 </Window>

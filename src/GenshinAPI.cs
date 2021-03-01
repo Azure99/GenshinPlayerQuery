@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
@@ -17,13 +18,24 @@ namespace GenshinPlayerQuery
             return response.ReturnCode == 0;
         }
 
-        public static PlayerInfo GetPlayerInfo(string uid, string server)
+        public static PlayerData GetPlayerData(string uid, string server)
         {
-            ServerResponse<PlayerInfo> response =
-                Get<PlayerInfo>(
-                    $"https://api-takumi.mihoyo.com/game_record/genshin/api/index?role_id={uid}&server={server}");
-            
-            return response.Data;
+            ServerResponse<PlayerInfo> playerInfo = Get<PlayerInfo>($"https://api-takumi.mihoyo.com/game_record/genshin/api/index?role_id={uid}&server={server}");
+            ServerResponse<JObject> spiralAbyss = Get<JObject>($"https://api-takumi.mihoyo.com/game_record/genshin/api/spiralAbyss?schedule_type=1&server={server}&role_id={uid}");
+            ServerResponse<JObject> roles = Post<JObject>("https://api-takumi.mihoyo.com/game_record/genshin/api/character", 
+                JsonConvert.SerializeObject(new QueryRole
+                {
+                    CharacterIds = playerInfo.Data.Avatars.Select(x => x.Id).ToList(),
+                    RoleId = uid,
+                    Server = server
+                }));
+
+            return new PlayerData
+            {
+                PlayerInfo = JsonConvert.SerializeObject(playerInfo.Data),
+                SpiralAbyss = spiralAbyss.Data.ToString(),
+                Roles = roles.Data.ToString()
+            };
         }
 
         private static ServerResponse<T> Get<T>(string url)

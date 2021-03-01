@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Genshin Impact</title>
+
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+        }
+
+        .az-frame {
+            float: left;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .az-frame-inner {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: -17px;
+            bottom: 0;
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+
+        .az-player-overall > tbody > tr > td {
+            padding: 5px;
+            text-align: center;
+        }
+
+        .az-player-overall > tbody > tr > td > p {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .az-player-overall > tbody > tr > td > span {
+            font-weight: lighter;
+        }
+
+        .az-world_exploration {
+            font-size: 16px;
+            margin-left: 20px;
+            margin-bottom: 5px;
+        }
+
+        .az-role {
+
+        }
+
+        .az-role-avatar {
+
+        }
+
+    </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="az-frame" style="width: 29%">
+    <div class="az-frame-inner">
+        <div class="panel panel-default">
+            <div class="panel-heading">信息概览</div>
+            <div class="panel-body">
+                <table class="az-player-overall">
+                    <tr>
+                        <td>
+                            <p id="overall-active_day_number"></p>
+                            <span>活跃天数</span>
+                        </td>
+                        <td>
+                            <p id="overall-achievement_number"></p>
+                            <span>达成成就</span>
+                        </td>
+                        <td>
+                            <p id="overall-anemoculus_number"></p>
+                            <span>风神瞳</span>
+                        </td>
+                        <td>
+                            <p id="overall-geoculus_number"></p>
+                            <span>岩神瞳</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p id="overall-avatar_number"></p>
+                            <span>获得角色</span>
+                        </td>
+                        <td>
+                            <p id="overall-way_point_number"></p>
+                            <span>解锁传送点</span>
+                        </td>
+                        <td>
+                            <p id="overall-domain_number"></p>
+                            <span>解锁秘境</span>
+                        </td>
+                        <td>
+                            <p id="overall-spiral_abyss"></p>
+                            <span>深境螺旋</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p id="overall-precious_chest_number"></p>
+                            <span>华丽宝箱</span>
+                        </td>
+                        <td>
+                            <p id="overall-luxurious_chest_number"></p>
+                            <span>珍贵宝箱</span>
+                        </td>
+                        <td>
+                            <p id="overall-exquisite_chest_number"></p>
+                            <span>精致宝箱</span>
+                        </td>
+                        <td>
+                            <p id="overall-common_chest_number"></p>
+                            <span>普通宝箱</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">世界探索</h3>
+            </div>
+            <div class="panel-body">
+                <div id="world-explorations"></div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">深境螺旋</h3>
+            </div>
+            <div class="panel-body">
+                <div class="panel-group" id="spiral-abyss" role="tablist" aria-multiselectable="true">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="az-frame" style="width: 29%">
+    <div class="az-frame-inner">
+    </div>
+</div>
+
+<div class="az-frame" style="width: 29%">
+    <div class="az-frame-inner">
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+
+<script>
+    var playerInfo = $playerInfo$;
+
+    var spiralAbyss = $spiralAbyss$;
+
+    var roles = $roles$;
+
+    // 信息概览
+    for (var key in playerInfo.stats) {
+        var element = document.getElementById('overall-' + key);
+        if (element != null) {
+            element.innerText = playerInfo.stats[key];
+        }
+    }
+
+    // 世界探索
+    var worldExplorationsHtml = "";
+    for (var i = 0; i < playerInfo.world_explorations.length; i++) {
+        var expl = playerInfo.world_explorations[i];
+        expl.name = expl.name.replace('龙脊', '');
+        worldExplorationsHtml += '<div class="az-world_exploration">' +
+            '<img style="background-color: black" width="30" height="30" src="' + expl.icon + '"/>' +
+            '&nbsp;&nbsp;&nbsp;' +
+            '<span>' + expl.name + '</span>' +
+            '&nbsp;&nbsp;&nbsp;' +
+            '<span>等级: ' + expl.level + '</span>' +
+            '&nbsp;&nbsp;&nbsp;' +
+            '<span>探索度: ' + expl.exploration_percentage % 100 + '%</span>' +
+            '</div>'
+    }
+    document.getElementById('world-explorations').innerHTML = worldExplorationsHtml;
+
+    // 深境螺旋
+    var spiralAbyssHtml = "";
+    for (var i = 0; i < spiralAbyss.floors.length; i++) {
+        var floor = spiralAbyss.floors[i];
+        spiralAbyssHtml += getSpiralAbyssFloorHtml(floor);
+    }
+    document.getElementById('spiral-abyss').innerHTML = spiralAbyssHtml;
+
+    //floor -> 层
+    //level -> 间
+    //battle -> 半
+
+    function getSpiralAbyssFloorHtml(floor) {
+        var levelsHtml = "";
+        for (var i = 0; i < floor.levels.length; i++) {
+            levelsHtml += getSpiralAbyssLevelHtml(floor.levels[i]);
+        }
+
+        var html = '<div class="panel panel-default">\n' +
+            '<div class="panel-heading" role="tab" id="heading' + floor.index + '">\n' +
+            '    <h4 class="panel-title">\n' +
+            '        <a role="button" data-toggle="collapse" data-parent="#spiral-abyss" href="#collapse' + floor.index + '" aria-expanded="true" aria-controls="collapse' + floor.index + '">\n' +
+            '第' + floor.index + '层&nbsp;&nbsp;' + floor.star + '/' + floor.max_star + '⭐' +
+            '        </a>\n' +
+            '    </h4>\n' +
+            '</div>\n' +
+            '<div id="collapse' + floor.index + '" class="panel-collapse collapse in" role="tabpanel"\n' +
+            '     aria-labelledby="heading' + floor.index + '">\n' +
+            '    <div class="panel-body">\n' +
+            levelsHtml +
+            '    </div>\n' +
+            '</div>\n' +
+            '</div>';
+
+        return html;
+    }
+
+    function getSpiralAbyssLevelHtml(data) {
+        var html = '第' + data.index + '间&nbsp;&nbsp;' + data.star + '/' + data.max_star + '⭐&nbsp;&nbsp;' + getDateTextByTimestamp(data.battles[0].timestamp * 1000);
+        html += getSpiralAbyssBattleHtml(data.battles[0]);
+        html += getSpiralAbyssBattleHtml(data.battles[1]);
+
+        return html;
+    }
+
+    function getSpiralAbyssBattleHtml(data) {
+        html = '<div style="margin-left: -5px">';
+        for (var i = 0; i < data.avatars.length; i++) {
+            var roleId = data.avatars[i].id;
+            html += getRoleAvatarHtml(roleId);
+        }
+        html += '<div style="clear:both"></div></div>';
+
+        return html;
+    }
+
+    function getRoleAvatarHtml(id) {
+        for (var i = 0; i < roles.avatars.length; i++) {
+            var role = roles.avatars[i];
+            if (role.id !== id) {
+                continue;
+            }
+
+            var constellations = 0;
+            for (var j = 0; j < role.constellations.length; j++) {
+                if (role.constellations[j].is_actived) {
+                    constellations++;
+                }
+            }
+
+            return '<div class="az-role" style="width: 60px; float: left; margin-left: 5px">' +
+                '<img style="background-color: ' + getColorByRarity(role.rarity) + '" width="100%" src="' + role.icon + '">' +
+                '<p style="background-color: azure; text-align: center">Lv' + role.level + ' C' + constellations + '</p>' +
+                '</div>';
+        }
+    }
+
+    function getColorByRarity(rarity) {
+        switch (rarity) {
+            case 3:
+                return '#846FAB';
+            case 4:
+                return '#846FAB';
+            case 5:
+                return '#C68C58';
+        }
+    }
+
+    function getDateTextByTimestamp(timestamp) {
+        var d = new Date(parseInt(timestamp));
+        var month = (d.getMonth() + 1) < 10 ? (0 + "" + (d.getMonth() + 1)) : (d.getMonth() + 1);
+        var day = d.getDate() < 10 ? (0 + "" + d.getDate()) : d.getDate();
+        var hour = d.getHours() < 10 ? (0 + "" + d.getHours()) : d.getHours();
+        var minute = d.getMinutes() < 10 ? (0 + "" + d.getMinutes()) : d.getMinutes();
+        var second = d.getSeconds() < 10 ? (0 + "" + d.getSeconds()) : d.getSeconds();
+        return d.getFullYear() + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+    }
+</script>
+</body>
+</html>
