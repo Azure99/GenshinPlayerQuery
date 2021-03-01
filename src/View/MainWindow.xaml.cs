@@ -30,6 +30,7 @@ namespace GenshinPlayerQuery.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            GC.Collect();
             string uid = ComboBoxUserId.Text;
             string server = ComboBoxServer.Text;
             PlayerData playerData = GenshinApi.GetPlayerData(uid, server);
@@ -53,6 +54,11 @@ namespace GenshinPlayerQuery.View
                     e.Cancel = true;
                 }
             }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

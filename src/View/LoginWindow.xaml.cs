@@ -19,7 +19,7 @@ namespace GenshinPlayerQuery.View
             MessageBus.LoginWindow = this;
         }
 
-        private void LoginBrowser_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        private void WebBrowserLogin_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
             if (e.Uri.OriginalString == "https://user.mihoyo.com/#/account/home")
             {
@@ -44,5 +44,10 @@ namespace GenshinPlayerQuery.View
         private static extern bool InternetGetCookieEx(
             string url, string cookieName, StringBuilder cookieData, ref uint cookieSize, int flags,
             IntPtr reversed);
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            WebBrowserLogin.Dispose();
+        }
     }
 }
