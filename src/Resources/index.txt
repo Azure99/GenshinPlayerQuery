@@ -213,7 +213,7 @@
             '&nbsp;&nbsp;&nbsp;&nbsp;' +
             '<span style="font-weight: bold">胜利次数: </span>' + spiralAbyss.total_win_times +
         '</div>';
-        spiralAbyssOverallHtml += getSpiralAbyssRankHtml("出场次数", spiralAbyss.reveal_rank);
+        spiralAbyssOverallHtml += getSpiralAbyssRankHtml("出场次数", spiralAbyss.reveal_rank, true);
         spiralAbyssOverallHtml += getSpiralAbyssRankHtml("造成伤害", spiralAbyss.damage_rank);
         spiralAbyssOverallHtml += getSpiralAbyssRankHtml("承受伤害", spiralAbyss.take_damage_rank);
         spiralAbyssOverallHtml += getSpiralAbyssRankHtml("击败敌人", spiralAbyss.defeat_rank);
@@ -222,7 +222,7 @@
     }
     document.getElementById('spiral-abyss-overall').innerHTML = spiralAbyssOverallHtml;
 
-    function getSpiralAbyssRankHtml(name, data) {
+    function getSpiralAbyssRankHtml(name, data, regularAvatar) {
         var itemHtml = "";
         for (var i = 0; i < data.length; i++) {
             itemHtml +=
@@ -233,9 +233,10 @@
         }
 
         return '' +
+            '<br/>' +
             '<div>' +
                 '<span style="font-weight: bold">' + name + '</span><br/>' +
-                '<div style="margin-top: 5px">' +
+                '<div style="margin-top: 5px; ' + (regularAvatar ? '' : 'margin-left: -5px') + '">' +
                     itemHtml +
                 '</div>' +
             '</div>';
