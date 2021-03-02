@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace GenshinPlayerQuery
+namespace GenshinPlayerQuery.Core
 {
     static class WebBrowserZoomInvoker
     {

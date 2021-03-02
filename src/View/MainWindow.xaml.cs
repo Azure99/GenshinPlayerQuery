@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Navigation;
+using GenshinPlayerQuery.Core;
 using GenshinPlayerQuery.Model;
 
 namespace GenshinPlayerQuery.View

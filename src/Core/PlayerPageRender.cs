@@ -1,9 +1,9 @@
 ﻿using GenshinPlayerQuery.Model;
 using GenshinPlayerQuery.Properties;
 
-namespace GenshinPlayerQuery
+namespace GenshinPlayerQuery.Core
 {
-    static class Render
+    static class PlayerPageRender
     {
         public static string RenderHtml(PlayerQueryResult playerQueryResult)
         {

@@ -7,7 +7,7 @@ using GenshinPlayerQuery.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace GenshinPlayerQuery
+namespace GenshinPlayerQuery.Core
 {
     static class GenshinApi
     {

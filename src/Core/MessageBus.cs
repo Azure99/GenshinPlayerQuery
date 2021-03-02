@@ -8,11 +8,10 @@ using System.Threading;
 using System.Windows;
 using GenshinPlayerQuery.View;
 
-namespace GenshinPlayerQuery
+namespace GenshinPlayerQuery.Core
 {
     static class MessageBus
     {
-
         private const int COOKIE_HTTP_ONLY = 0x00002000;
 
         private const string LOGIN_TICKET_FILE = "ticket.txt";

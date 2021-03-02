@@ -58,11 +58,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="UpdateChecker.cs" />
+    <Compile Include="Core\UpdateChecker.cs" />
     <Compile Include="View\RoleWindow.xaml.cs">
       <DependentUpon>RoleWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WebBrowserZoomInvoker.cs" />
+    <Compile Include="Core\WebBrowserZoomInvoker.cs" />
     <Page Include="View\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -75,8 +75,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GenshinAPI.cs" />
-    <Compile Include="MessageBus.cs" />
+    <Compile Include="Core\GenshinAPI.cs" />
+    <Compile Include="Core\MessageBus.cs" />
     <Compile Include="Model\Avatar.cs" />
     <Compile Include="Model\CityExploration.cs" />
     <Compile Include="Model\PlayerQueryResult.cs" />
@@ -84,7 +84,7 @@
     <Compile Include="Model\PlayerStatistics.cs" />
     <Compile Include="Model\QueryRole.cs" />
     <Compile Include="Model\WorldExploration.cs" />
-    <Compile Include="Render.cs" />
+    <Compile Include="Core\PlayerPageRender.cs" />
     <Compile Include="View\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -128,5 +128,6 @@
   <ItemGroup>
     <None Include="Resources\index.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

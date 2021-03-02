@@ -2,7 +2,7 @@
 using System.Net;
 using System.Windows;
 
-namespace GenshinPlayerQuery
+namespace GenshinPlayerQuery.Core
 {
     static class UpdateChecker
     {
