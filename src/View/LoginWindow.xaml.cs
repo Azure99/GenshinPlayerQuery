@@ -16,11 +16,20 @@ namespace GenshinPlayerQuery.View
         {
             InitializeComponent();
             MessageBus.LoginWindow = this;
+            WebBrowserZoomInvoker.AddZoomInvoker(WebBrowserLogin);
+        }
+
+        private void WebBrowserLogin_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        {
+            if (e.Uri == null)
+            {
+                WebBrowserLogin.Navigate(new Uri("https://user.mihoyo.com/#/login/password"));
+            }
         }
 
         private void WebBrowserLogin_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
-            if (e.Uri.OriginalString == "https://user.mihoyo.com/#/account/home")
+            if (e.Uri != null && e.Uri.OriginalString == "https://user.mihoyo.com/#/account/home")
             {
                 _loginSuccessful = true;
                 MessageBus.AfterLoginSuccessful();

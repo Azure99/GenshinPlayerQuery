@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GenshinPlayerQuery.View"
         mc:Ignorable="d"
-        Title="登录米哈游通行证 (用于调用米游社接口)" Height="510" Width="475" ResizeMode="NoResize" Closing="Window_Closing" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
+        Title="登录米哈游通行证 (用于调用米游社接口)" Height="580" Width="475" ResizeMode="NoResize" Closing="Window_Closing" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Grid>
-        <WebBrowser Name="WebBrowserLogin" Height="800" Width="500" Source="https://user.mihoyo.com/#/login/password"  Navigated="WebBrowserLogin_Navigated" >
+        <WebBrowser Name="WebBrowserLogin" Height="1000" Width="600" Navigated="WebBrowserLogin_Navigated" LoadCompleted="WebBrowserLogin_LoadCompleted" >
             <WebBrowser.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
                     <SkewTransform/>
                     <RotateTransform/>
-                    <TranslateTransform X="-20" Y="-170"/>
+                    <TranslateTransform X="-75" Y="-240"/>
                 </TransformGroup>
             </WebBrowser.RenderTransform>
         </WebBrowser>
