@@ -34,12 +34,10 @@ namespace GenshinPlayerQuery.View
             string uid = ComboBoxUserId.Text;
             string server = ComboBoxServer.Text;
             PlayerData playerData = GenshinApi.GetPlayerData(uid, server);
-            //WebBrowserZoomInvoker.AddZoomInvoker(WebBrowserMain);
+            WebBrowserZoomInvoker.AddZoomInvoker(WebBrowserMain);
             WebBrowserMain.NavigateToString(Render.RenderHtml(playerData));
 
-
-
-               // MessageBox.Show(PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11.ToString());
+            MessageBox.Show(PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice.M11.ToString());
         }
 
         private void WebBrowserMain_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
