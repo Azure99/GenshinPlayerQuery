@@ -60,7 +60,7 @@
 <div class="az-frame" style="width: 44%">
     <div class="az-frame-inner">
         <div class="panel panel-default">
-            <div class="panel-heading">信息概览</div>
+            <div class="panel-heading"><h3 class="panel-title">信息概览</h3></div>
             <div class="panel-body">
                 <table class="az-player-overall">
                     <tr>
@@ -168,6 +168,7 @@
     var spiralAbyss = $spiralAbyss$;
     var roles = $roles$;
 
+
     // 信息概览
     for (var key in playerInfo.stats) {
         var element = document.getElementById('overall-' + key);
@@ -272,7 +273,7 @@
             }
 
             var link = "rainng://inner/?server=" + server + "&uid=" + uid + "&role=" + role.id;
-            return '<a href="' + link + '"><div class="az-role" style="width: ' + size + 'px; float: left; margin-left: 5px">' +
+            return '<a href="' + link + '"><div class="az-role" style="width: ' + size + 'px; float: left; margin-left: 2px; margin-right: 2px">' +
                 '<img style="background-color: ' + getColorByRarity(role.rarity) + '" width="100%" src="' + role.icon + '">' +
                 '<p style="background-color: azure; text-align: center; font-size: ' + (size/5) + 'px">Lv' + role.level + ' C' + constellations + '</p>' +
                 '</div></a>';
