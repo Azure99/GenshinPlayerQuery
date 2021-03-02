@@ -13,6 +13,8 @@ namespace GenshinPlayerQuery.Core
     internal static class MessageBus
     {
         private const int COOKIE_HTTP_ONLY = 0x00002000;
+        private const string COOKIE_NAME_LOGIN_TICKET = "login_ticket";
+        private const string COOKIE_URL = "https://user.mihoyo.com/";
 
         private const string LOGIN_TICKET_FILE = "ticket.txt";
         private const string QUERY_HISTORY_FILE = "history.txt";
@@ -42,7 +44,7 @@ namespace GenshinPlayerQuery.Core
             }
         }
 
-        public static string LoginTicket { get; set; } = "";
+        public static string LoginTicket { get; set; }
         public static List<string> QueryHistory { get; set; } = new List<string>();
         public static LoginWindow LoginWindow { get; set; }
         public static MainWindow MainWindow { get; set; }
@@ -100,22 +102,22 @@ namespace GenshinPlayerQuery.Core
 
         public static string GetBrowserLoginTicket()
         {
-            string url = "https://user.mihoyo.com/";
+            const string url = COOKIE_URL;
             StringBuilder loginTicket = new StringBuilder();
             uint size = 256;
-            InternetGetCookieEx(url, "login_ticket", loginTicket, ref size, COOKIE_HTTP_ONLY, IntPtr.Zero);
+            InternetGetCookieEx(url, COOKIE_NAME_LOGIN_TICKET, loginTicket, ref size, COOKIE_HTTP_ONLY, IntPtr.Zero);
             return loginTicket.ToString();
         }
 
         public static void SetBrowserLoginTicket(string loginTicket)
         {
-            if (loginTicket.StartsWith("login_ticket="))
+            if (loginTicket.StartsWith(COOKIE_NAME_LOGIN_TICKET + "="))
             {
                 loginTicket = loginTicket.Split('=')[1];
             }
 
-            string url = "https://user.mihoyo.com/";
-            InternetSetCookieEx(url, "login_ticket", loginTicket, COOKIE_HTTP_ONLY, IntPtr.Zero);
+            const string url = COOKIE_URL;
+            InternetSetCookieEx(url, COOKIE_NAME_LOGIN_TICKET, loginTicket, COOKIE_HTTP_ONLY, IntPtr.Zero);
         }
 
         [DllImport("wininet.dll", SetLastError = true)]

@@ -5,14 +5,14 @@ namespace GenshinPlayerQuery.Core
 {
     internal static class PlayerPageRender
     {
-        public static string RenderHtml(PlayerQueryResult playerQueryResult)
+        public static string RenderHtml(PlayerQueryResult playerData)
         {
             return Resources.ResourceManager.GetString("index")?
-                .Replace("$uid$", playerQueryResult.UserId)
-                .Replace("$server$", playerQueryResult.Server)
-                .Replace("$playerInfo$", playerQueryResult.PlayerInfo)
-                .Replace("$spiralAbyss$", playerQueryResult.SpiralAbyss)
-                .Replace("$roles$", playerQueryResult.Roles);
+                .Replace("$uid$", playerData.UserId)
+                .Replace("$server$", playerData.Server)
+                .Replace("$playerInfo$", playerData.PlayerInfo)
+                .Replace("$spiralAbyss$", playerData.SpiralAbyss)
+                .Replace("$roles$", playerData.Roles);
         }
     }
 }

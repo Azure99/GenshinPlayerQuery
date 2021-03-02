@@ -43,6 +43,7 @@ namespace GenshinPlayerQuery.View
         {
             string uid = ComboBoxUserId.Text;
             string server = ComboBoxServer.Text;
+
             PlayerQueryResult playerQueryResult = GenshinApi.GetPlayerData(uid, server);
             if (!playerQueryResult.Success)
             {
