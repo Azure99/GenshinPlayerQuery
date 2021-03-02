@@ -12,4 +12,4 @@
 
 ## 效果图
 
-![演示截图](https://www.rainng.com/ser/soft/genshin-player-query/image/img-1.png)
+![演示截图](image/img-1.png)
