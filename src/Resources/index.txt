@@ -8,6 +8,10 @@
             height: 100%;
         }
 
+        .panel, .panel-group {
+            margin-bottom: 0 !important;
+        }
+
         .az-frame {
             float: left;
             height: 100%;
@@ -45,21 +49,17 @@
             color: #646464;
         }
 
-        #world-explorations {
-            text-align: center;
-        }
-
         .az-world_exploration {
             font-size: 14px;
             margin-bottom: 5px;
         }
 
-        .panel, .panel-group {
-            margin-bottom: 0 !important;
-        }
-
         .az-role {
             cursor: pointer;
+        }
+
+        #world-explorations {
+            text-align: center;
         }
     </style>
 
@@ -74,56 +74,44 @@
                 <table class="az-player-overall">
                     <tr>
                         <td>
-                            <p id="overall-active_day_number"></p>
-                            <span>活跃天数</span>
+                            <p id="overall-active_day_number"></p><span>活跃天数</span>
                         </td>
                         <td>
-                            <p id="overall-achievement_number"></p>
-                            <span>达成成就</span>
+                            <p id="overall-achievement_number"></p><span>达成成就</span>
                         </td>
                         <td>
-                            <p id="overall-anemoculus_number"></p>
-                            <span>风神瞳</span>
+                            <p id="overall-anemoculus_number"></p><span>风神瞳</span>
                         </td>
                         <td>
-                            <p id="overall-geoculus_number"></p>
-                            <span>岩神瞳</span>
+                            <p id="overall-geoculus_number"></p><span>岩神瞳</span>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p id="overall-avatar_number"></p>
-                            <span>获得角色</span>
+                            <p id="overall-avatar_number"></p><span>获得角色</span>
                         </td>
                         <td>
-                            <p id="overall-way_point_number"></p>
-                            <span>解锁传送点</span>
+                            <p id="overall-way_point_number"></p><span>解锁传送点</span>
                         </td>
                         <td>
-                            <p id="overall-domain_number"></p>
-                            <span>解锁秘境</span>
+                            <p id="overall-domain_number"></p><span>解锁秘境</span>
                         </td>
                         <td>
-                            <p id="overall-spiral_abyss"></p>
-                            <span>深境螺旋</span>
+                            <p id="overall-spiral_abyss"></p><span>深境螺旋</span>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <p id="overall-precious_chest_number"></p>
-                            <span>华丽宝箱</span>
+                            <p id="overall-precious_chest_number"></p><span>华丽宝箱</span>
                         </td>
                         <td>
-                            <p id="overall-luxurious_chest_number"></p>
-                            <span>珍贵宝箱</span>
+                            <p id="overall-luxurious_chest_number"></p><span>珍贵宝箱</span>
                         </td>
                         <td>
-                            <p id="overall-exquisite_chest_number"></p>
-                            <span>精致宝箱</span>
+                            <p id="overall-exquisite_chest_number"></p><span>精致宝箱</span>
                         </td>
                         <td>
-                            <p id="overall-common_chest_number"></p>
-                            <span>普通宝箱</span>
+                            <p id="overall-common_chest_number"></p><span>普通宝箱</span>
                         </td>
                     </tr>
                 </table>
@@ -144,9 +132,7 @@
                 <h3 class="panel-title">深境螺旋</h3>
             </div>
             <div class="panel-body" style="padding: 5px">
-                <div class="panel-group" id="spiral-abyss-formation" role="tablist" aria-multiselectable="true">
-
-                </div>
+                <div class="panel-group" id="spiral-abyss-formation" role="tablist" aria-multiselectable="true"></div>
             </div>
         </div>
 
@@ -168,9 +154,7 @@
                 <h3 class="panel-title">角色列表</h3>
             </div>
             <div class="panel-body">
-                <div class="panel-group" id="roles" role="tablist" aria-multiselectable="true">
-
-                </div>
+                <div class="panel-group" id="roles" role="tablist" aria-multiselectable="true"></div>
             </div>
         </div>
     </div>
@@ -225,15 +209,15 @@
     var spiralAbyssOverallHtml =
         '<div>' +
             '<span style="font-weight: bold">战斗次数: </span>' + spiralAbyss.total_battle_times +
-             '&nbsp;&nbsp;&nbsp;&nbsp;' +
+            '&nbsp;&nbsp;&nbsp;&nbsp;' +
             '<span style="font-weight: bold">胜利次数: </span>' + spiralAbyss.total_win_times +
         '</div>';
-    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("击败敌人", spiralAbyss.defeat_rank);
-    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("造成伤害", spiralAbyss.damage_rank);
-    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("元素爆发", spiralAbyss.energy_skill_rank);
-    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("元素战技", spiralAbyss.normal_skill_rank);
     spiralAbyssOverallHtml += getSpiralAbyssRankHtml("出场次数", spiralAbyss.reveal_rank);
+    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("造成伤害", spiralAbyss.damage_rank);
     spiralAbyssOverallHtml += getSpiralAbyssRankHtml("承受伤害", spiralAbyss.take_damage_rank);
+    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("击败敌人", spiralAbyss.defeat_rank);
+    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("元素战技施放", spiralAbyss.normal_skill_rank);
+    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("元素爆发施放", spiralAbyss.energy_skill_rank);
     document.getElementById('spiral-abyss-overall').innerHTML = spiralAbyssOverallHtml;
 
     function getSpiralAbyssRankHtml(name, data) {
@@ -246,32 +230,14 @@
                 '</div>';
         }
 
-        return html =
-            '<hr style="margin-top: 10px; margin-bottom: 10px"/><div>' +
+        return '' +
+            '<hr style="margin-top: 10px; margin-bottom: 10px"/>' +
+            '<div>' +
                 '<span style="font-weight: bold">' + name + '</span><br/>' +
                 '<div style="margin-top: 5px">' +
                     itemHtml +
                 '</div>' +
-            '</div>'
-
-        /*
-        var html =
-            '<div class="panel panel-default">' +
-                '<div class="panel-heading" role="tab" id="heading' + name + '">' +
-                    '<h4 class="panel-title">' +
-                        '<a role="button" data-toggle="collapse" data-parent="#spiral-abyss-formation" href="#collapse' + name + '" aria-expanded="true" aria-controls="collapse' + name + '">' +
-                            name +
-                        '</a>' +
-                    '</h4>' +
-                '</div>' +
-                '<div id="collapse' + name + '" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading' + name + '">' +
-                    '<div class="panel-body">' +
-                        itemHtml +
-                    '</div>' +
-            '</div>' +
-            '</div>';*/
-
-        return html;
+            '</div>';
     }
 
     // 深境螺旋阵容
@@ -288,7 +254,7 @@
             levelsHtml += getSpiralAbyssLevelHtml(floor.levels[i]);
         }
 
-        var html =
+        return '' +
             '<div class="panel panel-default">' +
                 '<div class="panel-heading" role="tab" id="heading' + floor.index + '">' +
                     '<h4 class="panel-title">' +
@@ -303,8 +269,6 @@
                     '</div>' +
                 '</div>' +
             '</div>';
-
-        return html;
     }
 
     function getSpiralAbyssLevelHtml(data) {
@@ -344,7 +308,8 @@
                 }
             }
 
-            return '<div class="az-role" onclick="showRoleDetails(' + role.id + ')" style="width: ' + size + 'px; float: left; margin-left: 2px; margin-right: 2px">' +
+            return '' +
+                '<div class="az-role" onclick="showRoleDetails(' + role.id + ')" style="width: ' + size + 'px; float: left; margin-left: 2px; margin-right: 2px">' +
                     '<img style="background-color: ' + getColorByRarity(role.rarity) + '" width="100%" src="' + role.icon + '">' +
                     '<p style="background-color: azure; text-align: center; font-size: ' + (size / 5) + 'px">Lv' + role.level + ' C-' + constellations + '</p>' +
                 '</div>';
