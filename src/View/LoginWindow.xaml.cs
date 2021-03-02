@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Windows;
 
 namespace GenshinPlayerQuery.View
@@ -16,15 +17,6 @@ namespace GenshinPlayerQuery.View
         {
             InitializeComponent();
             MessageBus.LoginWindow = this;
-            WebBrowserZoomInvoker.AddZoomInvoker(WebBrowserLogin);
-        }
-
-        private void WebBrowserLogin_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
-        {
-            if (e.Uri == null)
-            {
-                WebBrowserLogin.Navigate(new Uri("https://user.mihoyo.com/#/login/password"));
-            }
         }
 
         private void WebBrowserLogin_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
