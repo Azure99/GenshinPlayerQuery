@@ -78,7 +78,7 @@
     <Compile Include="MessageBus.cs" />
     <Compile Include="Model\Avatar.cs" />
     <Compile Include="Model\CityExploration.cs" />
-    <Compile Include="Model\PlayerData.cs" />
+    <Compile Include="Model\PlayerQueryResult.cs" />
     <Compile Include="Model\PlayerInfo.cs" />
     <Compile Include="Model\PlayerStatistics.cs" />
     <Compile Include="Model\QueryRole.cs" />

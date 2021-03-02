@@ -19,6 +19,7 @@ namespace GenshinPlayerQuery
 
         private const string LOGIN_TICKET_FILE = "ticket.txt";
         private const string QUERY_HISTORY_FILE = "history.txt";
+        private const int MAX_QUERY_HISTORY_COUNT = 10;
 
         public static string LoginTicket { get; set; } = "";
         public static List<string> QueryHistory { get; set; } = new List<string>();
@@ -37,7 +38,7 @@ namespace GenshinPlayerQuery
                 try
                 {
                     string queryHistory = File.ReadAllText(QUERY_HISTORY_FILE);
-                    QueryHistory.AddRange(Regex.Split(queryHistory, "\r\n|\r|\n"));
+                    QueryHistory.AddRange(Regex.Split(queryHistory.Trim(), "\r\n|\r|\n"));
                 }
                 catch
                 {
@@ -46,9 +47,29 @@ namespace GenshinPlayerQuery
             }
         }
 
-        public static void ShowRoleDetails(string uid, string server, string roleId)
+        public static void AddQueryHistory(string uid)
         {
-            new RoleWindow(uid, server, roleId).Show();
+            if (!QueryHistory.Contains(uid))
+            {
+                MainWindow.ComboBoxUserId.Items.Add(uid);
+                QueryHistory.Add(uid);
+                if (QueryHistory.Count > MAX_QUERY_HISTORY_COUNT)
+                {
+                    MainWindow.ComboBoxUserId.Items.RemoveAt(0);
+                    QueryHistory.RemoveAt(0);
+                }
+            }
+        }
+
+        public static void Exit()
+        {
+            StringBuilder queryHistory = new StringBuilder();
+            foreach (string uid in QueryHistory)
+            {
+                queryHistory.AppendLine(uid);
+            }
+            File.WriteAllText(QUERY_HISTORY_FILE, queryHistory.ToString());
+            Environment.Exit(0);
         }
 
         public static void Login()
@@ -68,7 +89,12 @@ namespace GenshinPlayerQuery
         public static void AfterLoginFailed()
         {
             MessageBox.Show("工具需要您的米游社Cookie来调用查询接口\r\n此操作不会泄露您的账号信息", "提示", MessageBoxButton.OK);
-            Environment.Exit(0);
+            Exit();
+        }
+
+        public static void ShowRoleDetails(string uid, string server, string roleId)
+        {
+            new RoleWindow(uid, server, roleId).Show();
         }
 
         public static string GetBrowserLoginTicket()

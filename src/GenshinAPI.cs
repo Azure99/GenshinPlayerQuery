@@ -18,10 +18,20 @@ namespace GenshinPlayerQuery
             return response.ReturnCode == 0;
         }
 
-        public static PlayerData GetPlayerData(string uid, string server)
+        public static PlayerQueryResult GetPlayerData(string uid, string server)
         {
             ServerResponse<PlayerInfo> playerInfo = Get<PlayerInfo>($"https://api-takumi.mihoyo.com/game_record/genshin/api/index?role_id={uid}&server={server}");
+            if (playerInfo.ReturnCode != 0)
+            {
+                return new PlayerQueryResult(playerInfo.Message);
+            }
+            
             ServerResponse<JObject> spiralAbyss = Get<JObject>($"https://api-takumi.mihoyo.com/game_record/genshin/api/spiralAbyss?schedule_type=1&server={server}&role_id={uid}");
+            if (spiralAbyss.ReturnCode != 0)
+            {
+                return new PlayerQueryResult(spiralAbyss.Message);
+            }
+
             ServerResponse<JObject> roles = Post<JObject>("https://api-takumi.mihoyo.com/game_record/genshin/api/character", 
                 JsonConvert.SerializeObject(new QueryRole
                 {
@@ -29,9 +39,14 @@ namespace GenshinPlayerQuery
                     RoleId = uid,
                     Server = server
                 }));
-
-            return new PlayerData
+            if (roles.ReturnCode != 0)
             {
+                return new PlayerQueryResult(roles.Message);
+            }
+
+            return new PlayerQueryResult
+            {
+                Success = true,
                 UserId = uid,
                 Server = server,
                 PlayerInfo = JsonConvert.SerializeObject(playerInfo.Data),
@@ -52,16 +67,27 @@ namespace GenshinPlayerQuery
 
         private static ServerResponse<T> Request<T>(Func<WebClient, string> func)
         {
-            using (WebClient client = new WebClient())
+            try
             {
-                client.Encoding = Encoding.UTF8;
-                client.Headers["x-rpc-client_type"] = "5";
-                client.Headers["x-rpc-app_version"] = "2.3.0";
-                client.Headers["DS"] = CreateDynamicSecret();
-                client.Headers["Cookie"] = MessageBus.LoginTicket;
+                using (WebClient client = new WebClient())
+                {
+                    client.Encoding = Encoding.UTF8;
+                    client.Headers["x-rpc-client_type"] = "5";
+                    client.Headers["x-rpc-app_version"] = "2.3.0";
+                    client.Headers["DS"] = CreateDynamicSecret();
+                    client.Headers["Cookie"] = MessageBus.LoginTicket;
 
-                string response = func(client);
-                return JsonConvert.DeserializeObject<ServerResponse<T>>(response);
+                    string response = func(client);
+                    return JsonConvert.DeserializeObject<ServerResponse<T>>(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ServerResponse<T>
+                {
+                    ReturnCode = -1,
+                    Message = ex.Message
+                };
             }
         }
 

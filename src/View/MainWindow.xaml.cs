@@ -20,6 +20,17 @@ namespace GenshinPlayerQuery.View
             InitializeComponent();
             MessageBus.MainWindow = this;
             WebBrowserZoomInvoker.AddZoomInvoker(WebBrowserMain);
+
+            foreach (string uid in MessageBus.QueryHistory)
+            {
+                ComboBoxUserId.Items.Add(uid);
+            }
+
+            if (ComboBoxUserId.Items.Count > 0)
+            {
+                ComboBoxUserId.Text = ComboBoxUserId.Items[ComboBoxUserId.Items.Count - 1].ToString();
+            }
+
             if (GenshinApi.GetLoginStatus())
             {
                 Visibility = Visibility.Visible;
@@ -34,8 +45,15 @@ namespace GenshinPlayerQuery.View
         {
             string uid = ComboBoxUserId.Text;
             string server = ComboBoxServer.Text;
-            PlayerData playerData = GenshinApi.GetPlayerData(uid, server);
-            WebBrowserMain.NavigateToString(Render.RenderHtml(playerData));
+            PlayerQueryResult playerQueryResult = GenshinApi.GetPlayerData(uid, server);
+            if (!playerQueryResult.Success)
+            {
+                MessageBox.Show(playerQueryResult.Message, "查询失败", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            WebBrowserMain.NavigateToString(Render.RenderHtml(playerQueryResult));
+            MessageBus.AddQueryHistory(uid);
         }
 
         private void WebBrowserMain_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
@@ -59,7 +77,7 @@ namespace GenshinPlayerQuery.View
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            Environment.Exit(0);
+            MessageBus.Exit();
         }
 
         private void HyperlinkProjectAddress_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)

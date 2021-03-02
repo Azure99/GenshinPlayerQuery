@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GenshinPlayerQuery"
         mc:Ignorable="d"
-        Title="原神玩家信息查询器" Height="715" Width="660" ResizeMode="CanResize" MaxWidth="660" MinWidth="660" Closed="Window_Closed">
+        Title="原神玩家信息查询器" Height="715" Width="660" ResizeMode="CanResize" MaxWidth="660" MinWidth="660" Closed="Window_Closed" WindowStartupLocation="CenterScreen">
     <Grid>
         <Label Content="玩家UID:" HorizontalAlignment="Left" Height="25" Margin="10,15,0,0" VerticalAlignment="Top" />
         <ComboBox Name="ComboBoxUserId" IsEditable="True" HorizontalAlignment="Left" Height="25" Margin="74,16,0,0" VerticalAlignment="Top" Width="150"/>
