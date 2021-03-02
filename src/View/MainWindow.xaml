@@ -9,7 +9,7 @@
     <Grid>
         <Label Content="玩家UID:" HorizontalAlignment="Left" Height="25" Margin="10,15,0,0" VerticalAlignment="Top" />
         <ComboBox Name="ComboBoxUserId" IsEditable="True" HorizontalAlignment="Left" Height="25" Margin="74,16,0,0"
-                  VerticalAlignment="Top" Width="150" />
+                  VerticalAlignment="Top" Width="150" Text="100010001" />
         <Label Content="服务器:" HorizontalAlignment="Left" Height="25" Margin="249,15,0,0" VerticalAlignment="Top"
                RenderTransformOrigin="0.299,0.518" />
         <ComboBox Name="ComboBoxServer" IsEditable="True" HorizontalAlignment="Left" Height="25" Margin="304,15,0,0"
