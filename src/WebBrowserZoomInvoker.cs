@@ -49,8 +49,8 @@ namespace GenshinPlayerQuery
                 int dpiX = GetDeviceCaps(screenDc, LOG_PIXELS_X);
                 int dpiY = GetDeviceCaps(screenDc, LOG_PIXELS_Y);
 
-                scaleUi.X = (float) dpiX / 96.0f;
-                scaleUi.Y = (float) dpiY / 96.0f;
+                scaleUi.X = dpiX / 96.0f;
+                scaleUi.Y = dpiY / 96.0f;
                 ReleaseDC(IntPtr.Zero, screenDc);
                 return scaleUi;
             }

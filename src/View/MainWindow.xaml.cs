@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Navigation;
 using GenshinPlayerQuery.Model;
 
@@ -56,7 +53,7 @@ namespace GenshinPlayerQuery.View
             MessageBus.AddQueryHistory(uid);
         }
 
-        private void WebBrowserMain_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
+        private void WebBrowserMain_Navigating(object sender, NavigatingCancelEventArgs e)
         {
             if (e.Uri != null)
             {
@@ -80,7 +77,7 @@ namespace GenshinPlayerQuery.View
             MessageBus.Exit();
         }
 
-        private void HyperlinkProjectAddress_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        private void HyperlinkProjectAddress_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
             Process.Start("https://github.com/Azure99/GenshinPlayerQuery");
         }

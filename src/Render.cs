@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GenshinPlayerQuery.Model;
+﻿using GenshinPlayerQuery.Model;
 using GenshinPlayerQuery.Properties;
 
 namespace GenshinPlayerQuery
