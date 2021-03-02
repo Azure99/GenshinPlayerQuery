@@ -129,10 +129,10 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">深境螺旋</h3>
+                <h3 class="panel-title">深境螺旋阵容</h3>
             </div>
             <div class="panel-body" style="padding: 5px">
-                <div class="panel-group" id="spiral-abyss-formation" role="tablist" aria-multiselectable="true"></div>
+                <div id="spiral-abyss-formation" class="panel-group" role="tablist" aria-multiselectable="true"></div>
             </div>
         </div>
 
@@ -154,7 +154,7 @@
                 <h3 class="panel-title">角色列表</h3>
             </div>
             <div class="panel-body">
-                <div class="panel-group" id="roles" role="tablist" aria-multiselectable="true"></div>
+                <div id="roles"></div>
             </div>
         </div>
     </div>
@@ -206,18 +206,23 @@
     document.getElementById('roles').innerHTML = rolesHtml;
 
     // 深境螺旋总览
-    var spiralAbyssOverallHtml =
+    var spiralAbyssOverallHtml = ""
+    if (spiralAbyss.total_battle_times === 0) {
+        spiralAbyssOverallHtml = "<p style='text-align: center; margin: 0'>暂未挑战</p>"
+    }else {
+        spiralAbyssOverallHtml +=
         '<div>' +
             '<span style="font-weight: bold">战斗次数: </span>' + spiralAbyss.total_battle_times +
             '&nbsp;&nbsp;&nbsp;&nbsp;' +
             '<span style="font-weight: bold">胜利次数: </span>' + spiralAbyss.total_win_times +
         '</div>';
-    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("出场次数", spiralAbyss.reveal_rank);
-    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("造成伤害", spiralAbyss.damage_rank);
-    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("承受伤害", spiralAbyss.take_damage_rank);
-    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("击败敌人", spiralAbyss.defeat_rank);
-    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("元素战技施放", spiralAbyss.normal_skill_rank);
-    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("元素爆发施放", spiralAbyss.energy_skill_rank);
+        spiralAbyssOverallHtml += getSpiralAbyssRankHtml("出场次数", spiralAbyss.reveal_rank);
+        spiralAbyssOverallHtml += getSpiralAbyssRankHtml("造成伤害", spiralAbyss.damage_rank);
+        spiralAbyssOverallHtml += getSpiralAbyssRankHtml("承受伤害", spiralAbyss.take_damage_rank);
+        spiralAbyssOverallHtml += getSpiralAbyssRankHtml("击败敌人", spiralAbyss.defeat_rank);
+        spiralAbyssOverallHtml += getSpiralAbyssRankHtml("元素战技施放", spiralAbyss.normal_skill_rank);
+        spiralAbyssOverallHtml += getSpiralAbyssRankHtml("元素爆发施放", spiralAbyss.energy_skill_rank);
+    }
     document.getElementById('spiral-abyss-overall').innerHTML = spiralAbyssOverallHtml;
 
     function getSpiralAbyssRankHtml(name, data) {
@@ -242,13 +247,17 @@
 
     // 深境螺旋阵容
     var spiralAbyssFormationHtml = "";
-    for (var i = 0; i < spiralAbyss.floors.length; i++) {
-        var floor = spiralAbyss.floors[i];
-        spiralAbyssFormationHtml += getSpiralAbyssFloorHtml(floor);
+    if (spiralAbyss.floors.length === 0) {
+        spiralAbyssFormationHtml = "<p style='text-align: center; margin-top: 10px'>暂未挑战</p>"
+    } else {
+        for (var i = 0; i < spiralAbyss.floors.length; i++) {
+            var floor = spiralAbyss.floors[i];
+            spiralAbyssFormationHtml += getSpiralAbyssFloorHtml(floor);
+        }
     }
     document.getElementById('spiral-abyss-formation').innerHTML = spiralAbyssFormationHtml;
 
-    function getSpiralAbyssFloorHtml(floor) {
+    function getSpiralAbyssFloorHtml(floor, expanded) {
         var levelsHtml = "";
         for (var i = 0; i < floor.levels.length; i++) {
             levelsHtml += getSpiralAbyssLevelHtml(floor.levels[i]);
