@@ -42,7 +42,7 @@ namespace GenshinPlayerQuery.View
         {
             if (e.Uri != null)
             {
-                if (e.Uri.Scheme == "rainng")
+                if (e.Uri.Host == "rainng")
                 {
                     Dictionary<string, string> dic = new Dictionary<string, string>();
                     string[] args = e.Uri.Query.Substring(1).Split('&');
