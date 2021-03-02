@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="UpdateChecker.cs" />
     <Compile Include="View\RoleWindow.xaml.cs">
       <DependentUpon>RoleWindow.xaml</DependentUpon>
     </Compile>

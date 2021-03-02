@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using GenshinPlayerQuery.View;
@@ -28,6 +29,8 @@ namespace GenshinPlayerQuery
 
         static MessageBus()
         {
+            new Thread(UpdateChecker.CheckUpdate).Start();
+
             if (File.Exists(LOGIN_TICKET_FILE))
             {
                 LoginTicket = File.ReadAllText(LOGIN_TICKET_FILE);
