@@ -10,18 +10,13 @@ using GenshinPlayerQuery.View;
 
 namespace GenshinPlayerQuery.Core
 {
-    static class MessageBus
+    internal static class MessageBus
     {
         private const int COOKIE_HTTP_ONLY = 0x00002000;
 
         private const string LOGIN_TICKET_FILE = "ticket.txt";
         private const string QUERY_HISTORY_FILE = "history.txt";
         private const int MAX_QUERY_HISTORY_COUNT = 10;
-
-        public static string LoginTicket { get; set; } = "";
-        public static List<string> QueryHistory { get; set; } = new List<string>();
-        public static LoginWindow LoginWindow { get; set; }
-        public static MainWindow MainWindow { get; set; }
 
         static MessageBus()
         {
@@ -32,6 +27,7 @@ namespace GenshinPlayerQuery.Core
                 LoginTicket = File.ReadAllText(LOGIN_TICKET_FILE);
                 SetBrowserLoginTicket(LoginTicket);
             }
+
             if (File.Exists(QUERY_HISTORY_FILE))
             {
                 try
@@ -45,6 +41,11 @@ namespace GenshinPlayerQuery.Core
                 }
             }
         }
+
+        public static string LoginTicket { get; set; } = "";
+        public static List<string> QueryHistory { get; set; } = new List<string>();
+        public static LoginWindow LoginWindow { get; set; }
+        public static MainWindow MainWindow { get; set; }
 
         public static void AddQueryHistory(string uid)
         {
@@ -67,6 +68,7 @@ namespace GenshinPlayerQuery.Core
             {
                 queryHistory.AppendLine(uid);
             }
+
             File.WriteAllText(QUERY_HISTORY_FILE, queryHistory.ToString());
             Environment.Exit(0);
         }
@@ -111,13 +113,14 @@ namespace GenshinPlayerQuery.Core
             {
                 loginTicket = loginTicket.Split('=')[1];
             }
+
             string url = "https://user.mihoyo.com/";
             InternetSetCookieEx(url, "login_ticket", loginTicket, COOKIE_HTTP_ONLY, IntPtr.Zero);
         }
 
         [DllImport("wininet.dll", SetLastError = true)]
         private static extern bool InternetGetCookieEx(
-            string url, string cookieName, StringBuilder cookieData, 
+            string url, string cookieName, StringBuilder cookieData,
             ref uint cookieSize, int flags, IntPtr reversed);
 
         [DllImport("wininet.dll", SetLastError = true)]

@@ -2,7 +2,7 @@
 
 namespace GenshinPlayerQuery.Model
 {
-    class PlayerStatistics
+    internal class PlayerStatistics
     {
         [JsonProperty(PropertyName = "active_day_number")]
         public int ActiveDayNumber { get; set; } = 1;

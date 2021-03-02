@@ -3,10 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GenshinPlayerQuery.View"
         mc:Ignorable="d"
-        Title="角色详情" Height="620" Width="365" ResizeMode="NoResize" WindowStartupLocation="Manual" Closed="Window_Closed">
+        Title="角色详情" Height="620" Width="365" ResizeMode="NoResize" WindowStartupLocation="Manual"
+        Closed="Window_Closed">
     <Grid>
-        <WebBrowser Name="WebBrowserRole" HorizontalAlignment="Left" VerticalAlignment="Top" Height="1200" Width="350" Margin="0,-215,0,0" />
+        <WebBrowser Name="WebBrowserRole" HorizontalAlignment="Left" VerticalAlignment="Top" Height="1200" Width="350"
+                    Margin="0,-215,0,0" />
     </Grid>
 </Window>

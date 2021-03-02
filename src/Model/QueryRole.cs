@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace GenshinPlayerQuery.Model
 {
-    class QueryRole
+    internal class QueryRole
     {
         [JsonProperty(PropertyName = "character_ids")]
         public List<int> CharacterIds { get; set; }

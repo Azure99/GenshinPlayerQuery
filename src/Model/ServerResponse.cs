@@ -2,7 +2,7 @@
 
 namespace GenshinPlayerQuery.Model
 {
-    class ServerResponse<T>
+    internal class ServerResponse<T>
     {
         [JsonProperty(PropertyName = "retcode")]
         public int ReturnCode { get; set; }

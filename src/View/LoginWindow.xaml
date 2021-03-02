@@ -3,10 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GenshinPlayerQuery.View"
         mc:Ignorable="d"
-        Title="登录米哈游通行证 (用于调用米游社接口)" Height="720" Width="1280" Closing="Window_Closing" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
+        Title="登录米哈游通行证 (用于调用米游社接口)" Height="720" Width="1280" Closing="Window_Closing"
+        WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Grid>
-        <WebBrowser Name="WebBrowserLogin" Navigated="WebBrowserLogin_Navigated" Source="https://user.mihoyo.com/#/login/password" />
+        <WebBrowser Name="WebBrowserLogin" Navigated="WebBrowserLogin_Navigated"
+                    Source="https://user.mihoyo.com/#/login/password" />
     </Grid>
 </Window>

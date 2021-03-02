@@ -4,7 +4,7 @@ using System.Windows;
 namespace GenshinPlayerQuery.View
 {
     /// <summary>
-    /// RoleWindow.xaml 的交互逻辑
+    ///     RoleWindow.xaml 的交互逻辑
     /// </summary>
     public partial class RoleWindow : Window
     {

@@ -9,30 +9,36 @@ using Newtonsoft.Json.Linq;
 
 namespace GenshinPlayerQuery.Core
 {
-    static class GenshinApi
+    internal static class GenshinApi
     {
         public static bool GetLoginStatus()
         {
             ServerResponse<JObject> response =
-                Get<JObject>("https://api-takumi.mihoyo.com/game_record/genshin/api/index?role_id=100010001&server=cn_gf01");
+                Get<JObject>(
+                    "https://api-takumi.mihoyo.com/game_record/genshin/api/index?role_id=100010001&server=cn_gf01");
             return response.ReturnCode == 0;
         }
 
         public static PlayerQueryResult GetPlayerData(string uid, string server)
         {
-            ServerResponse<PlayerInfo> playerInfo = Get<PlayerInfo>($"https://api-takumi.mihoyo.com/game_record/genshin/api/index?role_id={uid}&server={server}");
+            ServerResponse<PlayerInfo> playerInfo =
+                Get<PlayerInfo>(
+                    $"https://api-takumi.mihoyo.com/game_record/genshin/api/index?role_id={uid}&server={server}");
             if (playerInfo.ReturnCode != 0)
             {
                 return new PlayerQueryResult(playerInfo.Message);
             }
-            
-            ServerResponse<JObject> spiralAbyss = Get<JObject>($"https://api-takumi.mihoyo.com/game_record/genshin/api/spiralAbyss?schedule_type=1&server={server}&role_id={uid}");
+
+            ServerResponse<JObject> spiralAbyss =
+                Get<JObject>(
+                    $"https://api-takumi.mihoyo.com/game_record/genshin/api/spiralAbyss?schedule_type=1&server={server}&role_id={uid}");
             if (spiralAbyss.ReturnCode != 0)
             {
                 return new PlayerQueryResult(spiralAbyss.Message);
             }
 
-            ServerResponse<JObject> roles = Post<JObject>("https://api-takumi.mihoyo.com/game_record/genshin/api/character", 
+            ServerResponse<JObject> roles = Post<JObject>(
+                "https://api-takumi.mihoyo.com/game_record/genshin/api/character",
                 JsonConvert.SerializeObject(new QueryRole
                 {
                     CharacterIds = playerInfo.Data.Avatars.Select(x => x.Id).ToList(),

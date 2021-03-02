@@ -9,7 +9,7 @@ using GenshinPlayerQuery.Model;
 namespace GenshinPlayerQuery.View
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    ///     MainWindow.xaml 的交互逻辑
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -67,6 +67,7 @@ namespace GenshinPlayerQuery.View
                         string[] kv = arg.Split('=');
                         dic[kv[0]] = kv[1];
                     }
+
                     MessageBus.ShowRoleDetails(dic["uid"], dic["server"], dic["role"]);
                     e.Cancel = true;
                 }

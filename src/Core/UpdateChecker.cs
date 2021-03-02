@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace GenshinPlayerQuery.Core
 {
-    static class UpdateChecker
+    internal static class UpdateChecker
     {
         private const int NOW_VERSION = 1;
         private const string VERSION_URL = "https://www.rainng.com/ser/soft/genshin-player-query/version";

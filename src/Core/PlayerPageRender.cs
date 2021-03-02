@@ -3,7 +3,7 @@ using GenshinPlayerQuery.Properties;
 
 namespace GenshinPlayerQuery.Core
 {
-    static class PlayerPageRender
+    internal static class PlayerPageRender
     {
         public static string RenderHtml(PlayerQueryResult playerQueryResult)
         {

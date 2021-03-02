@@ -3,10 +3,11 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace GenshinPlayerQuery.Core
 {
-    static class WebBrowserZoomInvoker
+    internal static class WebBrowserZoomInvoker
     {
         private const string EMPTY_HTML = @"<html><head></head><body></body></html>";
 
@@ -26,7 +27,7 @@ namespace GenshinPlayerQuery.Core
             }
         }
 
-        private static void WebBrowser_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        private static void WebBrowser_LoadCompleted(object sender, NavigationEventArgs e)
         {
             if (sender is WebBrowser browser)
             {
@@ -63,7 +64,7 @@ namespace GenshinPlayerQuery.Core
         }
 
 
-        static void SetZoom(WebBrowser webBrowser, int zoom)
+        private static void SetZoom(WebBrowser webBrowser, int zoom)
         {
             try
             {
