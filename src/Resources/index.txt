@@ -51,15 +51,12 @@
 
         .az-world_exploration {
             font-size: 14px;
+            margin-left: 20px;
             margin-bottom: 5px;
         }
 
         .az-role {
             cursor: pointer;
-        }
-
-        #world-explorations {
-            text-align: center;
         }
     </style>
 
@@ -190,9 +187,9 @@
                 '&nbsp;&nbsp;&nbsp;' +
                 '<span>' + expl.name + '</span>' +
                 '&nbsp;&nbsp;&nbsp;' +
-                '<span>等级: ' + expl.level + '</span>' +
-                '&nbsp;&nbsp;&nbsp;' +
                 '<span>探索度: ' + (expl.exploration_percentage / 10) + '%</span>' +
+                '&nbsp;&nbsp;&nbsp;' +
+                '<span>等级: ' + expl.level + '</span>' +
             '</div>'
     }
     document.getElementById('world-explorations').innerHTML = worldExplorationsHtml;
