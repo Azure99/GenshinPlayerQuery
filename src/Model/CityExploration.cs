@@ -2,7 +2,7 @@
 
 namespace GenshinPlayerQuery.Model
 {
-    class CityExploration
+    internal class CityExploration
     {
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }

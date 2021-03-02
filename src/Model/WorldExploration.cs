@@ -2,7 +2,7 @@
 
 namespace GenshinPlayerQuery.Model
 {
-    class WorldExploration
+    internal class WorldExploration
     {
         [JsonProperty(PropertyName = "level")]
         public int Level { get; set; }

@@ -2,7 +2,7 @@
 
 namespace GenshinPlayerQuery.Model
 {
-    class PlayerInfo
+    internal class PlayerInfo
     {
         [JsonProperty(PropertyName = "avatars")]
         public Avatar[] Avatars { get; set; } = new Avatar[0];
