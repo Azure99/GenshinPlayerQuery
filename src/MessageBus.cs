@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -12,6 +14,9 @@ namespace GenshinPlayerQuery
 {
     static class MessageBus
     {
+
+        private const int COOKIE_HTTP_ONLY = 0x00002000;
+
         private const string LOGIN_TICKET_FILE = "ticket.txt";
         private const string QUERY_HISTORY_FILE = "history.txt";
 
@@ -25,8 +30,8 @@ namespace GenshinPlayerQuery
             if (File.Exists(LOGIN_TICKET_FILE))
             {
                 LoginTicket = File.ReadAllText(LOGIN_TICKET_FILE);
+                SetBrowserLoginTicket(LoginTicket);
             }
-
             if (File.Exists(QUERY_HISTORY_FILE))
             {
                 try
@@ -52,18 +57,47 @@ namespace GenshinPlayerQuery
             new LoginWindow().Show();
         }
 
+        public static void AfterLoginSuccessful()
+        {
+            LoginTicket = GetBrowserLoginTicket();
+            File.WriteAllText(LOGIN_TICKET_FILE, LoginTicket);
+            LoginWindow.Close();
+            MainWindow.Visibility = Visibility.Visible;
+        }
+
         public static void AfterLoginFailed()
         {
             MessageBox.Show("工具需要您的米游社Cookie来调用查询接口\r\n此操作不会泄露您的账号信息", "提示", MessageBoxButton.OK);
             Environment.Exit(0);
         }
 
-        public static void AfterLoginSuccessful(string loginTicket)
+        public static string GetBrowserLoginTicket()
         {
-            LoginTicket = loginTicket;
-            File.WriteAllText(LOGIN_TICKET_FILE, loginTicket);
-            LoginWindow.Close();
-            MainWindow.Visibility = Visibility.Visible;
+            string url = "https://user.mihoyo.com/";
+            StringBuilder loginTicket = new StringBuilder();
+            uint size = 256;
+            InternetGetCookieEx(url, "login_ticket", loginTicket, ref size, COOKIE_HTTP_ONLY, IntPtr.Zero);
+            return loginTicket.ToString();
         }
+
+        public static void SetBrowserLoginTicket(string loginTicket)
+        {
+            if (loginTicket.StartsWith("login_ticket="))
+            {
+                loginTicket = loginTicket.Split('=')[1];
+            }
+            string url = "https://user.mihoyo.com/";
+            InternetSetCookieEx(url, "login_ticket", loginTicket, COOKIE_HTTP_ONLY, IntPtr.Zero);
+        }
+
+        [DllImport("wininet.dll", SetLastError = true)]
+        private static extern bool InternetGetCookieEx(
+            string url, string cookieName, StringBuilder cookieData, 
+            ref uint cookieSize, int flags, IntPtr reversed);
+
+        [DllImport("wininet.dll", SetLastError = true)]
+        private static extern int InternetSetCookieEx(
+            string url, string cookieName, string cookieData,
+            int flags, IntPtr reversed);
     }
 }
