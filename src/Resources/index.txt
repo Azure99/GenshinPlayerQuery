@@ -144,9 +144,18 @@
                 <h3 class="panel-title">深境螺旋</h3>
             </div>
             <div class="panel-body" style="padding: 5px">
-                <div class="panel-group" id="spiral-abyss" role="tablist" aria-multiselectable="true">
+                <div class="panel-group" id="spiral-abyss-formation" role="tablist" aria-multiselectable="true">
 
                 </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">深境螺旋总览</h3>
+            </div>
+            <div class="panel-body">
+                <div id="spiral-abyss-overall"></div>
             </div>
         </div>
     </div>
@@ -176,6 +185,7 @@
     var playerInfo = $playerInfo$;
     var spiralAbyss = $spiralAbyss$;
     var roles = $roles$;
+
 
     // 信息概览
     for (var key in playerInfo.stats) {
@@ -211,13 +221,66 @@
     }
     document.getElementById('roles').innerHTML = rolesHtml;
 
-    // 深境螺旋
-    var spiralAbyssHtml = "";
+    // 深境螺旋总览
+    var spiralAbyssOverallHtml =
+        '<div>' +
+            '<span style="font-weight: bold">战斗次数: </span>' + spiralAbyss.total_battle_times +
+             '&nbsp;&nbsp;&nbsp;&nbsp;' +
+            '<span style="font-weight: bold">胜利次数: </span>' + spiralAbyss.total_win_times +
+        '</div>';
+    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("击败敌人", spiralAbyss.defeat_rank);
+    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("造成伤害", spiralAbyss.damage_rank);
+    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("元素爆发", spiralAbyss.energy_skill_rank);
+    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("元素战技", spiralAbyss.normal_skill_rank);
+    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("出场次数", spiralAbyss.reveal_rank);
+    spiralAbyssOverallHtml += getSpiralAbyssRankHtml("承受伤害", spiralAbyss.take_damage_rank);
+    document.getElementById('spiral-abyss-overall').innerHTML = spiralAbyssOverallHtml;
+
+    function getSpiralAbyssRankHtml(name, data) {
+        var itemHtml = "";
+        for (var i = 0; i < data.length; i++) {
+            itemHtml +=
+                '<div style="display: inline-block; *zoom:1; *display:inline">' +
+                    '<img style="margin-top: -5px" width="25" height="25" src="' + data[i].avatar_icon + '" />' +
+                    '<span>' + data[i].value + '</span>' +
+                '</div>';
+        }
+
+        return html =
+            '<hr style="margin-top: 10px; margin-bottom: 10px"/><div>' +
+                '<span style="font-weight: bold">' + name + '</span><br/>' +
+                '<div style="margin-top: 5px">' +
+                    itemHtml +
+                '</div>' +
+            '</div>'
+
+        /*
+        var html =
+            '<div class="panel panel-default">' +
+                '<div class="panel-heading" role="tab" id="heading' + name + '">' +
+                    '<h4 class="panel-title">' +
+                        '<a role="button" data-toggle="collapse" data-parent="#spiral-abyss-formation" href="#collapse' + name + '" aria-expanded="true" aria-controls="collapse' + name + '">' +
+                            name +
+                        '</a>' +
+                    '</h4>' +
+                '</div>' +
+                '<div id="collapse' + name + '" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading' + name + '">' +
+                    '<div class="panel-body">' +
+                        itemHtml +
+                    '</div>' +
+            '</div>' +
+            '</div>';*/
+
+        return html;
+    }
+
+    // 深境螺旋阵容
+    var spiralAbyssFormationHtml = "";
     for (var i = 0; i < spiralAbyss.floors.length; i++) {
         var floor = spiralAbyss.floors[i];
-        spiralAbyssHtml += getSpiralAbyssFloorHtml(floor);
+        spiralAbyssFormationHtml += getSpiralAbyssFloorHtml(floor);
     }
-    document.getElementById('spiral-abyss').innerHTML = spiralAbyssHtml;
+    document.getElementById('spiral-abyss-formation').innerHTML = spiralAbyssFormationHtml;
 
     function getSpiralAbyssFloorHtml(floor) {
         var levelsHtml = "";
@@ -229,7 +292,7 @@
             '<div class="panel panel-default">' +
                 '<div class="panel-heading" role="tab" id="heading' + floor.index + '">' +
                     '<h4 class="panel-title">' +
-                        '<a role="button" data-toggle="collapse" data-parent="#spiral-abyss" href="#collapse' + floor.index + '" aria-expanded="true" aria-controls="collapse' + floor.index + '">' +
+                        '<a role="button" data-toggle="collapse" data-parent="#spiral-abyss-formation" href="#collapse' + floor.index + '" aria-expanded="true" aria-controls="collapse' + floor.index + '">' +
                             '第' + floor.index + '层&nbsp;&nbsp;' + floor.star + '/' + floor.max_star + '⭐' +
                         '</a>' +
                     '</h4>' +
