@@ -252,7 +252,8 @@
     } else {
         for (var i = 0; i < spiralAbyss.floors.length; i++) {
             var floor = spiralAbyss.floors[i];
-            spiralAbyssFormationHtml += getSpiralAbyssFloorHtml(floor);
+            var expanded = i === (spiralAbyss.floors.length - 1);
+            spiralAbyssFormationHtml += getSpiralAbyssFloorHtml(floor, expanded);
         }
     }
     document.getElementById('spiral-abyss-formation').innerHTML = spiralAbyssFormationHtml;
@@ -267,12 +268,12 @@
             '<div class="panel panel-default">' +
                 '<div class="panel-heading" role="tab" id="heading' + floor.index + '">' +
                     '<h4 class="panel-title">' +
-                        '<a role="button" data-toggle="collapse" data-parent="#spiral-abyss-formation" href="#collapse' + floor.index + '" aria-expanded="true" aria-controls="collapse' + floor.index + '">' +
+                        '<a ' + (expanded ? '' : 'class="collapsed"') + ' role="button" data-toggle="collapse" data-parent="#spiral-abyss-formation" href="#collapse' + floor.index + '" aria-expanded="true" aria-expanded="' + (expanded ? 'true' : 'false') + '" aria-controls="collapse' + floor.index + '">' +
                             '第' + floor.index + '层&nbsp;&nbsp;' + floor.star + '/' + floor.max_star + '⭐' +
                         '</a>' +
                     '</h4>' +
                 '</div>' +
-                '<div id="collapse' + floor.index + '" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading' + floor.index + '">' +
+                '<div id="collapse' + floor.index + '" class="panel-collapse collapse ' + (expanded ? 'in' : '') + '" role="tabpanel" aria-labelledby="heading' + floor.index + '">' +
                     '<div class="panel-body">' +
                         levelsHtml +
                     '</div>' +
