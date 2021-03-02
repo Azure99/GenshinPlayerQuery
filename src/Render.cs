@@ -7,7 +7,7 @@ namespace GenshinPlayerQuery
     {
         public static string RenderHtml(PlayerQueryResult playerQueryResult)
         {
-            return Resources.ResourceManager.GetString("index")
+            return Resources.ResourceManager.GetString("index")?
                 .Replace("$uid$", playerQueryResult.UserId)
                 .Replace("$server$", playerQueryResult.Server)
                 .Replace("$playerInfo$", playerQueryResult.PlayerInfo)
