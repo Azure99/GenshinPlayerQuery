@@ -192,7 +192,7 @@
                 '&nbsp;&nbsp;&nbsp;' +
                 '<span>等级: ' + expl.level + '</span>' +
                 '&nbsp;&nbsp;&nbsp;' +
-                '<span>探索度: ' + expl.exploration_percentage % 100 + '%</span>' +
+                '<span>探索度: ' + (expl.exploration_percentage / 10) + '%</span>' +
             '</div>'
     }
     document.getElementById('world-explorations').innerHTML = worldExplorationsHtml;
