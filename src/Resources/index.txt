@@ -236,7 +236,6 @@
         }
 
         return '' +
-            '<hr style="margin-top: 10px; margin-bottom: 10px"/>' +
             '<div>' +
                 '<span style="font-weight: bold">' + name + '</span><br/>' +
                 '<div style="margin-top: 5px">' +
