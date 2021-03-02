@@ -50,7 +50,7 @@ namespace GenshinPlayerQuery.View
                 return;
             }
 
-            WebBrowserMain.NavigateToString(Render.RenderHtml(playerQueryResult));
+            WebBrowserMain.NavigateToString(PlayerPageRender.RenderHtml(playerQueryResult));
             MessageBus.AddQueryHistory(uid);
         }
 
