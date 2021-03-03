@@ -280,8 +280,9 @@
 
     function getSpiralAbyssLevelHtml(data) {
         var html = '<p style="text-align: center">第' + data.index + '间&nbsp;&nbsp;' + data.star + '/' + data.max_star + '⭐&nbsp;&nbsp;' + getDateTextByTimestamp(data.battles[0].timestamp * 1000) + '</p>';
-        html += getSpiralAbyssBattleHtml(data.battles[0]);
-        html += getSpiralAbyssBattleHtml(data.battles[1]);
+        for (var i = 0; i < data.battles.length; i++) {
+            html += getSpiralAbyssBattleHtml(data.battles[i]);
+        }
 
         return html;
     }
