@@ -99,10 +99,10 @@
                     </tr>
                     <tr>
                         <td>
-                            <p id="overall-precious_chest_number"></p><span>华丽宝箱</span>
+                            <p id="overall-luxurious_chest_number"></p><span>华丽宝箱</span>
                         </td>
                         <td>
-                            <p id="overall-luxurious_chest_number"></p><span>珍贵宝箱</span>
+                            <p id="overall-precious_chest_number"></p><span>珍贵宝箱</span>
                         </td>
                         <td>
                             <p id="overall-exquisite_chest_number"></p><span>精致宝箱</span>
