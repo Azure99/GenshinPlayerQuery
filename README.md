@@ -1,5 +1,5 @@
 # 原神玩家信息查询器
-仅使用游戏内**uid** (而**非米游社账号**) 查询玩家详情, 包括玩家信息, 角色详情, 深渊战绩等数据
+仅依据**游戏右下角的uid**(而非米游社名片)查询玩家信息 (**自己与其他玩家均可**), 包括但不限于**基础信息**、**角色详情**&**命座**&**装备**、**深境螺旋战绩**&**阵容**&**统计信息**等数据
 
 [立即下载](https://github.com/Azure99/GenshinPlayerQuery/releases) [官网地址](https://www.rainng.com/genshin-player-query/) [问题反馈](https://github.com/Azure99/GenshinPlayerQuery/issues)
 
