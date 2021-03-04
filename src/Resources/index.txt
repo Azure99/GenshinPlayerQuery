@@ -126,7 +126,7 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">深境螺旋阵容</h3>
+                <h3 class="panel-title">深境螺旋阵容 <span onclick="switchSpiralAbyssTerm()" id="switch-spiral-abyss-term" style="color: darkgoldenrod; cursor: pointer; font-weight: bold">上一期</span></h3>
             </div>
             <div class="panel-body" style="padding: 5px">
                 <div id="spiral-abyss-formation" class="panel-group" role="tablist" aria-multiselectable="true"></div>
@@ -150,7 +150,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">角色列表
                     <div style="position: absolute; top: 8px; right: 22px">
-                        <select id="role-order-type" style="font-size: 14px">
+                        <select onchange="renderRoleList()" id="role-order-type" style="font-size: 14px">
                             <option value="level">等级</option>
                             <option value="constellation">命之座</option>
                             <option value="rarity">稀有度</option>
@@ -178,34 +178,44 @@
     var spiralAbyss = $spiralAbyss$;
     var roles = $roles$;
 
+    prepareRoleConstellationCount();
+    renderPlayerInfo();
+    renderWorldExplorations();
+    renderRoleList();
+    renderSpiralAbyssOverall(0);
+    renderSpiralAbyssFormation(0);
 
-    // 预处理 计算角色命座数
-    for (var i = 0; i < roles.avatars.length; i++) {
-        var role = roles.avatars[i];
-        role.constellation_count = 0;
-        for (var j = 0; j < role.constellations.length; j++) {
-            if (role.constellations[j].is_actived) {
-                role.constellation_count++;
+    // 预处理: 计算角色命座数
+    function prepareRoleConstellationCount() {
+        for (var i = 0; i < roles.avatars.length; i++) {
+            var role = roles.avatars[i];
+            role.constellation_count = 0;
+            for (var j = 0; j < role.constellations.length; j++) {
+                if (role.constellations[j].is_actived) {
+                    role.constellation_count++;
+                }
             }
         }
     }
 
-
-    // 信息概览
-    for (var key in playerInfo.stats) {
-        var element = document.getElementById('overall-' + key);
-        if (element != null) {
-            element.innerText = playerInfo.stats[key];
+    // 玩家信息总览
+    function renderPlayerInfo() {
+        for (var key in playerInfo.stats) {
+            var element = document.getElementById('overall-' + key);
+            if (element != null) {
+                element.innerText = playerInfo.stats[key];
+            }
         }
     }
 
     // 世界探索
-    var worldExplorationsHtml = "";
-    for (var i = 0; i < playerInfo.world_explorations.length; i++) {
-        var expl = playerInfo.world_explorations[i];
-        expl.name = expl.name.replace('龙脊', '');
-        worldExplorationsHtml +=
-            '<div class="az-world_exploration">' +
+    function renderWorldExplorations() {
+        var worldExplorationsHtml = "";
+        for (var i = 0; i < playerInfo.world_explorations.length; i++) {
+            var expl = playerInfo.world_explorations[i];
+            expl.name = expl.name.replace('龙脊', '');
+            worldExplorationsHtml +=
+                '<div class="az-world_exploration">' +
                 '<img style="background-color: black" width="25" height="25" src="' + expl.icon + '"/>' +
                 '&nbsp;&nbsp;&nbsp;' +
                 '<span>' + expl.name + '</span>' +
@@ -213,16 +223,13 @@
                 '<span>探索度: ' + (expl.exploration_percentage / 10) + '%</span>' +
                 '&nbsp;&nbsp;&nbsp;' +
                 '<span>等级: ' + expl.level + '</span>' +
-            '</div>'
+                '</div>'
+        }
+        document.getElementById('world-explorations').innerHTML = worldExplorationsHtml;
     }
-    document.getElementById('world-explorations').innerHTML = worldExplorationsHtml;
 
     // 角色列表
-    rebuildRoleList();
-    document.getElementById('role-order-type').attachEvent('onchange', function () {
-        rebuildRoleList();
-    })
-    function rebuildRoleList() {
+    function renderRoleList() {
         var orderType = document.getElementById('role-order-type').value;
         roles.avatars.sort(function (a, b) {
             switch (orderType) {
@@ -244,25 +251,37 @@
         document.getElementById('roles').innerHTML = rolesHtml;
     }
 
-    // 深境螺旋总览
-    var spiralAbyssOverallHtml = ""
-    if (spiralAbyss.total_battle_times === 0) {
-        spiralAbyssOverallHtml = "<p style='text-align: center; margin: 0'>暂未挑战</p>"
-    }else {
-        spiralAbyssOverallHtml +=
-        '<div>' +
-            '<span style="font-weight: bold">战斗次数: </span>' + spiralAbyss.total_battle_times +
-            '&nbsp;&nbsp;&nbsp;&nbsp;' +
-            '<span style="font-weight: bold">胜利次数: </span>' + spiralAbyss.total_win_times +
-        '</div>';
-        spiralAbyssOverallHtml += getSpiralAbyssRankHtml("出场次数", spiralAbyss.reveal_rank, true);
-        spiralAbyssOverallHtml += getSpiralAbyssRankHtml("造成伤害", spiralAbyss.damage_rank);
-        spiralAbyssOverallHtml += getSpiralAbyssRankHtml("承受伤害", spiralAbyss.take_damage_rank);
-        spiralAbyssOverallHtml += getSpiralAbyssRankHtml("击败敌人", spiralAbyss.defeat_rank);
-        spiralAbyssOverallHtml += getSpiralAbyssRankHtml("元素战技施放", spiralAbyss.normal_skill_rank);
-        spiralAbyssOverallHtml += getSpiralAbyssRankHtml("元素爆发施放", spiralAbyss.energy_skill_rank);
+    // 切换深境螺旋期数
+    function switchSpiralAbyssTerm() {
+        var switcher = document.getElementById('switch-spiral-abyss-term');
+        renderSpiralAbyssOverall(switcher.innerText === '上一期' ? 1 : 0);
+        renderSpiralAbyssFormation(switcher.innerText === '上一期' ? 1 : 0);
+        switcher.innerText = switcher.innerText === '上一期' ? '下一期' : '上一期';
     }
-    document.getElementById('spiral-abyss-overall').innerHTML = spiralAbyssOverallHtml;
+
+    // 深境螺旋总览
+    function renderSpiralAbyssOverall(index) {
+        var data = spiralAbyss[index];
+
+        var spiralAbyssOverallHtml = ""
+        if (data.total_battle_times === 0) {
+            spiralAbyssOverallHtml = "<p style='text-align: center; margin: 0'>暂未挑战</p>"
+        }else {
+            spiralAbyssOverallHtml +=
+                '<div>' +
+                '<span style="font-weight: bold">战斗次数: </span>' + data.total_battle_times +
+                '&nbsp;&nbsp;&nbsp;&nbsp;' +
+                '<span style="font-weight: bold">胜利次数: </span>' + data.total_win_times +
+                '</div>';
+            spiralAbyssOverallHtml += getSpiralAbyssRankHtml("出场次数", data.reveal_rank, true);
+            spiralAbyssOverallHtml += getSpiralAbyssRankHtml("造成伤害", data.damage_rank);
+            spiralAbyssOverallHtml += getSpiralAbyssRankHtml("承受伤害", data.take_damage_rank);
+            spiralAbyssOverallHtml += getSpiralAbyssRankHtml("击败敌人", data.defeat_rank);
+            spiralAbyssOverallHtml += getSpiralAbyssRankHtml("元素战技施放", data.normal_skill_rank);
+            spiralAbyssOverallHtml += getSpiralAbyssRankHtml("元素爆发施放", data.energy_skill_rank);
+        }
+        document.getElementById('spiral-abyss-overall').innerHTML = spiralAbyssOverallHtml;
+    }
 
     function getSpiralAbyssRankHtml(name, data, regularAvatar) {
         var itemHtml = "";
@@ -285,17 +304,21 @@
     }
 
     // 深境螺旋阵容
-    var spiralAbyssFormationHtml = "";
-    if (spiralAbyss.floors.length === 0) {
-        spiralAbyssFormationHtml = "<p style='text-align: center; margin-top: 10px'>暂未挑战</p>"
-    } else {
-        for (var i = 0; i < spiralAbyss.floors.length; i++) {
-            var floor = spiralAbyss.floors[i];
-            var expanded = i === (spiralAbyss.floors.length - 1);
-            spiralAbyssFormationHtml += getSpiralAbyssFloorHtml(floor, expanded);
+    function renderSpiralAbyssFormation(index) {
+        var floors = spiralAbyss[index].floors;
+
+        var spiralAbyssFormationHtml = "";
+        if (floors.length === 0) {
+            spiralAbyssFormationHtml = "<p style='text-align: center; margin-top: 10px'>暂未挑战</p>"
+        } else {
+            for (var i = 0; i < floors.length; i++) {
+                var floor = floors[i];
+                var expanded = i === (floors.length - 1);
+                spiralAbyssFormationHtml += getSpiralAbyssFloorHtml(floor, expanded);
+            }
         }
+        document.getElementById('spiral-abyss-formation').innerHTML = spiralAbyssFormationHtml;
     }
-    document.getElementById('spiral-abyss-formation').innerHTML = spiralAbyssFormationHtml;
 
     function getSpiralAbyssFloorHtml(floor, expanded) {
         var levelsHtml = "";

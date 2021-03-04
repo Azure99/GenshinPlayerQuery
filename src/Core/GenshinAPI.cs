@@ -21,30 +21,35 @@ namespace GenshinPlayerQuery.Core
 
         public static PlayerQueryResult GetPlayerData(string uid, string server)
         {
-            ServerResponse<PlayerInfo> playerInfo =
-                Get<PlayerInfo>(
-                    $"https://api-takumi.mihoyo.com/game_record/genshin/api/index?role_id={uid}&server={server}");
+            ServerResponse<PlayerInfo> playerInfo = Get<PlayerInfo>(
+                $"https://api-takumi.mihoyo.com/game_record/genshin/api/index?role_id={uid}&server={server}");
             if (playerInfo.ReturnCode != 0)
             {
                 return new PlayerQueryResult(playerInfo.Message);
             }
 
-            ServerResponse<JObject> spiralAbyss =
-                Get<JObject>(
-                    $"https://api-takumi.mihoyo.com/game_record/genshin/api/spiralAbyss?schedule_type=1&server={server}&role_id={uid}");
+            ServerResponse<JObject> spiralAbyss = Get<JObject>(
+                $"https://api-takumi.mihoyo.com/game_record/genshin/api/spiralAbyss?schedule_type=1&server={server}&role_id={uid}");
             if (spiralAbyss.ReturnCode != 0)
             {
                 return new PlayerQueryResult(spiralAbyss.Message);
             }
 
+            ServerResponse<JObject> lastSpiralAbyss = Get<JObject>(
+                $"https://api-takumi.mihoyo.com/game_record/genshin/api/spiralAbyss?schedule_type=2&server={server}&role_id={uid}");
+            if (lastSpiralAbyss.ReturnCode != 0)
+            {
+                return new PlayerQueryResult(spiralAbyss.Message);
+            }
+
             ServerResponse<JObject> roles = Post<JObject>(
-                "https://api-takumi.mihoyo.com/game_record/genshin/api/character",
-                JsonConvert.SerializeObject(new QueryRole
-                {
-                    CharacterIds = playerInfo.Data.Avatars.Select(x => x.Id).ToList(),
-                    RoleId = uid,
-                    Server = server
-                }));
+                "https://api-takumi.mihoyo.com/game_record/genshin/api/character", JsonConvert.SerializeObject(
+                    new QueryRole
+                    {
+                        CharacterIds = playerInfo.Data.Avatars.Select(x => x.Id).ToList(),
+                        RoleId = uid,
+                        Server = server
+                    }));
             if (roles.ReturnCode != 0)
             {
                 return new PlayerQueryResult(roles.Message);
@@ -56,7 +61,7 @@ namespace GenshinPlayerQuery.Core
                 UserId = uid,
                 Server = server,
                 PlayerInfo = JsonConvert.SerializeObject(playerInfo.Data),
-                SpiralAbyss = spiralAbyss.Data.ToString(),
+                SpiralAbyss = $"[{spiralAbyss.Data}, {lastSpiralAbyss.Data}]",
                 Roles = roles.Data.ToString()
             };
         }
@@ -99,7 +104,7 @@ namespace GenshinPlayerQuery.Core
 
         private static string CreateDynamicSecret()
         {
-            long time = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            long time = (long) (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
             string random = CreateRandomString(6);
             string check = ComputeMd5($"salt=h8w582wxwgqvahcdkpvdhbh2w9casgfl&t={time}&r={random}");
 
