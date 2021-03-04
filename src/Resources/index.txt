@@ -148,7 +148,18 @@
     <div class="az-frame-inner">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">角色列表</h3>
+                <h3 class="panel-title">角色列表
+                    <div style="position: absolute; top: 8px; right: 22px">
+                        <select id="role-order-type" style="font-size: 14px">
+                            <option value="level">等级</option>
+                            <option value="constellation">命之座</option>
+                            <option value="rarity">稀有度</option>
+                            <option value="fetter">好感度</option>
+                            <option value="element">属性</option>
+                            <option value="id">角色ID</option>
+                        </select>
+                    </div>
+                </h3>
             </div>
             <div class="panel-body">
                 <div id="roles"></div>
@@ -166,6 +177,18 @@
     var playerInfo = $playerInfo$;
     var spiralAbyss = $spiralAbyss$;
     var roles = $roles$;
+
+
+    // 预处理 计算角色命座数
+    for (var i = 0; i < roles.avatars.length; i++) {
+        var role = roles.avatars[i];
+        role.constellation_count = 0;
+        for (var j = 0; j < role.constellations.length; j++) {
+            if (role.constellations[j].is_actived) {
+                role.constellation_count++;
+            }
+        }
+    }
 
 
     // 信息概览
@@ -195,12 +218,31 @@
     document.getElementById('world-explorations').innerHTML = worldExplorationsHtml;
 
     // 角色列表
-    var rolesHtml = "";
-    for (var i = 0; i < roles.avatars.length; i++) {
-        var role = roles.avatars[i];
-        rolesHtml += getRoleAvatarHtml(role.id, 70);
+    rebuildRoleList();
+    document.getElementById('role-order-type').attachEvent('onchange', function () {
+        rebuildRoleList();
+    })
+    function rebuildRoleList() {
+        var orderType = document.getElementById('role-order-type').value;
+        roles.avatars.sort(function (a, b) {
+            switch (orderType) {
+                case 'level': return b.level - a.level;
+                case 'constellation': return b.constellation_count - a.constellation_count;
+                case 'rarity': return b.rarity - a.rarity;
+                case 'fetter': return b.fetter - a.fetter;
+                case 'element': return a.element.localeCompare(b.element);
+                case 'id': return a.id - b.id;
+                default : return b.id - a.id;
+            }
+        })
+
+        var rolesHtml = "";
+        for (var i = 0; i < roles.avatars.length; i++) {
+            var role = roles.avatars[i];
+            rolesHtml += getRoleAvatarHtml(role.id, 70);
+        }
+        document.getElementById('roles').innerHTML = rolesHtml;
     }
-    document.getElementById('roles').innerHTML = rolesHtml;
 
     // 深境螺旋总览
     var spiralAbyssOverallHtml = ""
@@ -309,17 +351,10 @@
                 continue;
             }
 
-            var constellations = 0;
-            for (var j = 0; j < role.constellations.length; j++) {
-                if (role.constellations[j].is_actived) {
-                    constellations++;
-                }
-            }
-
             return '' +
                 '<div class="az-role" onclick="showRoleDetails(' + role.id + ')" style="width: ' + size + 'px; float: left; margin-left: 2px; margin-right: 2px">' +
                     '<img style="background-color: ' + getColorByRarity(role.rarity) + '" width="100%" src="' + role.icon + '">' +
-                    '<p style="background-color: azure; text-align: center; font-size: ' + (size / 5) + 'px">Lv' + role.level + ' C-' + constellations + '</p>' +
+                    '<p style="background-color: azure; text-align: center; font-size: ' + (size / 5) + 'px">Lv' + role.level + ' C-' + role.constellation_count + '</p>' +
                 '</div>';
         }
     }
