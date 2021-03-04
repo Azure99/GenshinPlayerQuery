@@ -248,6 +248,9 @@
             var role = roles.avatars[i];
             rolesHtml += getRoleAvatarHtml(role.id, 70);
         }
+
+        rolesHtml += '<div style="width: 100%; height: 1px"></div>'
+
         document.getElementById('roles').innerHTML = rolesHtml;
     }
 
