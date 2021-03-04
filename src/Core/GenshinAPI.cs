@@ -99,7 +99,7 @@ namespace GenshinPlayerQuery.Core
 
         private static string CreateDynamicSecret()
         {
-            long time = DateTimeOffset.Now.ToUnixTimeMilliseconds() / 1000;
+            long time = (long)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
             string random = CreateRandomString(6);
             string check = ComputeMd5($"salt=h8w582wxwgqvahcdkpvdhbh2w9casgfl&t={time}&r={random}");
 
