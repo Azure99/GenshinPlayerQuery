@@ -274,7 +274,7 @@
                 '<span style="font-weight: bold">胜利次数: </span>' + data.total_win_times +
                 '</div>';
             spiralAbyssOverallHtml += getSpiralAbyssRankHtml("出场次数", data.reveal_rank, true);
-            spiralAbyssOverallHtml += getSpiralAbyssRankHtml("造成伤害", data.damage_rank);
+            spiralAbyssOverallHtml += getSpiralAbyssRankHtml("最强一击", data.damage_rank);
             spiralAbyssOverallHtml += getSpiralAbyssRankHtml("承受伤害", data.take_damage_rank);
             spiralAbyssOverallHtml += getSpiralAbyssRankHtml("击败敌人", data.defeat_rank);
             spiralAbyssOverallHtml += getSpiralAbyssRankHtml("元素战技施放", data.normal_skill_rank);
