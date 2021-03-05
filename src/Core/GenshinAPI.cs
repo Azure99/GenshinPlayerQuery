@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
@@ -84,7 +85,7 @@ namespace GenshinPlayerQuery.Core
                 {
                     client.Encoding = Encoding.UTF8;
                     client.Headers["x-rpc-client_type"] = "5";
-                    client.Headers["x-rpc-app_version"] = "2.3.0";
+                    client.Headers["x-rpc-app_version"] = "2.4.0";
                     client.Headers["DS"] = CreateDynamicSecret();
                     client.Headers["Cookie"] = MessageBus.LoginTicket;
 
@@ -106,7 +107,7 @@ namespace GenshinPlayerQuery.Core
         {
             long time = (long) (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
             string random = CreateRandomString(6);
-            string check = ComputeMd5($"salt=h8w582wxwgqvahcdkpvdhbh2w9casgfl&t={time}&r={random}");
+            string check = ComputeMd5($"salt=pbcfcvnfsm5s2w4x3lsq8caor7v8nlqm&t={time}&r={random}");
 
             return $"{time},{random},{check}";
         }
