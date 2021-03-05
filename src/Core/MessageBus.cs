@@ -102,10 +102,9 @@ namespace GenshinPlayerQuery.Core
 
         public static string GetBrowserLoginTicket()
         {
-            const string url = COOKIE_URL;
             StringBuilder loginTicket = new StringBuilder(255);
             uint size = Convert.ToUInt32(loginTicket.Capacity + 1);
-            InternetGetCookieEx(url, COOKIE_NAME_LOGIN_TICKET, loginTicket, ref size, COOKIE_HTTP_ONLY, IntPtr.Zero);
+            InternetGetCookieEx(COOKIE_URL, COOKIE_NAME_LOGIN_TICKET, loginTicket, ref size, COOKIE_HTTP_ONLY, IntPtr.Zero);
             return loginTicket.ToString();
         }
 
@@ -116,8 +115,7 @@ namespace GenshinPlayerQuery.Core
                 loginTicket = loginTicket.Split('=')[1];
             }
 
-            const string url = COOKIE_URL;
-            InternetSetCookieEx(url, COOKIE_NAME_LOGIN_TICKET, loginTicket, COOKIE_HTTP_ONLY, IntPtr.Zero);
+            InternetSetCookieEx(COOKIE_URL, COOKIE_NAME_LOGIN_TICKET, loginTicket, COOKIE_HTTP_ONLY, IntPtr.Zero);
         }
 
         [DllImport("wininet.dll", SetLastError = true)]
