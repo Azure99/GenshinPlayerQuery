@@ -77,8 +77,7 @@ namespace GenshinPlayerQuery.Core
 
         public static void Login()
         {
-            MainWindow.Visibility = Visibility.Hidden;
-            new LoginWindow().Show();
+            new LoginWindow().ShowDialog();
         }
 
         public static void AfterLoginSuccessful()
@@ -86,7 +85,6 @@ namespace GenshinPlayerQuery.Core
             LoginTicket = GetBrowserLoginTicket();
             File.WriteAllText(LOGIN_TICKET_FILE, LoginTicket);
             LoginWindow.Close();
-            MainWindow.Visibility = Visibility.Visible;
         }
 
         public static void AfterLoginFailed()

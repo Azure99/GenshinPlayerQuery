@@ -29,11 +29,7 @@ namespace GenshinPlayerQuery.View
                 ComboBoxUserId.Text = ComboBoxUserId.Items[ComboBoxUserId.Items.Count - 1].ToString();
             }
 
-            if (GenshinApi.GetLoginStatus())
-            {
-                Visibility = Visibility.Visible;
-            }
-            else
+            if (!GenshinApi.GetLoginStatus())
             {
                 MessageBus.Login();
             }
