@@ -11,8 +11,6 @@ namespace GenshinPlayerQuery.View
     /// </summary>
     public partial class LoginWindow : Window
     {
-        private bool _loginSuccessful;
-
         public LoginWindow()
         {
             InitializeComponent();
@@ -23,14 +21,14 @@ namespace GenshinPlayerQuery.View
         {
             if (e.Uri != null && e.Uri.OriginalString == "https://user.mihoyo.com/#/account/home")
             {
-                _loginSuccessful = true;
+                DialogResult = true;
                 MessageBus.AfterLoginSuccessful();
             }
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (!_loginSuccessful)
+            if (!(DialogResult ?? false))
             {
                 MessageBus.AfterLoginFailed();
             }
