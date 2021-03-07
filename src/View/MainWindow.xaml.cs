@@ -28,15 +28,15 @@ namespace GenshinPlayerQuery.View
             {
                 ComboBoxUserId.Text = ComboBoxUserId.Items[ComboBoxUserId.Items.Count - 1].ToString();
             }
-
-            if (!GenshinApi.GetLoginStatus())
-            {
-                MessageBus.Login();
-            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (!GenshinApi.GetLoginStatus() && !MessageBus.Login())
+            {
+                return;
+            }
+
             string uid = ComboBoxUserId.Text;
             string server = ComboBoxServer.Text;
 
