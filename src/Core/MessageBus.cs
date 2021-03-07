@@ -75,9 +75,9 @@ namespace GenshinPlayerQuery.Core
             Environment.Exit(0);
         }
 
-        public static void Login()
+        public static bool? Login()
         {
-            new LoginWindow().ShowDialog();
+            return new LoginWindow().ShowDialog();
         }
 
         public static void AfterLoginSuccessful()
@@ -90,7 +90,6 @@ namespace GenshinPlayerQuery.Core
         public static void AfterLoginFailed()
         {
             MessageBox.Show("工具需要您的米游社Cookie来调用查询接口\r\n此操作不会泄露您的账号信息", "提示", MessageBoxButton.OK);
-            Exit();
         }
 
         public static void ShowRoleDetails(string uid, string server, string roleId)
