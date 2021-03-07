@@ -22,15 +22,7 @@ namespace GenshinPlayerQuery.View
             if (e.Uri != null && e.Uri.OriginalString == "https://user.mihoyo.com/#/account/home")
             {
                 DialogResult = true;
-                MessageBus.AfterLoginSuccessful();
-            }
-        }
-
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            if (!(DialogResult ?? false))
-            {
-                MessageBus.AfterLoginFailed();
+                Close();
             }
         }
 

@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="登录米哈游通行证 (用于调用米游社接口 可查询其他玩家 不会泄露您的账号)" Height="720" Width="1280" Closing="Window_Closing"
+        Title="登录米哈游通行证 (用于调用米游社接口 可查询其他玩家 不会泄露您的账号)" Height="720" Width="1280"
         WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Grid>
         <WebBrowser Name="WebBrowserLogin" Navigated="WebBrowserLogin_Navigated"
