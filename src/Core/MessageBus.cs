@@ -102,9 +102,9 @@ namespace GenshinPlayerQuery.Core
 
         public static string GetBrowserLoginTicket()
         {
-            StringBuilder loginTicket = new StringBuilder(255);
+            StringBuilder loginTicket = new StringBuilder(65535);
             uint size = Convert.ToUInt32(loginTicket.Capacity + 1);
-            InternetGetCookieEx(COOKIE_URL, COOKIE_NAME_LOGIN_TICKET, loginTicket, ref size, COOKIE_HTTP_ONLY, IntPtr.Zero);
+            InternetGetCookieEx(COOKIE_URL, null, loginTicket, ref size, COOKIE_HTTP_ONLY, IntPtr.Zero);
             return loginTicket.ToString();
         }
 

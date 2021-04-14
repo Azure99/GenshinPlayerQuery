@@ -83,8 +83,8 @@ namespace GenshinPlayerQuery.Core
                 using (WebClient client = new WebClient())
                 {
                     client.Encoding = Encoding.UTF8;
-                    client.Headers["x-rpc-client_type"] = "5";
-                    client.Headers["x-rpc-app_version"] = "2.3.0";
+                    client.Headers["x-rpc-client_type"] = "2";
+                    client.Headers["x-rpc-app_version"] = "2.7.0";
                     client.Headers["DS"] = CreateDynamicSecret();
                     client.Headers["Cookie"] = MessageBus.LoginTicket;
 
@@ -106,7 +106,7 @@ namespace GenshinPlayerQuery.Core
         {
             long time = (long) (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
             string random = CreateRandomString(6);
-            string check = ComputeMd5($"salt=h8w582wxwgqvahcdkpvdhbh2w9casgfl&t={time}&r={random}");
+            string check = ComputeMd5($"salt=fd3ykrh7o1j54g581upo1tvpam0dsgtf&t={time}&r={random}");
 
             return $"{time},{random},{check}";
         }
