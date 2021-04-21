@@ -1,4 +1,4 @@
-﻿using Native.Tool.IniConfig.Exception;
+﻿using me.cqp.luohuaming.GenshinQuery.Tool.IniConfig.Exception;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Native.Tool.IniConfig.Linq
+namespace me.cqp.luohuaming.GenshinQuery.Tool.IniConfig.Linq
 {
 	/// <summary>
 	/// 用于描述 Ini 配置项的类

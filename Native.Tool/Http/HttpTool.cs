@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace Native.Tool.Http
+namespace me.cqp.luohuaming.GenshinQuery.Tool.Http
 {
 	/// <summary>
 	/// Http 工具类

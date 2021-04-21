@@ -1,12 +1,12 @@
-﻿using Native.Sdk.Cqp.Enum;
-using Native.Sdk.Cqp.Model;
+﻿using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Enum;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Sdk.Cqp.EventArgs
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.EventArgs
 {
 	/// <summary>
 	/// 提供用于描述酷Q讨论组事件参数的类

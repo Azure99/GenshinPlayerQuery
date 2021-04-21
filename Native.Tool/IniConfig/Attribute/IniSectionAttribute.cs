@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Tool.IniConfig.Attribute
+namespace me.cqp.luohuaming.GenshinQuery.Tool.IniConfig.Attribute
 {
 	/// <summary>
 	/// 表示配置项 (Ini) 文件节名称的特性

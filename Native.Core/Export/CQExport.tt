@@ -37,18 +37,18 @@
 		TemplateBuilder.UsingItems.Add ("System.Text");
 		TemplateBuilder.UsingItems.Add ("System.Reflection");
 		TemplateBuilder.UsingItems.Add ("System.Runtime.InteropServices");
-		TemplateBuilder.UsingItems.Add ("Native.Core");
-		TemplateBuilder.UsingItems.Add ("Native.Core.Domain");
-		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp");
-		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.Enum");
-		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.EventArgs");
-		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.Interface");
-		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.Expand");
-		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.Model");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Core");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Core.Domain");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Sdk.Cqp");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Enum");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.EventArgs");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Interface");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Expand");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Model");
 		TemplateBuilder.UsingItems.Add ("Unity");
 		TemplateBuilder.UsingItems.Add ("Unity.Injection");
 
-		TemplateBuilder.Namespace = "Native.App.Export";
+		TemplateBuilder.Namespace = "me.cqp.luohuaming.GenshinQuery.App.Export";
 
 		TemplateBuilder.WriteLine (0, "/// <summary>");
 		TemplateBuilder.WriteLine (0, "/// 表示酷Q事件导出的类");
@@ -519,13 +519,13 @@
 		TemplateBuilder.UsingItems.Add ("System");
 		TemplateBuilder.UsingItems.Add ("System.Reflection");
 		TemplateBuilder.UsingItems.Add ("System.Runtime.InteropServices");
-		TemplateBuilder.UsingItems.Add ("Native.Core.Domain");
-		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp");
-		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.EventArgs");
-		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.Interface");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Core.Domain");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Sdk.Cqp");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.EventArgs");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Interface");
 		TemplateBuilder.UsingItems.Add ("Unity");
 
-		TemplateBuilder.Namespace = "Native.App.Export";
+		TemplateBuilder.Namespace = "me.cqp.luohuaming.GenshinQuery.App.Export";
 
 		TemplateBuilder.WriteLine (0, "/// <summary>");
 		TemplateBuilder.WriteLine (0, "/// 表示酷Q菜单导出的类");
@@ -618,14 +618,14 @@
 		TemplateBuilder.UsingItems.Add ("System");
 		TemplateBuilder.UsingItems.Add ("System.Reflection");
 		TemplateBuilder.UsingItems.Add ("System.Runtime.InteropServices");
-		TemplateBuilder.UsingItems.Add ("Native.Core.Domain");
-		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp");
-		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.EventArgs");
-		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.Interface");
-		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.Model");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Core.Domain");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Sdk.Cqp");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.EventArgs");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Interface");
+		TemplateBuilder.UsingItems.Add ("me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Model");
 		TemplateBuilder.UsingItems.Add ("Unity");
 
-		TemplateBuilder.Namespace = "Native.App.Export";
+		TemplateBuilder.Namespace = "me.cqp.luohuaming.GenshinQuery.App.Export";
 
 		TemplateBuilder.WriteLine (0, "/// <summary>");
 		TemplateBuilder.WriteLine (0, "/// 表示酷Q状态导出的类");

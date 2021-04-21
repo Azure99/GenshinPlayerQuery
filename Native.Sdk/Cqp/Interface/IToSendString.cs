@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Sdk.Cqp.Interface
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Interface
 {
 	/// <summary>
 	/// 转换发送字符串的接口

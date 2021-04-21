@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Threading;
 using me.cqp.luohuaming.GenshinQuery.Code;
-using Native.Sdk.Cqp.EventArgs;
-using Native.Sdk.Cqp.Interface;
-using PublicInfos;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.EventArgs;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Interface;
+using me.cqp.luohuaming.GenshinQuery.PublicInfos;
 
-namespace Native.Core
+namespace me.cqp.luohuaming.GenshinQuery.Core
 {
     public class MainExport : IGroupMessage, IPrivateMessage
     {

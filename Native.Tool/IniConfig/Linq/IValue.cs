@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Numerics;
-using Native.Tool.IniConfig.Utilities;
+using me.cqp.luohuaming.GenshinQuery.Tool.IniConfig.Utilities;
 
-namespace Native.Tool.IniConfig.Linq
+namespace me.cqp.luohuaming.GenshinQuery.Tool.IniConfig.Linq
 {
 	/// <summary>
 	/// 描述配置项 (Ini) 值的类

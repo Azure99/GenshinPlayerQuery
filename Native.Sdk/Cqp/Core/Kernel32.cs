@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Sdk.Cqp.Core
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Core
 {
 	internal class Kernel32
 	{

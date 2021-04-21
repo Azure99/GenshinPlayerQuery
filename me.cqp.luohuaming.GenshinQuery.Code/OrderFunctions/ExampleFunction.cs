@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Native.Sdk.Cqp.EventArgs;
-using PublicInfos;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.EventArgs;
+using me.cqp.luohuaming.GenshinQuery.PublicInfos;
 
 namespace me.cqp.luohuaming.GenshinQuery.Code.OrderFunctions
 {

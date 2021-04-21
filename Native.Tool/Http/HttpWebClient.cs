@@ -7,7 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
 
-namespace Native.Tool.Http
+namespace me.cqp.luohuaming.GenshinQuery.Tool.Http
 {
     /// <summary>
     /// 提供用于将数据发送到和接收来自通过 URI 确认的资源数据丰富的常用方法。

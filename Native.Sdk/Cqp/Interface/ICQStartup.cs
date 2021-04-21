@@ -1,11 +1,11 @@
-﻿using Native.Sdk.Cqp.EventArgs;
+﻿using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.EventArgs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Sdk.Cqp.Interface
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Interface
 {
 	/// <summary>
 	/// 酷Q启动事件接口

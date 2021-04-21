@@ -5,18 +5,18 @@ using System;
 using System.Text;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Native.Core;
-using Native.Core.Domain;
-using Native.Sdk.Cqp;
-using Native.Sdk.Cqp.Enum;
-using Native.Sdk.Cqp.EventArgs;
-using Native.Sdk.Cqp.Interface;
-using Native.Sdk.Cqp.Expand;
-using Native.Sdk.Cqp.Model;
+using me.cqp.luohuaming.GenshinQuery.Core;
+using me.cqp.luohuaming.GenshinQuery.Core.Domain;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Enum;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.EventArgs;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Interface;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Expand;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Model;
 using Unity;
 using Unity.Injection;
 
-namespace Native.App.Export
+namespace me.cqp.luohuaming.GenshinQuery.App.Export
 {
 	/// <summary>	
 	/// 表示酷Q事件导出的类	

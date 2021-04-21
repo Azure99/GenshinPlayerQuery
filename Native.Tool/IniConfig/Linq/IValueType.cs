@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Tool.IniConfig.Linq
+namespace me.cqp.luohuaming.GenshinQuery.Tool.IniConfig.Linq
 {
 	[DefaultValue (IValueType.String)]
 	public enum IValueType

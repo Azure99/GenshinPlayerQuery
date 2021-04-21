@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using PublicInfos;
+using me.cqp.luohuaming.GenshinQuery.PublicInfos;
 
 namespace me.cqp.luohuaming.GenshinQuery.Code
 {

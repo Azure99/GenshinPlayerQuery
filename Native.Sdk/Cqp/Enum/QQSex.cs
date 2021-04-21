@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Native.Sdk.Cqp.Enum
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Enum
 {
 	/// <summary>
 	/// 表示QQ性别的枚举

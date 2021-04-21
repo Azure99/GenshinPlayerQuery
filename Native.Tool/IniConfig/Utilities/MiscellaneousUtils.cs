@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Tool.IniConfig.Utilities
+namespace me.cqp.luohuaming.GenshinQuery.Tool.IniConfig.Utilities
 {
 	internal class MiscellaneousUtils
 	{

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace Native.Sdk.Cqp.Enum
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Enum
 {
     /// <summary>
     /// 表示酷Q消息中内含 [CQ:...] 中的类型

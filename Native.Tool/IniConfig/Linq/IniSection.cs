@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Native.Tool.IniConfig.Linq
+namespace me.cqp.luohuaming.GenshinQuery.Tool.IniConfig.Linq
 {
 	/// <summary>
 	/// 用于描述 Ini 配置项节的类

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Sdk.Cqp.Enum
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Enum
 {
     /// <summary>
     /// 指示点歌时使用的音乐来源

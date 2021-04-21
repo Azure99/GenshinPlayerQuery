@@ -5,10 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Native.Sdk.Cqp.Model;
-using Native.Tool.IniConfig;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Model;
+using me.cqp.luohuaming.GenshinQuery.Tool.IniConfig;
 
-namespace PublicInfos
+namespace me.cqp.luohuaming.GenshinQuery.PublicInfos
 {
     public static class CommonHelper
     {

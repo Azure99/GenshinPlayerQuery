@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Tool.IniConfig.Linq
+namespace me.cqp.luohuaming.GenshinQuery.Tool.IniConfig.Linq
 {
 	/// <summary>
 	/// 描述配置项 (Ini) 文件内容的类, 该类是抽象的

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
-using Native.Sdk.Cqp.EventArgs;
-using Native.Sdk.Cqp.Interface;
-using PublicInfos;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.EventArgs;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Interface;
+using me.cqp.luohuaming.GenshinQuery.PublicInfos;
 
 namespace me.cqp.luohuaming.GenshinQuery.UI
 {

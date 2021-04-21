@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace Native.Sdk.Cqp.Enum
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Enum
 {
     /// <summary>
     /// 表示群成员对于所在群的群成员类型

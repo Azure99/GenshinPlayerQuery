@@ -92,17 +92,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Native.Sdk\Native.Sdk.csproj">
+    <ProjectReference Include="..\Native.Sdk\me.cqp.luohuaming.GenshinQuery.Sdk.csproj">
       <Project>{d7a958b3-79d9-49f8-8bb4-9619bab6ecba}</Project>
-      <Name>Native.Sdk</Name>
+      <Name>me.cqp.luohuaming.GenshinQuery.Sdk</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Native.Tool\Native.Tool.csproj">
+    <ProjectReference Include="..\Native.Tool\me.cqp.luohuaming.GenshinQuery.Tool.csproj">
       <Project>{0ca93eb9-4e25-46c6-94d2-0f97137a1606}</Project>
-      <Name>Native.Tool</Name>
+      <Name>me.cqp.luohuaming.GenshinQuery.Tool</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PublicInfos\PublicInfos.csproj">
+    <ProjectReference Include="..\PublicInfos\me.cqp.luohuaming.GenshinQuery.PublicInfos.csproj">
       <Project>{9ca41650-71f2-4f0c-9a80-9cdb5a7d593c}</Project>
-      <Name>PublicInfos</Name>
+      <Name>me.cqp.luohuaming.GenshinQuery.PublicInfos</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

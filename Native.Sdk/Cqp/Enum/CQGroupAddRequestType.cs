@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Sdk.Cqp.Enum
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Enum
 {
 	/// <summary>
 	/// 指示酷Q 群添加请求 的事件类型

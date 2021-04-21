@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Text;
-using Native.Sdk.Cqp.EventArgs;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.EventArgs;
 
-namespace PublicInfos
+namespace me.cqp.luohuaming.GenshinQuery.PublicInfos
 {
     public interface IOrderModel
     {

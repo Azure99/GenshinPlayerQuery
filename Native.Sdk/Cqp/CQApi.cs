@@ -6,13 +6,13 @@ using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
-using Native.Sdk.Cqp.Core;
-using Native.Sdk.Cqp.Enum;
-using Native.Sdk.Cqp.Expand;
-using Native.Sdk.Cqp.Model;
-using Native.Sdk.Cqp.Interface;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Core;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Enum;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Expand;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Model;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Interface;
 
-namespace Native.Sdk.Cqp
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp
 {
 	/// <summary>
 	/// 表示 酷Q接口 的封装类

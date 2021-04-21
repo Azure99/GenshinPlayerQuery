@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Tool.IniConfig.Exception
+namespace me.cqp.luohuaming.GenshinQuery.Tool.IniConfig.Exception
 {
 	/// <summary>
 	/// 表示 IniConfig 运行期间发生的错误

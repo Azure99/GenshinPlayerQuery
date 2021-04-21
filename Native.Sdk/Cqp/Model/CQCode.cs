@@ -1,13 +1,13 @@
-﻿using Native.Sdk.Cqp.Enum;
-using Native.Sdk.Cqp.Expand;
-using Native.Sdk.Cqp.Interface;
+﻿using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Enum;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Expand;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Native.Sdk.Cqp.Model
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Model
 {
 	/// <summary>
 	/// 表示 CQ码 的类

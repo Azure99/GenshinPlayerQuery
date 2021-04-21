@@ -5,10 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
-using Native.Sdk.Cqp.Core;
-using Native.Sdk.Cqp.Interface;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Core;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Interface;
 
-namespace Native.Sdk.Cqp.Expand
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Expand
 {
 	/// <summary>
 	/// 其它类扩展方法集

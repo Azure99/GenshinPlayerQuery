@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace Native.Sdk.Cqp.Expand
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Expand
 {
 	/// <summary>
 	/// <see cref="BinaryReader"/> 类的扩展方法集

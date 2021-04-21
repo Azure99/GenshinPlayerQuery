@@ -1,4 +1,4 @@
-﻿using Native.Sdk.Cqp.Expand;
+﻿using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Expand;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Sdk.Cqp.Model
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Model
 {
 	/// <summary>
 	/// 表示描述 QQ群成员匿名信息 的类

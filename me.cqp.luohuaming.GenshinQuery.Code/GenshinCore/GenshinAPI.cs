@@ -7,7 +7,7 @@ using GenshinPlayerQuery.Model;
 using me.cqp.luohuaming.GenshinQuery.Code;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using PublicInfos;
+using me.cqp.luohuaming.GenshinQuery.PublicInfos;
 
 namespace GenshinPlayerQuery.Core
 {

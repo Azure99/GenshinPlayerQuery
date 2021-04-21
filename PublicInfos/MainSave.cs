@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Native.Sdk.Cqp;
-using Native.Tool.IniConfig;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp;
+using me.cqp.luohuaming.GenshinQuery.Tool.IniConfig;
 
-namespace PublicInfos
+namespace me.cqp.luohuaming.GenshinQuery.PublicInfos
 {
     public static class MainSave
     {

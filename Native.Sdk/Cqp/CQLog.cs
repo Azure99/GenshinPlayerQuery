@@ -1,9 +1,9 @@
-﻿using Native.Sdk.Cqp.Core;
-using Native.Sdk.Cqp.Enum;
-using Native.Sdk.Cqp.Expand;
+﻿using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Core;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Enum;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Expand;
 using System.Runtime.InteropServices;
 
-namespace Native.Sdk.Cqp
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp
 {
 	/// <summary>
 	/// 表示 酷Q日志 的封装类

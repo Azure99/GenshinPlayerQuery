@@ -1,11 +1,11 @@
-﻿using Native.Tool.IniConfig;
+﻿using me.cqp.luohuaming.GenshinQuery.Tool.IniConfig;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Tool.IniConfig.Exception
+namespace me.cqp.luohuaming.GenshinQuery.Tool.IniConfig.Exception
 {
 	/// <summary>
 	/// 表示属性找不到的异常

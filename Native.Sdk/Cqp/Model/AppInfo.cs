@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Sdk.Cqp.Model
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Model
 {
 	/// <summary>
 	/// 表示当前插件的一些基本信息的类

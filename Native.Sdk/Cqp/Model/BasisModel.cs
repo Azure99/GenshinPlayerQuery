@@ -1,11 +1,11 @@
-﻿using Native.Sdk.Cqp.Interface;
+﻿using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Sdk.Cqp.Model
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Model
 {
 	/// <summary>
 	/// 描述酷Q数据模型的基础类, 该类是抽象的

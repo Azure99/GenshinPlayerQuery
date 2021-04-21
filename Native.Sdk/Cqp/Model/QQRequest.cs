@@ -1,11 +1,11 @@
-﻿using Native.Sdk.Cqp.Enum;
+﻿using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Sdk.Cqp.Model
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Model
 {
 	/// <summary>
 	/// 描述 QQ请求 的类

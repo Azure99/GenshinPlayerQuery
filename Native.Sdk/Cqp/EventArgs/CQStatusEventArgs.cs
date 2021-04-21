@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Sdk.Cqp.EventArgs
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.EventArgs
 {
 	/// <summary>
 	/// 提供用于描述酷Q悬浮窗状态事件参数的类, 该类是抽象的

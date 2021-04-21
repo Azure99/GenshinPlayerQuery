@@ -7,7 +7,7 @@
     <ProjectGuid>{C03C5BB7-91D0-4894-AAF9-127090DFAD91}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Native.Core</RootNamespace>
+    <RootNamespace>me.cqp.luohuaming.GenshinQuery.Core</RootNamespace>
     <AssemblyName>me.cqp.luohuaming.GenshinQuery</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -132,13 +132,13 @@
       <Project>{7a675aac-50c1-49a8-a663-9caa6674c614}</Project>
       <Name>me.cqp.luohuaming.GenshinQuery.Code</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Native.Sdk\Native.Sdk.csproj">
+    <ProjectReference Include="..\Native.Sdk\me.cqp.luohuaming.GenshinQuery.Sdk.csproj">
       <Project>{d7a958b3-79d9-49f8-8bb4-9619bab6ecba}</Project>
-      <Name>Native.Sdk</Name>
+      <Name>me.cqp.luohuaming.GenshinQuery.Sdk</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PublicInfos\PublicInfos.csproj">
+    <ProjectReference Include="..\PublicInfos\me.cqp.luohuaming.GenshinQuery.PublicInfos.csproj">
       <Project>{9ca41650-71f2-4f0c-9a80-9cdb5a7d593c}</Project>
-      <Name>PublicInfos</Name>
+      <Name>me.cqp.luohuaming.GenshinQuery.PublicInfos</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -7,8 +7,8 @@
     <ProjectGuid>{0CA93EB9-4E25-46C6-94D2-0F97137A1606}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Native.Tool</RootNamespace>
-    <AssemblyName>Native.Tool</AssemblyName>
+    <RootNamespace>me.cqp.luohuaming.GenshinQuery.Tool</RootNamespace>
+    <AssemblyName>me.cqp.luohuaming.GenshinQuery.Tool</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -24,7 +24,7 @@
     <WarningsAsErrors>
     </WarningsAsErrors>
     <PlatformTarget>x86</PlatformTarget>
-    <DocumentationFile>bin\x86\Debug\Native.Tool.xml</DocumentationFile>
+    <DocumentationFile>bin\x86\Debug\me.cqp.luohuaming.GenshinQuery.Tool.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>

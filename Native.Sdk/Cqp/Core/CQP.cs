@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Native.Sdk.Cqp.Core
+namespace me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Core
 {
     internal static class CQP
     {

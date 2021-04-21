@@ -5,9 +5,9 @@ using System.Threading;
 using System.Windows.Forms;
 using GenshinPlayerQuery.Core;
 using GenshinPlayerQuery.Model;
-using Native.Sdk.Cqp;
-using Native.Sdk.Cqp.EventArgs;
-using PublicInfos;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.EventArgs;
+using me.cqp.luohuaming.GenshinQuery.PublicInfos;
 
 namespace me.cqp.luohuaming.GenshinQuery.Code.OrderFunctions
 {

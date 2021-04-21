@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Tool.IniConfig.Utilities
+namespace me.cqp.luohuaming.GenshinQuery.Tool.IniConfig.Utilities
 {
 	internal static class ConvertUtils
 	{

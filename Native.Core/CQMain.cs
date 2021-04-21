@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity;
 using me.cqp.luohuaming.GenshinQuery.Code;
-using Native.Sdk.Cqp.Interface;
+using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.Interface;
 
-namespace Native.Core
+namespace me.cqp.luohuaming.GenshinQuery.Core
 {
 	/// <summary>
 	/// 酷Q应用主入口类

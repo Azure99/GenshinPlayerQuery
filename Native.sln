@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Native.Tool", "Native.Tool\Native.Tool.csproj", "{0CA93EB9-4E25-46C6-94D2-0F97137A1606}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "me.cqp.luohuaming.GenshinQuery.Tool", "Native.Tool\me.cqp.luohuaming.GenshinQuery.Tool.csproj", "{0CA93EB9-4E25-46C6-94D2-0F97137A1606}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Native.Sdk", "Native.Sdk\Native.Sdk.csproj", "{D7A958B3-79D9-49F8-8BB4-9619BAB6ECBA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "me.cqp.luohuaming.GenshinQuery.Sdk", "Native.Sdk\me.cqp.luohuaming.GenshinQuery.Sdk.csproj", "{D7A958B3-79D9-49F8-8BB4-9619BAB6ECBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Native.Core", "Native.Core\Native.Core.csproj", "{C03C5BB7-91D0-4894-AAF9-127090DFAD91}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "me.cqp.luohuaming.GenshinQuery.Core", "Native.Core\me.cqp.luohuaming.GenshinQuery.Core.csproj", "{C03C5BB7-91D0-4894-AAF9-127090DFAD91}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "me.cqp.luohuaming.GenshinQuery.Code", "me.cqp.luohuaming.GenshinQuery.Code\me.cqp.luohuaming.GenshinQuery.Code.csproj", "{7A675AAC-50C1-49A8-A663-9CAA6674C614}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "me.cqp.luohuaming.GenshinQuery.UI", "me.cqp.luohuaming.GenshinQuery.UI\me.cqp.luohuaming.GenshinQuery.UI.csproj", "{6E9094E7-EB54-4BDD-9CAF-EAC840E35362}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicInfos", "PublicInfos\PublicInfos.csproj", "{9CA41650-71F2-4F0C-9A80-9CDB5A7D593C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "me.cqp.luohuaming.GenshinQuery.PublicInfos", "PublicInfos\me.cqp.luohuaming.GenshinQuery.PublicInfos.csproj", "{9CA41650-71F2-4F0C-9A80-9CDB5A7D593C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

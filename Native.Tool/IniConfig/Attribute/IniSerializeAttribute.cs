@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Native.Tool.IniConfig.Attribute
+namespace me.cqp.luohuaming.GenshinQuery.Tool.IniConfig.Attribute
 {
 	/// <summary>
 	/// 表示对象参数 IniConfig 对象序列化的特性
