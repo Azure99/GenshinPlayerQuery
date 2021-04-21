@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0CA93EB9-4E25-46C6-94D2-0F97137A1606}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Native.Tool</RootNamespace>
+    <AssemblyName>Native.Tool</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NET_45;SQLITE_STANDARD;USE_PREPARE_V2;THROW_ON_DISPOSED;PRELOAD_NATIVE_LIBRARY;INTEROP_CODEC;INTEROP_DEBUG;INTEROP_EXTENSION_FUNCTIONS;INTEROP_FTS5_EXTENSION;INTEROP_JSON1_EXTENSION;INTEROP_LOG;INTEROP_PERCENTILE_EXTENSION;INTEROP_REGEXP_EXTENSION;INTEROP_SHA1_EXTENSION;INTEROP_TEST_EXTENSION;INTEROP_TOTYPE_EXTENSION;INTEROP_VIRTUAL_TABLE;INTEROP_SESSION_EXTENSION;TRACE_PRELOAD;TRACE_SHARED;TRACE_WARNING;WINDOWS</DefineConstants>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>618,1591;3001;IDE1006</NoWarn>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
+    <PlatformTarget>x86</PlatformTarget>
+    <DocumentationFile>bin\x86\Debug\Native.Tool.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NET_45;SQLITE_STANDARD;USE_PREPARE_V2;THROW_ON_DISPOSED;PRELOAD_NATIVE_LIBRARY;INTEROP_CODEC;INTEROP_DEBUG;INTEROP_EXTENSION_FUNCTIONS;INTEROP_FTS5_EXTENSION;INTEROP_JSON1_EXTENSION;INTEROP_LOG;INTEROP_PERCENTILE_EXTENSION;INTEROP_REGEXP_EXTENSION;INTEROP_SHA1_EXTENSION;INTEROP_TEST_EXTENSION;INTEROP_TOTYPE_EXTENSION;INTEROP_VIRTUAL_TABLE;INTEROP_SESSION_EXTENSION;TRACE_PRELOAD;TRACE_SHARED;TRACE_WARNING;WINDOWS</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>618,1591;3001;IDE1006</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Http\HttpTool.cs" />
+    <Compile Include="Http\HttpWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="IniConfig\Attribute\IniConfigKeyAttribute.cs" />
+    <Compile Include="IniConfig\Attribute\IniConfigSectionAttribute.cs" />
+    <Compile Include="IniConfig\Attribute\IniKeyAttribute.cs" />
+    <Compile Include="IniConfig\Attribute\IniNonSerializeAttribute.cs" />
+    <Compile Include="IniConfig\Attribute\IniSectionAttribute.cs" />
+    <Compile Include="IniConfig\Attribute\IniSerializeAttribute.cs" />
+    <Compile Include="IniConfig\Exception\IniConfigException.cs" />
+    <Compile Include="IniConfig\Exception\PropertyNotFoundException.cs" />
+    <Compile Include="IniConfig\Exception\SectionNotFoundException.cs" />
+    <Compile Include="IniConfig\IniConfig.cs" />
+    <Compile Include="IniConfig\IniConvert.cs" />
+    <Compile Include="IniConfig\Linq\IContainer.cs" />
+    <Compile Include="IniConfig\Linq\IniObject.cs" />
+    <Compile Include="IniConfig\Linq\IniSection.cs" />
+    <Compile Include="IniConfig\Linq\IniValue.cs" />
+    <Compile Include="IniConfig\Linq\IObject.cs" />
+    <Compile Include="IniConfig\Linq\ISection.cs" />
+    <Compile Include="IniConfig\Linq\IValue.cs" />
+    <Compile Include="IniConfig\Linq\IValueType.cs" />
+    <Compile Include="IniConfig\Utilities\ConvertUtils.cs" />
+    <Compile Include="IniConfig\Utilities\MathUtils.cs" />
+    <Compile Include="IniConfig\Utilities\MiscellaneousUtils.cs" />
+    <Compile Include="IniConfig\Utilities\ReflectionUtils.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

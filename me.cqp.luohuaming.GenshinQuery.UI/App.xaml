@@ -1,0 +1,9 @@
+﻿<Application x:Class="me.cqp.luohuaming.GenshinQuery.UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:me.cqp.luohuaming.GenshinQuery.UI"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>

@@ -1,0 +1,40 @@
+{
+	"ret": 1,
+	"apiver": 9,
+	"name": "水银原神查询机",
+	"version": "1.0.0",
+	"version_id": 1,
+	"author": "JieGG",
+	"description": "通过 UID 查询角色信息",
+	"event": [
+		{
+			"id": 1,
+			"type": 21,
+			"name": "私聊消息处理",
+			"function": "_eventPrivateMsg",
+			"priority": 30000
+		},
+		{
+			"id": 2,
+			"type": 2,
+			"name": "群消息处理",
+			"function": "_eventGroupMsg",
+			"priority": 30000
+		},
+		{
+			"id": 1001,
+			"type": 1001,
+			"name": "酷Q启动事件",
+			"priority": 30000,
+			"function": "_eventStartup"
+		}
+	],
+	"menu": [
+	],
+	"status": [ 
+	],
+	"auth": [ 
+		101, 
+		106
+	]
+}

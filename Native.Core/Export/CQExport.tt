@@ -1,0 +1,1132 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="EnvDTE" #>
+<#@ assembly name="$(SolutionDir)Lib\Newtonsoft.Json.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Newtonsoft.Json"#>
+<#@ import namespace="Newtonsoft.Json.Linq"#>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating"#>
+<#@ import namespace="EnvDTE" #>
+<#@ output extension=".log" #>
+<# 
+	Log.Initialize (this);
+	CQJsonReader.Initialize (this.Host);
+	if (CQJsonReader.IsReadSuccess)
+	{
+		Log.Info ("============================================================");
+		ParseJsonEventNode ();
+		Log.Info ("============================================================");
+		ParseJsonMenuNode ();
+		Log.Info ("============================================================");
+		ParseJsonStatusNode ();
+		Log.Info ("============================================================");
+		ParseJsonAuthNode ();
+	}
+#>
+<#+
+	public void ParseJsonEventNode ()
+	{
+		TemplateBuilder.Initialize (this.Host, "CQEventExport.cs");
+
+		Log.Info ("写入引用和命名空间...");
+		TemplateBuilder.UsingItems.Add ("System");
+		TemplateBuilder.UsingItems.Add ("System.Text");
+		TemplateBuilder.UsingItems.Add ("System.Reflection");
+		TemplateBuilder.UsingItems.Add ("System.Runtime.InteropServices");
+		TemplateBuilder.UsingItems.Add ("Native.Core");
+		TemplateBuilder.UsingItems.Add ("Native.Core.Domain");
+		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp");
+		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.Enum");
+		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.EventArgs");
+		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.Interface");
+		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.Expand");
+		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.Model");
+		TemplateBuilder.UsingItems.Add ("Unity");
+		TemplateBuilder.UsingItems.Add ("Unity.Injection");
+
+		TemplateBuilder.Namespace = "Native.App.Export";
+
+		TemplateBuilder.WriteLine (0, "/// <summary>");
+		TemplateBuilder.WriteLine (0, "/// 表示酷Q事件导出的类");
+		TemplateBuilder.WriteLine (0, "/// </summary>");
+		TemplateBuilder.WriteLine (0, "public class CQEventExport");
+		TemplateBuilder.WriteLine (0, "{");
+
+		Log.Info ("写入构造函数...");
+		TemplateBuilder.WriteLine (1, "#region --构造函数--");
+		TemplateBuilder.WriteLine (1, "/// <summary>");
+		TemplateBuilder.WriteLine (1, "/// 由托管环境初始化的 <see cref=\"CQEventExport\"/> 的新实例");
+		TemplateBuilder.WriteLine (1, "/// </summary>");
+		TemplateBuilder.WriteLine (1, "static CQEventExport ()");
+		TemplateBuilder.WriteLine (1, "{");
+		TemplateBuilder.WriteLine (2, "// 初始化 Costura.Fody");
+		TemplateBuilder.WriteLine (2, "CosturaUtility.Initialize ();");
+		TemplateBuilder.WriteLine (2);
+		TemplateBuilder.WriteLine (2, "Type appDataType = typeof (AppData);");
+		TemplateBuilder.WriteLine (2, "appDataType.GetRuntimeProperty (\"UnityContainer\").GetSetMethod (true).Invoke (null, new object[] { new UnityContainer () });");	
+		TemplateBuilder.WriteLine (2, "// 调用方法进行注册");
+		TemplateBuilder.WriteLine (2, "CQMain.Register (AppData.UnityContainer);");
+		TemplateBuilder.WriteLine (2);
+		TemplateBuilder.WriteLine (2, "// 调用方法进行实例化");
+		TemplateBuilder.WriteLine (2, "ResolveBackcall ();");
+		TemplateBuilder.WriteLine (1, "}");
+		TemplateBuilder.WriteLine (1, "#endregion");
+		TemplateBuilder.WriteLine (1);
+
+		Log.Info ("写入 AppInfo 方法...");
+		TemplateBuilder.WriteLine (1, "#region --核心方法--");
+		TemplateBuilder.WriteLine (1, "/// <summary>");
+		TemplateBuilder.WriteLine (1, "/// 返回酷Q用于识别本应用的 AppID 和 ApiVer");
+		TemplateBuilder.WriteLine (1, "/// </summary>");
+		TemplateBuilder.WriteLine (1, "/// <returns>酷Q用于识别本应用的 AppID 和 ApiVer</returns>");
+		TemplateBuilder.WriteLine (1, "[DllExport (ExportName = \"AppInfo\", CallingConvention = CallingConvention.StdCall)]");
+		TemplateBuilder.WriteLine (1, "private static string AppInfo ()");
+		TemplateBuilder.WriteLine (1, "{");
+		TemplateBuilder.WriteFormatLine (2, "return \"{0},{1}\";", CQJsonReader.GetApiVer (), this.Host.ResolveAssemblyReference ("$(TargetName)"));
+		TemplateBuilder.WriteLine (1, "}");
+		TemplateBuilder.WriteLine (1);
+
+		Log.Info ("写入 Initialize 方法...");
+		TemplateBuilder.WriteLine (1, "/// <summary>");
+		TemplateBuilder.WriteLine (1, "/// 接收应用 Authcode, 用于注册接口");
+		TemplateBuilder.WriteLine (1, "/// </summary>");
+		TemplateBuilder.WriteLine (1, "/// <param name=\"authCode\">酷Q应用验证码</param>");
+		TemplateBuilder.WriteLine (1, "/// <returns>返回注册结果给酷Q</returns>");
+		TemplateBuilder.WriteLine (1, "[DllExport (ExportName = \"Initialize\", CallingConvention = CallingConvention.StdCall)]");
+		TemplateBuilder.WriteLine (1, "private static int Initialize (int authCode)");
+		TemplateBuilder.WriteLine (1, "{");
+		TemplateBuilder.WriteLine (2, "// 反射获取 AppData 实例");
+		TemplateBuilder.WriteLine (2, "Type appDataType = typeof (AppData);");
+		TemplateBuilder.WriteLine (2, "// 注册一个 CQApi 实例");
+		TemplateBuilder.WriteFormatLine (2, 
+			"AppInfo appInfo = new AppInfo (\"{0}\", {1}, {2}, \"{3}\", \"{4}\", {5}, \"{6}\", \"{7}\", authCode);", 
+			this.Host.ResolveAssemblyReference ("$(TargetName)"),
+			CQJsonReader.GetResultCode (),
+			CQJsonReader.GetApiVer (),
+			CQJsonReader.GetName (),
+			CQJsonReader.GetVersion (),
+			CQJsonReader.GetVersionId (),
+			CQJsonReader.GetAuthor (),
+			CQJsonReader.GetDescription ()
+			);
+		TemplateBuilder.WriteLine (2, "appDataType.GetRuntimeProperty (\"CQApi\").GetSetMethod (true).Invoke (null, new object[] { new CQApi (appInfo) });");
+		TemplateBuilder.WriteFormatLine (2, "AppData.UnityContainer.RegisterInstance<CQApi> (\"{0}\", AppData.CQApi);", this.Host.ResolveAssemblyReference ("$(TargetName)"));
+		TemplateBuilder.WriteLine (2, "// 向容器注册一个 CQLog 实例");
+		TemplateBuilder.WriteLine (2, "appDataType.GetRuntimeProperty (\"CQLog\").GetSetMethod (true).Invoke (null, new object[] { new CQLog (authCode) });");
+		TemplateBuilder.WriteFormatLine (2, "AppData.UnityContainer.RegisterInstance<CQLog> (\"{0}\", AppData.CQLog);", this.Host.ResolveAssemblyReference ("$(TargetName)"));
+		TemplateBuilder.WriteLine (2, "// 注册插件全局异常捕获回调, 用于捕获未处理的异常, 回弹给 酷Q 做处理");
+		TemplateBuilder.WriteLine (2, "AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;");
+		TemplateBuilder.WriteLine (2, "// 本函数【禁止】处理其他任何代码，以免发生异常情况。如需执行初始化代码请在Startup事件中执行（Type=1001）。");
+		TemplateBuilder.WriteLine (2, "return 0;");
+		TemplateBuilder.WriteLine (1, "}");
+		TemplateBuilder.WriteLine (1, "#endregion");
+		TemplateBuilder.WriteLine (1);
+
+		Log.Info ("写入全局异常处理...");
+		TemplateBuilder.WriteLine (1, "#region --私有方法--");
+		TemplateBuilder.WriteLine (1, "/// <summary>");
+		TemplateBuilder.WriteLine (1, "/// 全局异常捕获, 用于捕获开发者未处理的异常, 此异常将回弹至酷Q进行处理");
+		TemplateBuilder.WriteLine (1, "/// </summary>");
+		TemplateBuilder.WriteLine (1, "/// <param name=\"sender\">事件来源对象</param>");
+		TemplateBuilder.WriteLine (1, "/// <param name=\"e\">附加的事件参数</param>");
+		TemplateBuilder.WriteLine (1, "private static void CurrentDomain_UnhandledException (object sender, UnhandledExceptionEventArgs e)");
+		TemplateBuilder.WriteLine (1, "{");
+		TemplateBuilder.WriteLine (2, "Exception ex = e.ExceptionObject as Exception;");
+		TemplateBuilder.WriteLine (2, "if (ex != null)");
+		TemplateBuilder.WriteLine (2, "{");
+		TemplateBuilder.WriteLine (3, "StringBuilder innerLog = new StringBuilder ();");
+		TemplateBuilder.WriteLine (3, "innerLog.AppendLine (\"发现未处理的异常!\");");
+		TemplateBuilder.WriteLine (3, "innerLog.AppendLine (ex.ToString ());");
+		TemplateBuilder.WriteLine (3, "AppData.CQLog.SetFatalMessage (innerLog.ToString ());");
+		TemplateBuilder.WriteLine (2, "}");
+		TemplateBuilder.WriteLine (1, "}");
+		TemplateBuilder.WriteLine (1);
+
+		//解析 event 节点
+		JArray node = CQJsonReader.GetEventNode ();
+		if (node != null)
+		{
+			TemplateBuilder.WriteLine (1, "/// <summary>");
+			TemplateBuilder.WriteLine (1, "/// 读取容器中的注册项, 进行事件分发");
+			TemplateBuilder.WriteLine (1, "/// </summary>");
+			TemplateBuilder.WriteLine (1, "private static void ResolveBackcall ()");
+			TemplateBuilder.WriteLine (1, "{");
+
+			foreach (JToken token in node)
+			{
+				TemplateBuilder.WriteLine (2, "/*");
+				TemplateBuilder.WriteFormatLine (2, " * Id: {0}", token["id"].Value<int> ());
+				TemplateBuilder.WriteFormatLine (2, " * Type: {0}", token["type"].Value<int> ());
+				TemplateBuilder.WriteFormatLine (2, " * Name: {0}", token["name"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (2, " * Function: {0}", token["function"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (2, " * Priority: {0}", token["priority"].Value<int> ());
+				TemplateBuilder.WriteLine (2, " */");
+
+				Log.Info ("添加 {0} 到事件...", token["function"].Value<string> ());
+				switch (token["type"].Value<int> ())
+				{
+					case 1001:
+						TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<ICQStartup> (\"{0}\"))", token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler += AppData.UnityContainer.Resolve<ICQStartup> (\"{1}\").CQStartup;", token["function"].Value<string> (), token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						break;
+					case 1002:
+						TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<ICQExit> (\"{0}\"))", token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler += AppData.UnityContainer.Resolve<ICQExit> (\"{1}\").CQExit;", token["function"].Value<string> (), token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						break;
+					case 1003:
+						TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<IAppEnable> (\"{0}\"))", token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler += AppData.UnityContainer.Resolve<IAppEnable> (\"{1}\").AppEnable;", token["function"].Value<string> (), token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						break;
+					case 1004:
+						TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<IAppDisable> (\"{0}\"))", token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler += AppData.UnityContainer.Resolve<IAppDisable> (\"{1}\").AppDisable;", token["function"].Value<string> (), token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						break;
+					case 21:
+						TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<IPrivateMessage> (\"{0}\"))", token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler += AppData.UnityContainer.Resolve<IPrivateMessage> (\"{1}\").PrivateMessage;", token["function"].Value<string> (), token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						break;
+					case 2:
+						TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<IGroupMessage> (\"{0}\"))", token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler += AppData.UnityContainer.Resolve<IGroupMessage> (\"{1}\").GroupMessage;", token["function"].Value<string> (), token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						break;
+					case 4:
+						TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<IDiscussMessage> (\"{0}\"))", token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler += AppData.UnityContainer.Resolve<IDiscussMessage> (\"{1}\").DiscussMessage;", token["function"].Value<string> (), token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						break;
+					case 11:
+						TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<IGroupUpload> (\"{0}\"))", token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler += AppData.UnityContainer.Resolve<IGroupUpload> (\"{1}\").GroupUpload;", token["function"].Value<string> (), token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						break;
+					case 101:
+						TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<IGroupManageChange> (\"{0}\"))", token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler += AppData.UnityContainer.Resolve<IGroupManageChange> (\"{1}\").GroupManageChange;", token["function"].Value<string> (), token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						break;
+					case 102:
+						TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<IGroupMemberDecrease> (\"{0}\"))", token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler += AppData.UnityContainer.Resolve<IGroupMemberDecrease> (\"{1}\").GroupMemberDecrease;", token["function"].Value<string> (), token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						break;
+					case 103:
+						TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<IGroupMemberIncrease> (\"{0}\"))", token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler += AppData.UnityContainer.Resolve<IGroupMemberIncrease> (\"{1}\").GroupMemberIncrease;", token["function"].Value<string> (), token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						break;
+					case 104:
+						TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<IGroupBanSpeak> (\"{0}\"))", token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler += AppData.UnityContainer.Resolve<IGroupBanSpeak> (\"{1}\").GroupBanSpeak;", token["function"].Value<string> (), token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						break;
+					case 201:
+						TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<IFriendAdd> (\"{0}\"))", token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler += AppData.UnityContainer.Resolve<IFriendAdd> (\"{1}\").FriendAdd;", token["function"].Value<string> (), token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						break;
+					case 301:
+						TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<IFriendAddRequest> (\"{0}\"))", token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler += AppData.UnityContainer.Resolve<IFriendAddRequest> (\"{1}\").FriendAddRequest;", token["function"].Value<string> (), token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						break;
+					case 302:
+						TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<IGroupAddRequest> (\"{0}\"))", token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler += AppData.UnityContainer.Resolve<IGroupAddRequest> (\"{1}\").GroupAddRequest;", token["function"].Value<string> (), token["name"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						break;
+				}
+				TemplateBuilder.WriteLine (2);
+			}
+
+			TemplateBuilder.WriteLine (1, "}");
+			TemplateBuilder.WriteLine (1, "#endregion");
+			TemplateBuilder.WriteLine (1);
+
+			TemplateBuilder.WriteLine (1, "#region --导出方法--");
+			foreach (JToken token in node)
+			{
+
+				bool isRegex = false;
+				JObject temp = token as JObject;
+				if  (temp != null)
+				{
+					isRegex = temp.ContainsKey ("regex");
+				}
+
+				TemplateBuilder.WriteLine (1, "/// <summary>");
+				TemplateBuilder.WriteLine (1, "/// 事件回调, 以下是对应 Json 文件的信息");
+				TemplateBuilder.WriteFormatLine (1, "/// <para>Id: {0}</para>", token["id"].Value<int> ());
+				TemplateBuilder.WriteFormatLine (1, "/// <para>Type: {0}</para>", token["type"].Value<int> ());
+				TemplateBuilder.WriteFormatLine (1, "/// <para>Name: {0}</para>", token["name"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (1, "/// <para>Function: {0}</para>", token["function"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (1, "/// <para>Priority: {0}</para>", token["priority"].Value<uint> ());
+				TemplateBuilder.WriteFormatLine (1, "/// <para>IsRegex: {0}</para>", isRegex);
+				TemplateBuilder.WriteLine (1, "/// </summary>");
+
+				Log.Info ("导出 {0} 函数...", token["function"].Value<string> ());
+				switch (token["type"].Value<int> ())
+				{
+					case 1001:
+						TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQStartupEventArgs> Event{0}Handler;", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "public static int Event{0} ()", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (1, "{");
+						TemplateBuilder.WriteFormatLine (2, "if (Event{0}Handler != null)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "CQStartupEventArgs args = new CQStartupEventArgs (AppData.CQApi, AppData.CQLog, {0}, {1}, \"{2}\", \"{3}\", {4});", token["id"].Value<int> (), token["type"].Value<int> (), token["name"].Value<string> (), token["function"].Value<string> (), token["priority"].Value<uint> ());
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler (typeof (CQEventExport), args);", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						TemplateBuilder.WriteLine (2, "return 0;");
+						TemplateBuilder.WriteLine (1, "}");
+						break;
+					case 1002:
+						TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQExitEventArgs> Event{0}Handler;", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "public static int Event{0} ()", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (1, "{");
+						TemplateBuilder.WriteFormatLine (2, "if (Event{0}Handler != null)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "CQExitEventArgs args = new CQExitEventArgs (AppData.CQApi, AppData.CQLog, {0}, {1}, \"{2}\", \"{3}\", {4});", token["id"].Value<int> (), token["type"].Value<int> (), token["name"].Value<string> (), token["function"].Value<string> (), token["priority"].Value<uint> ());
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler (typeof (CQEventExport), args);", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						TemplateBuilder.WriteLine (2, "return 0;");
+						TemplateBuilder.WriteLine (1, "}");
+						break;
+					case 1003:
+						TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQAppEnableEventArgs> Event{0}Handler;", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "public static int Event{0} ()", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (1, "{");
+						TemplateBuilder.WriteFormatLine (2, "if (Event{0}Handler != null)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "CQAppEnableEventArgs args = new CQAppEnableEventArgs (AppData.CQApi, AppData.CQLog, {0}, {1}, \"{2}\", \"{3}\", {4});", token["id"].Value<int> (), token["type"].Value<int> (), token["name"].Value<string> (), token["function"].Value<string> (), token["priority"].Value<uint> ());
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler (typeof (CQEventExport), args);", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						TemplateBuilder.WriteLine (2, "return 0;");
+						TemplateBuilder.WriteLine (1, "}");
+						break;
+					case 1004:
+						TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQAppDisableEventArgs> Event{0}Handler;", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "public static int Event{0} ()", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (1, "{");
+						TemplateBuilder.WriteFormatLine (2, "if (Event{0}Handler != null)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "CQAppDisableEventArgs args = new CQAppDisableEventArgs (AppData.CQApi, AppData.CQLog, {0}, {1}, \"{2}\", \"{3}\", {4});", token["id"].Value<int> (), token["type"].Value<int> (), token["name"].Value<string> (), token["function"].Value<string> (), token["priority"].Value<uint> ());
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler (typeof (CQEventExport), args);", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "}");
+						TemplateBuilder.WriteLine (2, "return 0;");
+						TemplateBuilder.WriteLine (1, "}");
+						break;
+					case 21:
+						TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQPrivateMessageEventArgs> Event{0}Handler;", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "public static int Event{0} (int subType, int msgId, long fromQQ, IntPtr msg, int font)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (1, "{");
+						TemplateBuilder.WriteFormatLine (2, "if (Event{0}Handler != null)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "CQPrivateMessageEventArgs args = new CQPrivateMessageEventArgs (AppData.CQApi, AppData.CQLog, {0}, {1}, \"{2}\", \"{3}\", {4}, subType, msgId, fromQQ, msg.ToString(CQApi.DefaultEncoding), {5});", token["id"].Value<int> (), token["type"].Value<int> (), token["name"].Value<string> (), token["function"].Value<string> (), token["priority"].Value<uint> (), isRegex.ToString ().ToLower ());
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler (typeof (CQEventExport), args);", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (3, "return (int)(args.Handler ? CQMessageHandler.Intercept : CQMessageHandler.Ignore);");
+						TemplateBuilder.WriteLine (2, "}");
+						TemplateBuilder.WriteLine (2, "return 0;");
+						TemplateBuilder.WriteLine (1, "}");
+						break;
+					case 2:
+						TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQGroupMessageEventArgs> Event{0}Handler;", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "public static int Event{0} (int subType, int msgId, long fromGroup, long fromQQ, string fromAnonymous, IntPtr msg, int font)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (1, "{");
+						TemplateBuilder.WriteFormatLine (2, "if (Event{0}Handler != null)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "CQGroupMessageEventArgs args = new CQGroupMessageEventArgs (AppData.CQApi, AppData.CQLog, {0}, {1}, \"{2}\", \"{3}\", {4}, subType, msgId, fromGroup, fromQQ, fromAnonymous, msg.ToString(CQApi.DefaultEncoding), {5});", token["id"].Value<int> (), token["type"].Value<int> (), token["name"].Value<string> (), token["function"].Value<string> (), token["priority"].Value<uint> (), isRegex.ToString ().ToLower ());
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler (typeof (CQEventExport), args);", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (3, "return (int)(args.Handler ? CQMessageHandler.Intercept : CQMessageHandler.Ignore);");
+						TemplateBuilder.WriteLine (2, "}");
+						TemplateBuilder.WriteLine (2, "return 0;");
+						TemplateBuilder.WriteLine (1, "}");
+						break;
+					case 4:
+						TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQDiscussMessageEventArgs> Event{0}Handler;", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "public static int Event{0} (int subType, int msgId, long fromNative, long fromQQ, IntPtr msg, int font)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (1, "{");
+						TemplateBuilder.WriteFormatLine (2, "if (Event{0}Handler != null)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "CQDiscussMessageEventArgs args = new CQDiscussMessageEventArgs (AppData.CQApi, AppData.CQLog, {0}, {1}, \"{2}\", \"{3}\", {4}, subType, msgId, fromNative, fromQQ, msg.ToString(CQApi.DefaultEncoding), {5});", token["id"].Value<int> (), token["type"].Value<int> (), token["name"].Value<string> (), token["function"].Value<string> (), token["priority"].Value<uint> (), isRegex.ToString ().ToLower ());
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler (typeof (CQEventExport), args);", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (3, "return (int)(args.Handler ? CQMessageHandler.Intercept : CQMessageHandler.Ignore);");
+						TemplateBuilder.WriteLine (2, "}");
+						TemplateBuilder.WriteLine (2, "return 0;");
+						TemplateBuilder.WriteLine (1, "}");
+						break;
+					case 11:
+						TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQGroupUploadEventArgs> Event{0}Handler;", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "public static int Event{0} (int subType, int sendTime, long fromGroup, long fromQQ, string file)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (1, "{");
+						TemplateBuilder.WriteFormatLine (2, "if (Event{0}Handler != null)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "CQGroupUploadEventArgs args = new CQGroupUploadEventArgs (AppData.CQApi, AppData.CQLog, {0}, {1}, \"{2}\", \"{3}\", {4}, subType, sendTime, fromGroup, fromQQ, file);", token["id"].Value<int> (), token["type"].Value<int> (), token["name"].Value<string> (), token["function"].Value<string> (), token["priority"].Value<uint> ());
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler (typeof (CQEventExport), args);", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (3, "return (int)(args.Handler ? CQMessageHandler.Intercept : CQMessageHandler.Ignore);");
+						TemplateBuilder.WriteLine (2, "}");
+						TemplateBuilder.WriteLine (2, "return 0;");
+						TemplateBuilder.WriteLine (1, "}");
+						break;
+					case 101:
+						TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQGroupManageChangeEventArgs> Event{0}Handler;", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "public static int Event{0} (int subType, int sendTime, long fromGroup, long beingOperateQQ)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (1, "{");
+						TemplateBuilder.WriteFormatLine (2, "if (Event{0}Handler != null)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "CQGroupManageChangeEventArgs args = new CQGroupManageChangeEventArgs (AppData.CQApi, AppData.CQLog, {0}, {1}, \"{2}\", \"{3}\", {4}, subType, sendTime, fromGroup, beingOperateQQ);", token["id"].Value<int> (), token["type"].Value<int> (), token["name"].Value<string> (), token["function"].Value<string> (), token["priority"].Value<uint> ());
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler (typeof (CQEventExport), args);", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (3, "return (int)(args.Handler ? CQMessageHandler.Intercept : CQMessageHandler.Ignore);");
+						TemplateBuilder.WriteLine (2, "}");
+						TemplateBuilder.WriteLine (2, "return 0;");
+						TemplateBuilder.WriteLine (1, "}");
+						break;
+					case 102:
+						TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQGroupMemberDecreaseEventArgs> Event{0}Handler;", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "public static int Event{0} (int subType, int sendTime, long fromGroup, long fromQQ, long beingOperateQQ)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (1, "{");
+						TemplateBuilder.WriteFormatLine (2, "if (Event{0}Handler != null)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "CQGroupMemberDecreaseEventArgs args = new CQGroupMemberDecreaseEventArgs (AppData.CQApi, AppData.CQLog, {0}, {1}, \"{2}\", \"{3}\", {4}, subType, sendTime, fromGroup, fromQQ, beingOperateQQ);", token["id"].Value<int> (), token["type"].Value<int> (), token["name"].Value<string> (), token["function"].Value<string> (), token["priority"].Value<uint> ());
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler (typeof (CQEventExport), args);", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (3, "return (int)(args.Handler ? CQMessageHandler.Intercept : CQMessageHandler.Ignore);");
+						TemplateBuilder.WriteLine (2, "}");
+						TemplateBuilder.WriteLine (2, "return 0;");
+						TemplateBuilder.WriteLine (1, "}");
+						break;
+					case 103:
+						TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQGroupMemberIncreaseEventArgs> Event{0}Handler;", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "public static int Event{0} (int subType, int sendTime, long fromGroup, long fromQQ, long beingOperateQQ)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (1, "{");
+						TemplateBuilder.WriteFormatLine (2, "if (Event{0}Handler != null)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "CQGroupMemberIncreaseEventArgs args = new CQGroupMemberIncreaseEventArgs (AppData.CQApi, AppData.CQLog, {0}, {1}, \"{2}\", \"{3}\", {4}, subType, sendTime, fromGroup, fromQQ, beingOperateQQ);", token["id"].Value<int> (), token["type"].Value<int> (), token["name"].Value<string> (), token["function"].Value<string> (), token["priority"].Value<uint> ());
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler (typeof (CQEventExport), args);", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (3, "return (int)(args.Handler ? CQMessageHandler.Intercept : CQMessageHandler.Ignore);");
+						TemplateBuilder.WriteLine (2, "}");
+						TemplateBuilder.WriteLine (2, "return 0;");
+						TemplateBuilder.WriteLine (1, "}");
+						break;
+					case 104:
+						TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQGroupBanSpeakEventArgs> Event{0}Handler;", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "public static int Event{0} (int subType, int sendTime, long fromGroup, long fromQQ, long beingOperateQQ, long duration)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (1, "{");
+						TemplateBuilder.WriteFormatLine (2, "if (Event{0}Handler != null)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "CQGroupBanSpeakEventArgs args = new CQGroupBanSpeakEventArgs (AppData.CQApi, AppData.CQLog, {0}, {1}, \"{2}\", \"{3}\", {4}, subType, sendTime, fromGroup, fromQQ, beingOperateQQ, duration);", token["id"].Value<int> (), token["type"].Value<int> (), token["name"].Value<string> (), token["function"].Value<string> (), token["priority"].Value<uint> ());
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler (typeof (CQEventExport), args);", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (3, "return (int)(args.Handler ? CQMessageHandler.Intercept : CQMessageHandler.Ignore);");
+						TemplateBuilder.WriteLine (2, "}");
+						TemplateBuilder.WriteLine (2, "return 0;");
+						TemplateBuilder.WriteLine (1, "}");
+						break;
+					case 201:
+						TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQFriendAddEventArgs> Event{0}Handler;", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "public static int Event{0} (int subType, int sendTime, long fromQQ)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (1, "{");
+						TemplateBuilder.WriteFormatLine (2, "if (Event{0}Handler != null)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "CQFriendAddEventArgs args = new CQFriendAddEventArgs (AppData.CQApi, AppData.CQLog, {0}, {1}, \"{2}\", \"{3}\", {4}, subType, sendTime, fromQQ);", token["id"].Value<int> (), token["type"].Value<int> (), token["name"].Value<string> (), token["function"].Value<string> (), token["priority"].Value<uint> ());
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler (typeof (CQEventExport), args);", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (3, "return (int)(args.Handler ? CQMessageHandler.Intercept : CQMessageHandler.Ignore);");
+						TemplateBuilder.WriteLine (2, "}");
+						TemplateBuilder.WriteLine (2, "return 0;");
+						TemplateBuilder.WriteLine (1, "}");
+						break;
+					case 301:
+						TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQFriendAddRequestEventArgs> Event{0}Handler;", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "public static int Event{0} (int subType, int sendTime, long fromQQ, IntPtr msg, string responseFlag)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (1, "{");
+						TemplateBuilder.WriteFormatLine (2, "if (Event{0}Handler != null)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "CQFriendAddRequestEventArgs args = new CQFriendAddRequestEventArgs (AppData.CQApi, AppData.CQLog, {0}, {1}, \"{2}\", \"{3}\", {4}, subType, sendTime, fromQQ, msg.ToString (CQApi.DefaultEncoding), responseFlag);", token["id"].Value<int> (), token["type"].Value<int> (), token["name"].Value<string> (), token["function"].Value<string> (), token["priority"].Value<uint> ());
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler (typeof (CQEventExport), args);", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (3, "return (int)(args.Handler ? CQMessageHandler.Intercept : CQMessageHandler.Ignore);");
+						TemplateBuilder.WriteLine (2, "}");
+						TemplateBuilder.WriteLine (2, "return 0;");
+						TemplateBuilder.WriteLine (1, "}");
+						break;
+					case 302:
+						TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQGroupAddRequestEventArgs> Event{0}Handler;", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (1, "public static int Event{0} (int subType, int sendTime, long fromGroup, long fromQQ, IntPtr msg, string responseFlag)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (1, "{");
+						TemplateBuilder.WriteFormatLine (2, "if (Event{0}Handler != null)", token["function"].Value<string> ());
+						TemplateBuilder.WriteLine (2, "{");
+						TemplateBuilder.WriteFormatLine (3, "CQGroupAddRequestEventArgs args = new CQGroupAddRequestEventArgs (AppData.CQApi, AppData.CQLog, {0}, {1}, \"{2}\", \"{3}\", {4}, subType, sendTime, fromGroup, fromQQ, msg.ToString (CQApi.DefaultEncoding), responseFlag);", token["id"].Value<int> (), token["type"].Value<int> (), token["name"].Value<string> (), token["function"].Value<string> (), token["priority"].Value<uint> ());
+						TemplateBuilder.WriteFormatLine (3, "Event{0}Handler (typeof (CQEventExport), args);", token["function"].Value<string> ());
+						TemplateBuilder.WriteFormatLine (3, "return (int)(args.Handler ? CQMessageHandler.Intercept : CQMessageHandler.Ignore);");
+						TemplateBuilder.WriteLine (2, "}");
+						TemplateBuilder.WriteLine (2, "return 0;");
+						TemplateBuilder.WriteLine (1, "}");
+						break;
+				}
+				TemplateBuilder.WriteLine (1);
+			}
+			TemplateBuilder.WriteLine (1, "#endregion");
+		}
+		else 
+		{
+			Log.Warning ("读取失败, 返回的结果为 null. 可能不存在 event 节点");
+		}
+		TemplateBuilder.WriteLine (0, "}");
+		TemplateBuilder.Finish ();
+	}
+#>
+<#+
+	public void ParseJsonMenuNode ()
+	{
+		TemplateBuilder.Initialize (this.Host, "CQMenuExport.cs");
+
+		Log.Info ("写入引用和命名空间...");
+		TemplateBuilder.UsingItems.Add ("System");
+		TemplateBuilder.UsingItems.Add ("System.Reflection");
+		TemplateBuilder.UsingItems.Add ("System.Runtime.InteropServices");
+		TemplateBuilder.UsingItems.Add ("Native.Core.Domain");
+		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp");
+		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.EventArgs");
+		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.Interface");
+		TemplateBuilder.UsingItems.Add ("Unity");
+
+		TemplateBuilder.Namespace = "Native.App.Export";
+
+		TemplateBuilder.WriteLine (0, "/// <summary>");
+		TemplateBuilder.WriteLine (0, "/// 表示酷Q菜单导出的类");
+		TemplateBuilder.WriteLine (0, "/// </summary>");
+		TemplateBuilder.WriteLine (0, "public class CQMenuExport");
+		TemplateBuilder.WriteLine (0, "{");
+
+		Log.Info ("写入构造函数...");
+		TemplateBuilder.WriteLine (1, "#region --构造函数--");
+		TemplateBuilder.WriteLine (1, "/// <summary>");
+		TemplateBuilder.WriteLine (1, "/// 由托管环境初始化的 <see cref=\"CQMenuExport\"/> 的新实例");
+		TemplateBuilder.WriteLine (1, "/// </summary>");
+		TemplateBuilder.WriteLine (1, "static CQMenuExport ()");
+		TemplateBuilder.WriteLine (1, "{");
+		TemplateBuilder.WriteLine (2);
+		TemplateBuilder.WriteLine (2, "// 调用方法进行实例化");
+		TemplateBuilder.WriteLine (2, "ResolveBackcall ();");
+		TemplateBuilder.WriteLine (1, "}");
+		TemplateBuilder.WriteLine (1, "#endregion");
+		TemplateBuilder.WriteLine (1);
+
+		JArray node = CQJsonReader.GetMenuNode ();
+		if (node != null)
+		{
+			TemplateBuilder.WriteLine (1, "#region --私有方法--");
+			TemplateBuilder.WriteLine (1, "/// <summary>");
+			TemplateBuilder.WriteLine (1, "/// 读取容器中的注册项, 进行事件分发");
+			TemplateBuilder.WriteLine (1, "/// </summary>");
+			TemplateBuilder.WriteLine (1, "private static void ResolveBackcall ()");
+			TemplateBuilder.WriteLine (1, "{");
+
+			foreach (JToken token in node)
+			{
+				Log.Info ("添加 {0} 到事件...", token["function"].Value<string> ());
+
+				TemplateBuilder.WriteLine (2, "/*");
+				TemplateBuilder.WriteFormatLine (2, " * Name: {0}", token["name"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (2, " * Function: {0}", token["function"].Value<string> ());
+				TemplateBuilder.WriteLine (2, " */");
+				TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<IMenuCall> (\"{0}\"))", token["name"].Value<string> ());
+				TemplateBuilder.WriteLine (2, "{");
+				TemplateBuilder.WriteFormatLine (3, "Menu{0}Handler += AppData.UnityContainer.Resolve<IMenuCall> (\"{1}\").MenuCall;", token["function"].Value<string> (), token["name"].Value<string> ());
+				TemplateBuilder.WriteLine (2, "}");
+				TemplateBuilder.WriteLine (2);
+			}
+
+			TemplateBuilder.WriteLine (1, "}");
+			TemplateBuilder.WriteLine (1, "#endregion");
+			TemplateBuilder.WriteLine (1);
+			TemplateBuilder.WriteLine (1, "#region --导出方法--");
+	
+			foreach (JToken token in node)
+			{
+				Log.Info ("导出 {0} 函数...", token["function"].Value<string> ());
+				TemplateBuilder.WriteLine (1, "/*");
+				TemplateBuilder.WriteFormatLine (1, " * Name: {0}", token["name"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (1, " * Function: {0}", token["function"].Value<string> ());
+				TemplateBuilder.WriteLine (1, " */");
+				TemplateBuilder.WriteFormatLine (1, "public static event EventHandler<CQMenuCallEventArgs> Menu{0}Handler;", token["function"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (1, "public static int Menu{0} ()", token["function"].Value<string> ());
+				TemplateBuilder.WriteLine (1, "{");
+				TemplateBuilder.WriteFormatLine (2, "if (Menu{0}Handler != null)", token["function"].Value<string> ());
+				TemplateBuilder.WriteLine (2, "{");
+				TemplateBuilder.WriteFormatLine (3, "CQMenuCallEventArgs args = new CQMenuCallEventArgs (AppData.CQApi, AppData.CQLog, \"{0}\", \"{1}\");", token["name"].Value<string> (), token["function"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (3, "Menu{0}Handler (typeof (CQMenuExport), args);", token["function"].Value<string> ());
+				TemplateBuilder.WriteLine (2, "}");
+				TemplateBuilder.WriteLine (2, "return 0;");
+				TemplateBuilder.WriteLine (1, "}");
+				TemplateBuilder.WriteLine (1);
+			}
+
+			TemplateBuilder.WriteLine (1, "#endregion");
+		}
+		else 
+		{
+			Log.Warning ("读取失败, 返回的结果为 null. 可能不存在 menu 节点");
+		}
+
+		TemplateBuilder.WriteLine (0, "}");
+		TemplateBuilder.Finish ();
+	}
+#>
+<#+
+	public void ParseJsonStatusNode ()
+	{
+		TemplateBuilder.Initialize (this.Host, "CQStatusExport.cs");
+
+		Log.Info ("写入引用和命名空间...");
+		TemplateBuilder.UsingItems.Add ("System");
+		TemplateBuilder.UsingItems.Add ("System.Reflection");
+		TemplateBuilder.UsingItems.Add ("System.Runtime.InteropServices");
+		TemplateBuilder.UsingItems.Add ("Native.Core.Domain");
+		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp");
+		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.EventArgs");
+		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.Interface");
+		TemplateBuilder.UsingItems.Add ("Native.Sdk.Cqp.Model");
+		TemplateBuilder.UsingItems.Add ("Unity");
+
+		TemplateBuilder.Namespace = "Native.App.Export";
+
+		TemplateBuilder.WriteLine (0, "/// <summary>");
+		TemplateBuilder.WriteLine (0, "/// 表示酷Q状态导出的类");
+		TemplateBuilder.WriteLine (0, "/// </summary>");
+		TemplateBuilder.WriteLine (0, "public class CQStatusExport");
+		TemplateBuilder.WriteLine (0, "{");
+
+		Log.Info ("写入构造函数...");
+		TemplateBuilder.WriteLine (1, "#region --构造函数--");
+		TemplateBuilder.WriteLine (1, "/// <summary>");
+		TemplateBuilder.WriteLine (1, "/// 由托管环境初始化的 <see cref=\"CQStatusExport\"/> 的新实例");
+		TemplateBuilder.WriteLine (1, "/// </summary>");
+		TemplateBuilder.WriteLine (1, "static CQStatusExport ()");
+		TemplateBuilder.WriteLine (1, "{");
+		TemplateBuilder.WriteLine (2, "// 调用方法进行实例化");
+		TemplateBuilder.WriteLine (2, "ResolveBackcall ();");
+		TemplateBuilder.WriteLine (1, "}");
+		TemplateBuilder.WriteLine (1, "#endregion");
+		TemplateBuilder.WriteLine (1);
+
+		JArray node = CQJsonReader.GetStatusNode ();
+		if (node != null)
+		{
+			TemplateBuilder.WriteLine (1, "#region --私有方法--");
+			TemplateBuilder.WriteLine (1, "/// <summary>");
+			TemplateBuilder.WriteLine (1, "/// 读取容器中的注册项, 进行事件分发");
+			TemplateBuilder.WriteLine (1, "/// </summary>");
+			TemplateBuilder.WriteLine (1, "private static void ResolveBackcall ()");
+			TemplateBuilder.WriteLine (1, "{");
+
+			foreach (JToken token in node)
+			{
+				Log.Info ("添加 {0} 到事件...", token["function"].Value<string> ());
+				TemplateBuilder.WriteLine (2, "/*");
+				TemplateBuilder.WriteFormatLine (2, " * Id: {0}", token["id"].Value<int> ());
+				TemplateBuilder.WriteFormatLine (2, " * Name: {0}", token["name"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (2, " * Title: {0}", token["title"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (2, " * Function: {0}", token["function"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (2, " * Period: {0}", token["period"].Value<int> ());
+				TemplateBuilder.WriteLine (2, " */");
+				TemplateBuilder.WriteFormatLine (2, "if (AppData.UnityContainer.IsRegistered<IStatusUpdate> (\"{0}\"))", token["name"].Value<string> ());
+				TemplateBuilder.WriteLine (2, "{");
+				TemplateBuilder.WriteFormatLine (3, "Status{0}Handler += AppData.UnityContainer.Resolve<IStatusUpdate> (\"{1}\").StatusUpdate;", token["function"].Value<string> (), token["name"].Value<string> ());
+				TemplateBuilder.WriteLine (2, "}");
+				TemplateBuilder.WriteLine (2);
+			}
+
+			TemplateBuilder.WriteLine (1, "}");
+			TemplateBuilder.WriteLine (1, "#endregion");
+
+			TemplateBuilder.WriteLine (1);
+			TemplateBuilder.WriteLine (1, "#region --导出方法--");
+
+			foreach (JToken token in node)
+			{
+				Log.Info ("导出 {0} 函数...", token["function"].Value<string> ());
+				TemplateBuilder.WriteLine (1, "/*");
+				TemplateBuilder.WriteFormatLine (1, " * Id: {0}", token["id"].Value<int> ());
+				TemplateBuilder.WriteFormatLine (1, " * Name: {0}", token["name"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (1, " * Title: {0}", token["title"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (1, " * Function: {0}", token["function"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (1, " * Period: {0}", token["period"].Value<int> ());
+				TemplateBuilder.WriteLine (1, " */");
+				TemplateBuilder.WriteFormatLine (1, "public static event Func<object, CQStatusUpdateEventArgs, CQFloatWindow> Status{0}Handler;", token["function"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (1, "[DllExport (ExportName = \"{0}\", CallingConvention = CallingConvention.StdCall)]", token["function"].Value<string> ());
+				TemplateBuilder.WriteFormatLine (1, "public static string Status{0} ()", token["function"].Value<string> ());
+				TemplateBuilder.WriteLine (1, "{");
+				TemplateBuilder.WriteFormatLine (2, "CQStatusUpdateEventArgs args = new CQStatusUpdateEventArgs (AppData.CQApi, AppData.CQLog, {0}, \"{1}\", \"{2}\", \"{3}\", {4});", token["id"].Value<int> (), token["name"].Value<string> (), token["title"].Value<string> (), token["function"].Value<string> (), token["period"].Value<int> ());
+				TemplateBuilder.WriteFormatLine (2, "if (Status{0}Handler != null)", token["function"].Value<string> ());
+				TemplateBuilder.WriteLine (2, "{");
+				TemplateBuilder.WriteFormatLine (3, "return Status{0}Handler (typeof (CQStatusExport), args).ToSendString ();", token["function"].Value<string> ());
+				TemplateBuilder.WriteLine (2, "}");
+				TemplateBuilder.WriteLine (2, "return new CQFloatWindow ().ToSendString (); // 返回默认悬浮窗样式");
+				TemplateBuilder.WriteLine (1, "}");
+				TemplateBuilder.WriteLine (1);
+			}
+
+			TemplateBuilder.WriteLine (1, "#endregion");
+		}
+		else 
+		{
+			Log.Warning ("读取失败, 返回的结果为 null. 可能不存在 status 节点");
+		}
+
+		TemplateBuilder.WriteLine (0, "}");
+
+		TemplateBuilder.Finish ();
+	}
+#>
+<#+
+	public static void ParseJsonAuthNode ()
+	{
+	}
+#>
+<#+
+	/// <summary>
+	/// 文本模板编辑类
+	/// </summary>
+	public static class TemplateBuilder 
+	{
+		private static ProjectItem project = null;
+		private static StringBuilder fileContent = null;
+		private static string targetFileName = null;
+		private static string targetFilePath = null;
+
+		public static string Namespace { get; set; }
+		public static List<string> UsingItems { get; private set; }
+
+		/// <summary>
+		/// 初始化
+		/// </summary>
+		public static void Initialize (ITextTemplatingEngineHost host, string name)
+		{
+			Log.Info ("正在为文件: {0} 初始化模板编辑器...", name);
+			// 获取 Visual Studio 实例对象
+			DTE dt = ((IServiceProvider)host).GetService (typeof (DTE)) as DTE;
+			project = dt.Solution.FindProjectItem (host.TemplateFile);
+			
+
+			Log.Info ("确定文件保存位置...");
+			// 获取当前 T4 模板的位置
+			string templateFileDir = Path.GetDirectoryName(host.TemplateFile);
+			targetFileName = name;
+			targetFilePath = Path.Combine (templateFileDir, targetFileName);
+			fileContent = new StringBuilder ();
+			
+
+			// 初始化引用集合
+			UsingItems = new List<string> ();
+			Namespace = string.Empty;
+		}
+
+		/// <summary>
+		/// 写入字符串
+		/// </summary>
+		public static void Write (int tabCout, string value)
+		{
+			if (fileContent != null)
+			{
+				tabCout += 1;
+				for (int i = 0; i < tabCout; i++)
+				{
+					fileContent.Append ("\t");
+				}
+				fileContent.Append (value);
+			}
+		}
+
+		/// <summary>
+		/// 写入一行字符串
+		/// </summary>
+		public static void WriteLine (int tabCout)
+		{
+			Write (tabCout, Environment.NewLine);
+		}
+
+		/// <summary>
+		/// 写入一行字符串
+		/// </summary>
+		public static void WriteLine (int tabCout, string value)
+		{
+			Write (tabCout, value);
+			Write (0, Environment.NewLine);
+		}
+
+		/// <summary>
+		/// 写入格式字符串
+		/// </summary>
+		public static void WriteFormat (int tabCout, string format, params object[] args)
+		{
+			if (fileContent != null)
+			{
+				tabCout += 1;
+				for (int i = 0; i < tabCout; i++)
+				{
+					fileContent.Append ("\t");
+				}
+
+				fileContent.AppendFormat (format, args);
+			}
+		}
+
+		
+		/// <summary>
+		/// 写入一行格式化字符串
+		/// </summary>
+		public static void WriteFormatLine (int tabCout, string format, params object[] args)
+		{
+			WriteFormat (tabCout, format, args);
+			Write (0, Environment.NewLine);
+		}
+
+		/// <summary>
+		/// 结束写入并绑定文件到模板
+		/// </summary>
+		public static void Finish ()
+		{
+			if (fileContent != null)
+			{
+				try
+				{
+					// 插入命名空间
+					Log.Info ("写入命名空间...");
+					fileContent.Insert (0, Environment.NewLine);
+					fileContent.Insert (0, "{");
+					fileContent.Insert (0, Environment.NewLine);
+					fileContent.Insert (0, string.Format ("namespace {0}", Namespace));
+					fileContent.Insert (0, Environment.NewLine);
+					fileContent.AppendLine ("}");
+					// 组合引用
+					Log.Info ("写入引用列表...");
+					UsingItems.Reverse ();
+					foreach (string item in UsingItems)
+					{
+						fileContent.Insert (0, string.Format ("using {0};{1}", item, Environment.NewLine));
+					}
+
+					// 写入头注释
+					Log.Info ("写入文件头注释...");
+					fileContent.Insert (0, string.Format (" */{0}", Environment.NewLine));
+					fileContent.Insert (0, string.Format (" * 此文件由T4引擎自动生成, 请勿修改此文件中的代码!{0}", Environment.NewLine));
+					fileContent.Insert (0, string.Format ("/*{0}", Environment.NewLine));				
+
+					Log.Info ("写入文件: {0} 并绑定模板...", targetFileName);
+					// 将数据写入文件
+					File.WriteAllText (targetFilePath, fileContent.ToString ());
+
+					// 将文件绑定到当前模板下
+					project.ProjectItems.AddFromFile (targetFilePath);
+				}
+				catch (Exception e)
+				{
+					Log.Error ("文件写入失败! {0}{1}{2}", e.Message, Environment.NewLine, e.StackTrace);
+				}
+			}
+		}
+	}
+#>
+<#+
+	/// <summary>
+	/// 酷Q的Json读取类
+	/// </summary>
+	public static class CQJsonReader
+	{
+		private static JObject root = null;
+
+		/// <summary>
+		/// 获取一个值, 指示 Json 文件是否读取成功
+		/// </summary>
+		public static bool IsReadSuccess { get; private set; }
+
+		/// <summary>
+		/// 初始化
+		/// </summary>
+		public static void Initialize (ITextTemplatingEngineHost host)
+		{
+			Log.Info ("获取项目基本信息...");
+			string projectDir = host.ResolveAssemblyReference ("$(ProjectDir)");
+			Log.Info ("项目目录: {0}", projectDir);
+			string targetName = host.ResolveAssemblyReference ("$(TargetName)");
+			Log.Info ("项目名称: {0}", targetName);
+			string filePath = Path.Combine (projectDir, "app.json");
+			Log.Info ("Json路径: {0}", filePath);
+			if (File.Exists (filePath) == true)
+			{
+				try
+				{
+					Log.Info ("正在读取文件...");
+					using (JsonTextReader reader = new JsonTextReader (new StreamReader (File.OpenRead (filePath), Encoding.UTF8)))
+					{
+						root = JObject.Load (reader);
+						IsReadSuccess = true;
+						return;
+					}
+				}
+				catch (Exception e)
+				{
+					Log.Error ("文件读取失败! {0}", e.Message);
+				}
+			}
+			else 
+			{
+				Log.Error ("请检查Json文件名是否与项目程序集名称一致!");
+			}
+			IsReadSuccess = false;
+		}
+
+		/// <summary>
+		/// 获取返回码
+		/// </summary>
+		public static int GetResultCode ()
+		{
+			if (root != null)
+			{
+				Log.Info ("获取 ResultCode 信息...");
+				return root.Value<int> ("ret");
+			}
+			return -1;
+		}
+
+		/// <summary>
+		/// 获取Api版本
+		/// </summary>
+		public static int GetApiVer ()
+		{
+			if (root != null)
+			{
+				Log.Info ("获取 ApiVer 信息...");
+				return root.Value<int> ("apiver");
+			}
+			return -1;
+		}
+
+		/// <summary>
+		/// 获取应用名称
+		/// </summary>
+		public static string GetName ()
+		{
+			if (root != null)
+			{
+				Log.Info ("获取 Name 信息...");
+				return root.Value<string> ("name");
+			}
+			return string.Empty;
+		}
+
+		/// <summary>
+		/// 获取应用版本
+		/// </summary>
+		public static string GetVersion ()
+		{
+			if (root != null)
+			{
+				Log.Info ("获取 Version 信息...");
+				return root.Value<string> ("version");
+			}
+			return string.Empty;
+		}
+
+		/// <summary>
+		/// 获取应用顺序版本
+		/// </summary>
+		public static int GetVersionId ()
+		{
+			if (root != null)
+			{
+				Log.Info ("获取 VersionId 信息...");
+				return root.Value<int> ("version_id");
+			}
+			return -1;
+		}
+
+		/// <summary>
+		/// 获取应用作者
+		/// </summary>
+		public static string GetAuthor ()
+		{
+			if (root != null)
+			{
+				Log.Info ("获取 author 信息...");
+				return root.Value<string> ("author");
+			}
+			return string.Empty;
+		}
+
+		/// <summary>
+		/// 获取应用说明
+		/// </summary>
+		public static string GetDescription ()
+		{
+			if (root != null)
+			{
+				Log.Info ("获取 description 信息...");
+				return root.Value<string> ("description").Replace ("\r\n", "\\r\\n");
+			}
+			return string.Empty;
+		}
+
+		/// <summary>
+		/// 获取 event 节点信息
+		/// </summary>
+		public static JArray GetEventNode ()
+		{
+			if (root != null)
+			{
+				Log.Info ("获取 Event 节点...");
+				return root.Value<JArray> ("event");
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// 获取 menu 节点信息
+		/// </summary>
+		public static JArray GetMenuNode ()
+		{
+			if (root != null)
+			{
+				Log.Info ("获取 Menu 节点...");
+				return root.Value<JArray> ("menu");
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// 获取 status 节点信息
+		/// </summary>
+		public static JArray GetStatusNode ()
+		{
+			if (root != null)
+			{
+				Log.Info ("获取 Status 节点...");
+				return root.Value<JArray> ("status");
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// 获取 auth 节点信息
+		/// </summary>
+		public static int[] GetAuthNode ()
+		{
+			if (root != null)
+			{
+				Log.Info ("获取 Auth 节点...");
+				return root.Value<int[]> ("auth");
+			}
+			return null;
+		}
+	}
+#>
+<#+
+	/// <summary>
+	/// 日志类
+	/// </summary>
+	public static class Log 
+	{
+		private static TextTransformation textTransform;
+
+		public const string INFO = "信息";
+		public const string WARNING = "警告";
+		public const string ERROR = "错误";
+
+		/// <summary>
+		/// 初始化
+		/// </summary>
+		public static void Initialize (TextTransformation transform)
+		{
+			textTransform = transform;
+		}
+
+		/// <summary>
+		/// 信息
+		/// </summary>
+		public static void Info (string format, params object[] args)
+		{
+			if (textTransform != null)
+			{
+				StringBuilder builder = new	StringBuilder ();
+				builder.AppendFormat (format, args);
+				WriteLog (INFO, builder.ToString ());
+			}
+		}
+
+		/// <summary>
+		/// 警告
+		/// </summary>
+		public static void Warning (string format, params object[] args)
+		{
+			if (textTransform != null)
+			{
+				StringBuilder builder = new	StringBuilder ();
+				builder.AppendFormat (format, args);
+				WriteLog (WARNING, builder.ToString ());
+				textTransform.Warning (builder.ToString ());
+			}
+		}
+
+		/// <summary>
+		/// 错误
+		/// </summary>
+		public static void Error (string format, params object[] args)
+		{
+			if (textTransform != null)
+			{
+				StringBuilder builder = new	StringBuilder ();
+				builder.AppendFormat (format, args);
+				WriteLog (ERROR, builder.ToString ());
+				textTransform.Error (builder.ToString ());
+			}
+		}
+
+		private static void WriteLog (string type, string msg)
+		{
+			if (textTransform != null)
+			{
+				StringBuilder builder = new StringBuilder ();
+				builder.AppendFormat ("[{0}]: {1}", type, msg);
+				builder.AppendLine ();
+				textTransform.Write (builder.ToString ());
+			}
+		}
+	}
+#>
