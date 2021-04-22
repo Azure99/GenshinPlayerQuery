@@ -2,12 +2,12 @@
 using System.Drawing;
 using System.IO;
 using System.Threading;
-using System.Windows.Forms;
 using GenshinPlayerQuery.Core;
 using GenshinPlayerQuery.Model;
 using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp;
 using me.cqp.luohuaming.GenshinQuery.Sdk.Cqp.EventArgs;
 using me.cqp.luohuaming.GenshinQuery.PublicInfos;
+using System.Windows.Forms;
 
 namespace me.cqp.luohuaming.GenshinQuery.Code.OrderFunctions
 {
@@ -50,12 +50,6 @@ namespace me.cqp.luohuaming.GenshinQuery.Code.OrderFunctions
                     WebBrowser genShinweb = new WebBrowser();//创建WebBrowser对象
                     genShinweb.ScrollBarsEnabled = false;//关闭滚动条
                     genShinweb.Navigate("about:blank");//重新为创建WebBrowser对象导航navigate，否者html赋值不成功
-                    if (MainSave.HasSnaped is false)
-                    {
-                        genShinweb.Document.Write(Properties.Resources.ResourceManager.GetString("example"));
-                        Helper.SnapWeb(genShinweb);
-                        MainSave.HasSnaped = true;
-                    }
                     PlayerQueryResult playerQueryResult = GenshinApi.GetPlayerData(QQID.ToString(), "cn_gf01");//查询官服信息
                     if (!playerQueryResult.Success)
                     {

@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 using me.cqp.luohuaming.GenshinQuery.PublicInfos;
 
@@ -18,11 +19,13 @@ namespace me.cqp.luohuaming.GenshinQuery.Code
         /// <returns></returns>
         public static Bitmap SnapWeb(WebBrowser wb)
         {
-            HtmlDocument hd = wb.Document;
-            int height = 2300;
-            int width = 850;
-            wb.Height = height;
+            int width = 768;
             wb.Width = width;
+            wb.Refresh();
+            wb.Document.InvokeScript("GetDocumentHeight", new object[] { });
+            Thread.Sleep(100);
+            int height = Convert.ToInt32(wb.Document.GetElementById("height_Tmp").GetAttribute("value"));
+            wb.Height = height;
             Bitmap bmp = new Bitmap(width, height);
             Rectangle rec = new Rectangle(0, 0, width, height);
             wb.DrawToBitmap(bmp, rec);
