@@ -11,6 +11,10 @@ namespace GenshinPlayerQuery.Core
 {
     internal static class GenshinApi
     {
+        private const string API_SALT = "14bmu1mz0yuljprsfgpvjh3ju2ni468r"; // @Azure99
+        private const string API_APP_VERSION = "2.7.0";
+        private const string API_CLIENT_TYPE = "5";
+
         public static bool GetLoginStatus()
         {
             ServerResponse<JObject> response =
@@ -83,8 +87,8 @@ namespace GenshinPlayerQuery.Core
                 using (WebClient client = new WebClient())
                 {
                     client.Encoding = Encoding.UTF8;
-                    client.Headers["x-rpc-client_type"] = "5";
-                    client.Headers["x-rpc-app_version"] = "2.3.0";
+                    client.Headers["x-rpc-client_type"] = API_CLIENT_TYPE;
+                    client.Headers["x-rpc-app_version"] = API_APP_VERSION;
                     client.Headers["DS"] = CreateDynamicSecret();
                     client.Headers["Cookie"] = MessageBus.LoginTicket;
 
@@ -106,7 +110,7 @@ namespace GenshinPlayerQuery.Core
         {
             long time = (long) (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
             string random = CreateRandomString(6);
-            string check = ComputeMd5($"salt=h8w582wxwgqvahcdkpvdhbh2w9casgfl&t={time}&r={random}");
+            string check = ComputeMd5($"salt={API_SALT}&t={time}&r={random}");
 
             return $"{time},{random},{check}";
         }
