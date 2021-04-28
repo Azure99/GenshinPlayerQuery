@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Genshin Impact</title>
+    <style>
+        img {
+            position: absolute;
+        }
+
+        #background {
+            width: 200px;
+            left: 60px;
+            top: 20px;
+            z-index: 0;
+        }
+
+        #equipment > img, #constellation > img {
+            cursor: pointer;
+            background: #656565;
+            width: 50px;
+            height: 50px;
+            z-index: 1;
+        }
+
+        #equipment > img {
+            left: 10px;
+        }
+
+        #description {
+            background: #f6f6f5;
+            padding: 5px;
+            width: 300px;
+            height: 120px;
+            position: absolute;
+            left: 10px;
+            top: 380px;
+            z-index: 1;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        #description b {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<div style="width: 320px; height: 500px">
+    <div>
+        <img id="background">
+    </div>
+    <div id="equipment">
+        <img id="equipment-weapon" style="top: 20px">
+        <img id="equipment-1" style="top: 80px">
+        <img id="equipment-2" style="top: 140px">
+        <img id="equipment-3" style="top: 200px">
+        <img id="equipment-4" style="top: 260px">
+        <img id="equipment-5" style="top: 320px">
+    </div>
+    <div id="constellation">
+        <img id="constellation-1" style="top: 20px; left: 230px">
+        <img id="constellation-2" style="top: 80px; left: 250px">
+        <img id="constellation-3" style="top: 140px; left: 270px">
+        <img id="constellation-4" style="top: 200px; left: 270px">
+        <img id="constellation-5" style="top: 260px; left: 250px">
+        <img id="constellation-6" style="top: 320px; left: 230px">
+    </div>
+    <div id="description"></div>
+</div>
+<script>
+    var role = $role$;
+
+    document.getElementById('background').src = role.image;
+    document.getElementById('equipment-weapon').src = role.weapon.icon;
+    for (var i = 0; i < role.reliquaries.length; i++) {
+        document.getElementById('equipment-' + role.reliquaries[i].pos).src = role.reliquaries[i].icon;
+    }
+    for (var i = 0; i < role.constellations.length; i++) {
+        var element = document.getElementById('constellation-' + (i + 1));
+        element.src = role.constellations[i].icon;
+        if (!role.constellations[i].is_actived) {
+            element.style.background = "#FFFFFF";
+        }
+    }
+
+    var elements = document.getElementsByTagName('img');
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].onclick = function () {
+            clickHandler(event.srcElement.id);
+        }
+    }
+
+    clickHandler('equipment-weapon');
+
+    function clickHandler(id) {
+        var text = '';
+        if (id === 'equipment-weapon') {
+            var item = role.weapon;
+            text = '<b>' + item.name + '</b>&nbsp;&nbsp;' + item.level + '级&nbsp;&nbsp;精炼' + item.affix_level + '<br/>' + item.desc;
+        } else if (id.indexOf('equipment-') !== -1) {
+            var index = parseInt(id.replace('equipment-', ''));
+            for (var i = 0; i < role.reliquaries.length; i++) {
+                if (role.reliquaries[i].pos === index) {
+                    var item = role.reliquaries[i];
+                    text = '<b>' + item.pos_name + '&nbsp;&nbsp;' + item.name + '</b>&nbsp;&nbsp;' + item.level + '级<br/>' + '二件套: ' + item.set.affixes[0].effect + '<br/>' + '四件套: ' + item.set.affixes[1].effect;
+                    break;
+                }
+            }
+        } else if (id.indexOf('constellation-') !== -1) {
+            var index = parseInt(id.replace('constellation-', '')) - 1;
+            var item = role.constellations[index];
+            text = '<b>' + item.name + '</b><br/>' + item.effect;
+        }
+
+        if (text !== '') {
+            document.getElementById('description').innerHTML = text.replace('\\n', '<br/>');
+        }
+    }
+</script>
+</body>
+</html>

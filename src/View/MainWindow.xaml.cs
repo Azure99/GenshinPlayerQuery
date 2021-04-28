@@ -51,7 +51,8 @@ namespace GenshinPlayerQuery.View
                 return;
             }
 
-            WebBrowserMain.NavigateToString(PlayerPageRender.RenderHtml(playerQueryResult));
+            WebBrowserMain.NavigateToString(PageRender.RenderPlayerPage(playerQueryResult));
+            MessageBus.PlayerQueryResult = playerQueryResult;
             MessageBus.AddQueryHistory(uid);
         }
 
@@ -69,7 +70,7 @@ namespace GenshinPlayerQuery.View
                         dic[kv[0]] = kv[1];
                     }
 
-                    MessageBus.ShowRoleDetails(dic["uid"], dic["server"], dic["role"]);
+                    MessageBus.ShowRoleDetails(dic["roleId"]);
                     e.Cancel = true;
                 }
             }

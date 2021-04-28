@@ -61,11 +61,44 @@ namespace GenshinPlayerQuery.Properties {
         }
         
         /// <summary>
-        ///   查找类似  的本地化字符串。
+        ///   查找类似 &lt;!DOCTYPE html&gt;
+        ///&lt;html lang=&quot;zh&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
+        ///    &lt;title&gt;Genshin Impact&lt;/title&gt;
+        ///    &lt;style&gt;
+        ///        html, body {
+        ///            height: 100%;
+        ///        }
+        ///
+        ///        .panel, .panel-group {
+        ///            margin-bottom: 0 !important;
+        ///        }
+        ///
+        ///        .az-frame {
+        ///            float: left;
+        ///            height: 100%;
+        ///            position: relative;
+        ///            overflow: hidden;
+        ///        }
+        ///
+        ///        .az-frame-inner {
+        ///            position: absolute;
+        ///            left: 0;
+        ///            [字符串的其余部分被截断]&quot;; 的本地化字符串。
         /// </summary>
         internal static string index {
             get {
                 return ResourceManager.GetString("index", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似  的本地化字符串。
+        /// </summary>
+        internal static string role {
+            get {
+                return ResourceManager.GetString("role", resourceCulture);
             }
         }
     }

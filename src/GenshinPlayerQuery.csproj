@@ -84,7 +84,7 @@
     <Compile Include="Model\PlayerStatistics.cs" />
     <Compile Include="Model\QueryRole.cs" />
     <Compile Include="Model\WorldExploration.cs" />
-    <Compile Include="Core\PlayerPageRender.cs" />
+    <Compile Include="Core\PageRender.cs" />
     <Compile Include="View\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -128,6 +128,8 @@
   <ItemGroup>
     <None Include="Resources\index.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\role.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -172,8 +172,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
 
 <script>
-    var uid = $uid$;
-    var server = "$server$";
     var playerInfo = $playerInfo$;
     var spiralAbyss = $spiralAbyss$;
     var roles = $roles$;
@@ -390,7 +388,7 @@
     }
 
     function showRoleDetails(roleId) {
-        window.location.href = "http://rainng/?server=" + server + "&uid=" + uid + "&role=" + roleId;
+        window.location.href = "http://rainng/?roleId=" + roleId;
     }
 
     function getColorByRarity(rarity) {

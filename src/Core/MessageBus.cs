@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
+using GenshinPlayerQuery.Model;
 using GenshinPlayerQuery.View;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace GenshinPlayerQuery.Core
 {
@@ -19,6 +23,8 @@ namespace GenshinPlayerQuery.Core
         private const string LOGIN_TICKET_FILE = "ticket.txt";
         private const string QUERY_HISTORY_FILE = "history.txt";
         private const int MAX_QUERY_HISTORY_COUNT = 10;
+
+        public static PlayerQueryResult PlayerQueryResult { get; set; }
 
         static MessageBus()
         {
@@ -95,9 +101,10 @@ namespace GenshinPlayerQuery.Core
             Exit();
         }
 
-        public static void ShowRoleDetails(string uid, string server, string roleId)
+        public static void ShowRoleDetails(string roleId)
         {
-            new RoleWindow(uid, server, roleId).Show();
+            string role = (JObject.Parse(PlayerQueryResult.Roles)["avatars"] as JArray).Where(x => x["id"].ToString() == roleId).First().ToString();
+            new RoleWindow(PageRender.RenderRolePage(role)).Show();
         }
 
         public static string GetBrowserLoginTicket()
