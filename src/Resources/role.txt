@@ -80,7 +80,7 @@
         var element = document.getElementById('constellation-' + (i + 1));
         element.src = role.constellations[i].icon;
         if (!role.constellations[i].is_actived) {
-            element.style.background = "#FFFFFF";
+            element.style.background = "#d9d9d9";
         }
     }
 
