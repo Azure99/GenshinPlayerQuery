@@ -13,7 +13,6 @@
         }
 
         .az-frame {
-            float: left;
             height: 100%;
             position: relative;
             overflow: hidden;
@@ -58,12 +57,16 @@
         .az-role {
             cursor: pointer;
         }
+
+        #roles {
+            overflow: hidden;
+        }
     </style>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="az-frame" style="width: 46%">
+<div class="az-frame" style="float: left; width: 295px">
     <div class="az-frame-inner">
         <div class="panel panel-default">
             <div class="panel-heading"><h3 class="panel-title">信息概览</h3></div>
@@ -144,7 +147,7 @@
     </div>
 </div>
 
-<div class="az-frame" style="width: 52%">
+<div class="az-frame">
     <div class="az-frame-inner">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -173,7 +176,7 @@
 
 <script>
     // 隐藏垂直滚动条
-    document.documentElement.style.overflow ='hidden'
+    document.documentElement.style.overflow ='hidden';
 
     var playerInfo = $playerInfo$;
     var spiralAbyss = $spiralAbyss$;
