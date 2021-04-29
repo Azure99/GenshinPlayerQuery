@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="原神玩家信息查询器" Height="715" Width="657" MinWidth="657" ResizeMode="CanResize"
+        Title="原神玩家信息查询器" Height="715" Width="660" MinWidth="660" ResizeMode="CanResize"
         Closed="Window_Closed" WindowStartupLocation="CenterScreen">
     <Grid>
         <Label Content="玩家UID:" HorizontalAlignment="Left" Height="25" Margin="10,15,0,0" VerticalAlignment="Top" />

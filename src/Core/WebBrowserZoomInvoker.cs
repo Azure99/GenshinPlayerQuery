@@ -20,11 +20,7 @@ namespace GenshinPlayerQuery.Core
         public static void AddZoomInvoker(WebBrowser browser)
         {
             Point scaleUi = GetCurrentDipScale();
-            if ((int) (scaleUi.X * 100) != 100)
-            {
-                browser.LoadCompleted += WebBrowser_LoadCompleted;
-                browser.NavigateToString(EMPTY_HTML);
-            }
+            browser.LoadCompleted += WebBrowser_LoadCompleted; browser.NavigateToString(EMPTY_HTML);
         }
 
         private static void WebBrowser_LoadCompleted(object sender, NavigationEventArgs e)
@@ -33,10 +29,7 @@ namespace GenshinPlayerQuery.Core
             {
                 browser.LoadCompleted -= WebBrowser_LoadCompleted;
                 Point scaleUi = GetCurrentDipScale();
-                if (100 != (int) (scaleUi.X * 100))
-                {
-                    SetZoom(browser, (int) (scaleUi.X * scaleUi.Y * 100));
-                }
+                SetZoom(browser, (int) (scaleUi.X * scaleUi.Y * 100));
             }
         }
 
