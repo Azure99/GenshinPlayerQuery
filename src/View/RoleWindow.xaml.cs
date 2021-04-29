@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using GenshinPlayerQuery.Core;
 
 namespace GenshinPlayerQuery.View
 {
@@ -8,12 +9,19 @@ namespace GenshinPlayerQuery.View
     /// </summary>
     public partial class RoleWindow : Window
     {
-        public RoleWindow(string uid, string server, string roleId)
+        public RoleWindow(string html)
         {
             InitializeComponent();
-            WebBrowserRole.Source =
-                new Uri(
-                    $"https://webstatic.mihoyo.com/app/community-game-records/index.html?bbs_presentation_style=fullscreen#/ys/role?role_id={uid}&server={server}&id={roleId}");
+            WebBrowserZoomInvoker.AddZoomInvoker(WebBrowserRole);
+            bool loaded = false;
+            WebBrowserRole.LoadCompleted += (sender, args) =>
+            {
+                if (!loaded)
+                {
+                    WebBrowserRole.NavigateToString(html);
+                    loaded = true;
+                }
+            };
         }
 
         private void Window_Closed(object sender, EventArgs e)

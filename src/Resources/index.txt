@@ -175,8 +175,6 @@
     // 隐藏垂直滚动条
     document.documentElement.style.overflow ='hidden'
 
-    var uid = $uid$;
-    var server = "$server$";
     var playerInfo = $playerInfo$;
     var spiralAbyss = $spiralAbyss$;
     var roles = $roles$;
@@ -393,7 +391,7 @@
     }
 
     function showRoleDetails(roleId) {
-        window.location.href = "http://rainng/?server=" + server + "&uid=" + uid + "&role=" + roleId;
+        window.location.href = "http://rainng/?roleId=" + roleId;
     }
 
     function getColorByRarity(rarity) {
