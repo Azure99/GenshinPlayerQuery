@@ -9,7 +9,7 @@ namespace GenshinPlayerQuery.Core
 {
     internal static class WebBrowserZoomInvoker
     {
-        private const string EMPTY_HTML = @"<html><head></head><body></body></html>";
+        private const string EMPTY_HTML = @"<html><head><style>body {overflow: hidden;}</style></head><body></body></html>";
 
         private const int LOG_PIXELS_X = 88;
         private const int LOG_PIXELS_Y = 90;

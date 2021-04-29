@@ -23,13 +23,13 @@
         <WebBrowser Name="WebBrowserMain" HorizontalAlignment="Left" Margin="10,58,10,0" VerticalAlignment="Top"
                     Navigating="WebBrowserMain_Navigating" />
 
-        <TextBlock HorizontalAlignment="Right" Margin="0,10,25,0" TextWrapping="Wrap" VerticalAlignment="Top">
+        <TextBlock HorizontalAlignment="Right" Margin="0,10,10,0" TextWrapping="Wrap" VerticalAlignment="Top">
             <Hyperlink Name="HyperlinkProjectAddress" NavigateUri="https://github.com/Azure99/GenshinPlayerQuery"
                        RequestNavigate="HyperlinkProjectAddress_RequestNavigate">
                 项目地址
             </Hyperlink>
         </TextBlock>
-        <TextBlock HorizontalAlignment="Right" Margin="0,28,25,0" TextWrapping="Wrap" VerticalAlignment="Top">
+        <TextBlock HorizontalAlignment="Right" Margin="0,28,10,0" TextWrapping="Wrap" VerticalAlignment="Top">
             <Hyperlink Name="HyperlinkByAzure99" NavigateUri="https://github.com/Azure99"
                        RequestNavigate="HyperlinkByAzure99_RequestNavigate">
                 By Azure99
