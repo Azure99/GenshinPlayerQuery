@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
@@ -97,13 +97,13 @@
         var text = '';
         if (id === 'equipment-weapon') {
             var item = role.weapon;
-            text = '<b>' + item.name + '</b>&nbsp;&nbsp;' + item.level + '¼¶&nbsp;&nbsp;¾«Á¶' + item.affix_level + '<br/>' + item.desc;
+            text = '<b>' + item.name + '</b>&nbsp;&nbsp;' + item.level + 'çº§&nbsp;&nbsp;ç²¾ç‚¼' + item.affix_level + '<br/>' + item.desc;
         } else if (id.indexOf('equipment-') !== -1) {
             var index = parseInt(id.replace('equipment-', ''));
             for (var i = 0; i < role.reliquaries.length; i++) {
                 if (role.reliquaries[i].pos === index) {
                     var item = role.reliquaries[i];
-                    text = '<b>' + item.pos_name + '&nbsp;&nbsp;' + item.name + '</b>&nbsp;&nbsp;' + item.level + '¼¶<br/>' + '¶þ¼þÌ×: ' + item.set.affixes[0].effect + '<br/>' + 'ËÄ¼þÌ×: ' + item.set.affixes[1].effect;
+                    text = '<b>' + item.pos_name + '&nbsp;&nbsp;' + item.name + '</b>&nbsp;&nbsp;' + item.level + 'çº§<br/>' + 'äºŒä»¶å¥—: ' + item.set.affixes[0].effect + '<br/>' + 'å››ä»¶å¥—: ' + item.set.affixes[1].effect;
                     break;
                 }
             }
