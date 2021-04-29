@@ -17,7 +17,6 @@ namespace GenshinPlayerQuery.Core
     internal static class MessageBus
     {
         private const int COOKIE_HTTP_ONLY = 0x00002000;
-        private const string COOKIE_NAME_LOGIN_TICKET = "login_ticket";
         private const string COOKIE_URL = "https://user.mihoyo.com/";
 
         private const string LOGIN_TICKET_FILE = "ticket.txt";
@@ -33,7 +32,6 @@ namespace GenshinPlayerQuery.Core
             if (File.Exists(LOGIN_TICKET_FILE))
             {
                 LoginTicket = File.ReadAllText(LOGIN_TICKET_FILE);
-                SetBrowserLoginTicket(LoginTicket);
             }
 
             if (File.Exists(QUERY_HISTORY_FILE))
@@ -109,30 +107,15 @@ namespace GenshinPlayerQuery.Core
 
         public static string GetBrowserLoginTicket()
         {
-            StringBuilder loginTicket = new StringBuilder(255);
+            StringBuilder loginTicket = new StringBuilder(1024);
             uint size = Convert.ToUInt32(loginTicket.Capacity + 1);
-            InternetGetCookieEx(COOKIE_URL, COOKIE_NAME_LOGIN_TICKET, loginTicket, ref size, COOKIE_HTTP_ONLY, IntPtr.Zero);
+            InternetGetCookieEx(COOKIE_URL, null, loginTicket, ref size, COOKIE_HTTP_ONLY, IntPtr.Zero);
             return loginTicket.ToString();
-        }
-
-        public static void SetBrowserLoginTicket(string loginTicket)
-        {
-            if (loginTicket.StartsWith(COOKIE_NAME_LOGIN_TICKET + "="))
-            {
-                loginTicket = loginTicket.Split('=')[1];
-            }
-
-            InternetSetCookieEx(COOKIE_URL, COOKIE_NAME_LOGIN_TICKET, loginTicket, COOKIE_HTTP_ONLY, IntPtr.Zero);
         }
 
         [DllImport("wininet.dll", SetLastError = true)]
         private static extern bool InternetGetCookieEx(
             string url, string cookieName, StringBuilder cookieData,
             ref uint cookieSize, int flags, IntPtr reversed);
-
-        [DllImport("wininet.dll", SetLastError = true)]
-        private static extern int InternetSetCookieEx(
-            string url, string cookieName, string cookieData,
-            int flags, IntPtr reversed);
     }
 }
