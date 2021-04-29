@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="原神玩家信息查询器" Height="715" Width="660" ResizeMode="CanResize" MaxWidth="660" MinWidth="660"
+        Title="原神玩家信息查询器" Height="715" Width="660" ResizeMode="CanResize"
         Closed="Window_Closed" WindowStartupLocation="CenterScreen">
     <Grid>
         <Label Content="玩家UID:" HorizontalAlignment="Left" Height="25" Margin="10,15,0,0" VerticalAlignment="Top" />
@@ -21,15 +21,15 @@
                 Width="121" FontSize="14" Click="Button_Click" />
 
         <WebBrowser Name="WebBrowserMain" HorizontalAlignment="Left" Margin="10,58,0,0" VerticalAlignment="Top"
-                    Width="655" Navigating="WebBrowserMain_Navigating" />
+                    Navigating="WebBrowserMain_Navigating" />
 
-        <TextBlock HorizontalAlignment="Left" Margin="580,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
+        <TextBlock HorizontalAlignment="Right" Margin="0,10,25,0" TextWrapping="Wrap" VerticalAlignment="Top">
             <Hyperlink Name="HyperlinkProjectAddress" NavigateUri="https://github.com/Azure99/GenshinPlayerQuery"
                        RequestNavigate="HyperlinkProjectAddress_RequestNavigate">
                 项目地址
             </Hyperlink>
         </TextBlock>
-        <TextBlock HorizontalAlignment="Left" Margin="570,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top">
+        <TextBlock HorizontalAlignment="Right" Margin="0,28,25,0" TextWrapping="Wrap" VerticalAlignment="Top">
             <Hyperlink Name="HyperlinkByAzure99" NavigateUri="https://github.com/Azure99"
                        RequestNavigate="HyperlinkByAzure99_RequestNavigate">
                 By Azure99

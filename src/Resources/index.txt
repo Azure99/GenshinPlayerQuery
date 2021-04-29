@@ -172,6 +172,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
 
 <script>
+    // 隐藏垂直滚动条
+    document.documentElement.style.overflow ='hidden'
+
     var playerInfo = $playerInfo$;
     var spiralAbyss = $spiralAbyss$;
     var roles = $roles$;
