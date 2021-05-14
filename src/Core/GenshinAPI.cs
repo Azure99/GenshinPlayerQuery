@@ -11,8 +11,8 @@ namespace GenshinPlayerQuery.Core
 {
     internal static class GenshinApi
     {
-        private const string API_SALT = "14bmu1mz0yuljprsfgpvjh3ju2ni468r"; // @Azure99
-        private const string API_APP_VERSION = "2.7.0";
+        private const string API_SALT = "rk4xg2hakoi26nljpr099fv9fck1ah10"; // @Azure99
+        private const string API_APP_VERSION = "2.8.0";
         private const string API_CLIENT_TYPE = "5";
 
         public static bool GetLoginStatus()
