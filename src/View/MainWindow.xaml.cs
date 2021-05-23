@@ -47,7 +47,15 @@ namespace GenshinPlayerQuery.View
             PlayerQueryResult playerQueryResult = GenshinApi.GetPlayerData(uid, server);
             if (!playerQueryResult.Success)
             {
-                MessageBox.Show(playerQueryResult.Message, "查询失败", MessageBoxButton.OK, MessageBoxImage.Information);
+                if (playerQueryResult.Message.Length == 0)
+                {
+                    MessageBox.Show("米游社用户信息可能不完整!\n请在米游社登录账号并完善个人信息\n完善后方可查询任意玩家信息", "查询失败", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Process.Start("https://bbs.mihoyo.com/ys/");
+                }
+                else
+                {
+                    MessageBox.Show(playerQueryResult.Message, "查询失败", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
                 return;
             }
 
