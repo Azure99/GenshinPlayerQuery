@@ -98,8 +98,6 @@ namespace GenshinPlayerQuery.Core
             {
                 using (WebClient client = new WebClient())
                 {
-                    client.Proxy = new WebProxy("127.0.0.1:8888");
-
                     client.Encoding = Encoding.UTF8;
                     client.Headers["x-rpc-client_type"] = API_CLIENT_TYPE;
                     client.Headers["x-rpc-app_version"] = API_APP_VERSION;
