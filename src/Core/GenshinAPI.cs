@@ -40,7 +40,7 @@ namespace GenshinPlayerQuery.Core
             ServerResponse<JObject> lastSpiralAbyss = GetSpiralAbyssInfo("2", uid, server);
             if (!lastSpiralAbyss.Success)
             {
-                return new PlayerQueryResult(spiralAbyss.Message);
+                return new PlayerQueryResult(lastSpiralAbyss.Message);
             }
 
             ServerResponse<JObject> roles = GetCharacters(playerInfo.Data.Avatars.Select(x => x.Id).ToList(), uid, server);
