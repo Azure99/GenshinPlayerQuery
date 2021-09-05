@@ -9,7 +9,6 @@ using System.Threading;
 using System.Windows;
 using GenshinPlayerQuery.Model;
 using GenshinPlayerQuery.View;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace GenshinPlayerQuery.Core
@@ -101,7 +100,7 @@ namespace GenshinPlayerQuery.Core
 
         public static void ShowRoleDetails(string roleId)
         {
-            string role = (JObject.Parse(PlayerQueryResult.Roles)["avatars"] as JArray).Where(x => x["id"].ToString() == roleId).First().ToString();
+            string role = JObject.Parse(PlayerQueryResult.Roles)["avatars"].First(x => x["id"].ToString() == roleId).ToString();
             new RoleWindow(PageRender.RenderRolePage(role)).Show();
         }
 

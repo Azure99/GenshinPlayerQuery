@@ -128,7 +128,7 @@ namespace GenshinPlayerQuery.Core
                 query = string.Join("&", parameters);
             }
 
-            long time = (long) (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            long time = (long) DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
             string random = CreateRandomString(6);
             // Credits: lulu666lulu, https://github.com/Azure99/GenshinPlayerQuery/issues/20
             string check = ComputeMd5($"salt={API_SALT}&t={time}&r={random}&b={body}&q={query}");
