@@ -6,7 +6,7 @@ namespace GenshinPlayerQuery.Core
 {
     internal static class UpdateChecker
     {
-        private const int NOW_VERSION = 15;
+        private const int NOW_VERSION = 16;
         private const string VERSION_URL = "https://www.rainng.com/ser/soft/genshin-player-query/version";
         private const string RELEASE_PAGE_URL = "https://github.com/Azure99/GenshinPlayerQuery/releases/";
 
