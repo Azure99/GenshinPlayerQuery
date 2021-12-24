@@ -15,10 +15,6 @@ namespace GenshinPlayerQuery.Core
         private const string API_SALT = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs";
         private const string API_APP_VERSION = "2.11.1";
         private const string API_CLIENT_TYPE = "5";
-        
-        private const int QUERY_PARALLELISM_DEGREE = 16;
-        private const int FIRST_CHARACTER_ID = 10000000;
-        private const int CHARACTER_COUNT = 70;
 
         public static bool GetLoginStatus()
         {
@@ -45,25 +41,11 @@ namespace GenshinPlayerQuery.Core
                 return new PlayerQueryResult(lastSpiralAbyss.Message);
             }
 
-            List<JToken> characters = new List<JToken>();
-            int[] knownRolesId = playerInfo.Data.Avatars.Select(x => x.Id).ToArray();
-            ServerResponse<JObject> knownCharacters = GetCharacters(uid, server, knownRolesId);
-            if (!knownCharacters.Success)
+            ServerResponse<JObject> roles = GetCharacters(uid, server, playerInfo.Data.Avatars.Select(x => x.Id).ToList());
+            if (!roles.Success)
             {
-                return new PlayerQueryResult(knownCharacters.Message);
+                return new PlayerQueryResult(roles.Message);
             }
-            characters.AddRange(knownCharacters.Data["avatars"]);
-
-            List<JToken> unknownCharacters = Enumerable.Range(FIRST_CHARACTER_ID, CHARACTER_COUNT)
-                .Except(knownRolesId)
-                .AsParallel().WithDegreeOfParallelism(QUERY_PARALLELISM_DEGREE)
-                .Select(roleId =>
-                {
-                    ServerResponse<JObject> role = GetCharacters(uid, server, roleId);
-                    return role.Success ? role.Data["avatars"].First : null;
-                })
-                .Where(role => role != null).ToList();
-            characters.AddRange(unknownCharacters);
 
             return new PlayerQueryResult
             {
@@ -72,29 +54,29 @@ namespace GenshinPlayerQuery.Core
                 Server = server,
                 PlayerInfo = JsonConvert.SerializeObject(playerInfo.Data),
                 SpiralAbyss = $"[{spiralAbyss.Data}, {lastSpiralAbyss.Data}]",
-                Roles = JsonConvert.SerializeObject(new {avatars = characters})
+                Roles = roles.Data.ToString()
             };
         }
 
         private static ServerResponse<PlayerInfo> GetPlayerInfo(string uid, string server)
         {
             return Get<PlayerInfo>(
-                $"https://api-takumi.mihoyo.com/game_record/app/genshin/api/index?role_id={uid}&server={server}");
+                $"https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/index?role_id={uid}&server={server}");
         }
 
         private static ServerResponse<JObject> GetSpiralAbyssInfo(string type, string uid, string server)
         {
             return Get<JObject>(
-                $"https://api-takumi.mihoyo.com/game_record/app/genshin/api/spiralAbyss?schedule_type={type}&server={server}&role_id={uid}");
+                $"https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/spiralAbyss?schedule_type={type}&server={server}&role_id={uid}");
         }
 
-        private static ServerResponse<JObject> GetCharacters(string uid, string server, params int[] characterIds)
+        private static ServerResponse<JObject> GetCharacters(string uid, string server, List<int> characterIds)
         {
             return Post<JObject>(
-                "https://api-takumi.mihoyo.com/game_record/app/genshin/api/character", JsonConvert.SerializeObject(
+                "https://api-takumi-record.mihoyo.com/game_record/app/genshin/api/character", JsonConvert.SerializeObject(
                     new QueryRole
                     {
-                        CharacterIds = characterIds.ToList(),
+                        CharacterIds = characterIds,
                         RoleId = uid,
                         Server = server
                     }));
