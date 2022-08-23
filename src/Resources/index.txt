@@ -355,7 +355,7 @@
     }
 
     function getSpiralAbyssLevelHtml(data) {
-        var html = '<p style="text-align: center">第' + data.index + '间&nbsp;&nbsp;' + data.star + '/' + data.max_star + '⭐&nbsp;&nbsp;' + getDateTextByTimestamp(data.battles[0].timestamp * 1000) + '</p>';
+        var html = '<p style="text-align: center">第' + data.index + '间&nbsp;&nbsp;' + data.star + '/' + data.max_star + '⭐</p>';
         for (var i = 0; i < data.battles.length; i++) {
             html += getSpiralAbyssBattleHtml(data.battles[i]);
         }
@@ -364,7 +364,8 @@
     }
 
     function getSpiralAbyssBattleHtml(data) {
-        html = '<div style="width: 240px; margin: auto">';
+        var html = '<p style="text-align: center">' + (data.index == 1 ? '上半' : '下半') + '&nbsp;' + getDateTextByTimestamp(data.timestamp * 1000) + '</p>';
+        html += '<div style="width: 240px; margin: auto">';
         for (var i = 0; i < data.avatars.length; i++) {
             var roleId = data.avatars[i].id;
             html += getRoleAvatarHtml(roleId);
