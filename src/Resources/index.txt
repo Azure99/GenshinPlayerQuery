@@ -69,7 +69,7 @@
 <div class="az-frame" style="float: left; width: 295px">
     <div class="az-frame-inner">
         <div class="panel panel-default">
-            <div class="panel-heading"><h3 class="panel-title">信息概览</h3></div>
+            <div class="panel-heading"><h3 id="overall-header" class="panel-title">信息概览</h3></div>
             <div class="panel-body">
                 <table class="az-player-overall">
                     <tr>
@@ -80,40 +80,54 @@
                             <p id="overall-achievement_number"></p><span>达成成就</span>
                         </td>
                         <td>
-                            <p id="overall-anemoculus_number"></p><span>风神瞳</span>
-                        </td>
-                        <td>
-                            <p id="overall-geoculus_number"></p><span>岩神瞳</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
                             <p id="overall-avatar_number"></p><span>获得角色</span>
                         </td>
                         <td>
                             <p id="overall-way_point_number"></p><span>解锁传送点</span>
                         </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p id="overall-anemoculus_number"></p><span>风神瞳</span>
+                        </td>
+                        <td>
+                            <p id="overall-geoculus_number"></p><span>岩神瞳</span>
+                        </td>
+                        <td>
+                            <p id="overall-electroculus_number"></p><span>雷神瞳</span>
+                        </td>
+                        <td>
+                            <p id="overall-dendroculus_number"></p><span>草神瞳</span>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>
                             <p id="overall-domain_number"></p><span>解锁秘境</span>
                         </td>
                         <td>
                             <p id="overall-spiral_abyss"></p><span>深境螺旋</span>
                         </td>
-                    </tr>
-                    <tr>
                         <td>
                             <p id="overall-luxurious_chest_number"></p><span>华丽宝箱</span>
                         </td>
                         <td>
                             <p id="overall-precious_chest_number"></p><span>珍贵宝箱</span>
                         </td>
+                    </tr>
+                    <tr>
                         <td>
                             <p id="overall-exquisite_chest_number"></p><span>精致宝箱</span>
                         </td>
                         <td>
                             <p id="overall-common_chest_number"></p><span>普通宝箱</span>
                         </td>
-                    </tr>
+                        <td>
+                            <p id="overall-magic_chest_number"></p><span>奇馈宝箱</span>
+                        </td>
+                        <td>
+                            <p id="overall-level"></p><span>玩家等级</span>
+                        </td>
+                  </tr>
                 </table>
             </div>
         </div>
@@ -210,6 +224,8 @@
                 element.innerText = playerInfo.stats[key];
             }
         }
+        document.getElementById('overall-level').innerText = roles.role.level;
+        document.getElementById('overall-header').innerText = '信息概览 - ' + roles.role.nickname;
     }
 
     // 世界探索

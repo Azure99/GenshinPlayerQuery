@@ -19,6 +19,12 @@ namespace GenshinPlayerQuery.Model
         [JsonProperty(PropertyName = "geoculus_number")]
         public int GeoculusNumber { get; set; }
 
+        [JsonProperty(PropertyName = "electroculus_number")]
+        public int ElectroculusNumber { get; set; }
+
+        [JsonProperty(PropertyName = "dendroculus_number")]
+        public int DendroculusNumber { get; set; }
+
         [JsonProperty(PropertyName = "avatar_number")]
         public int AvatarNumber { get; set; }
 
@@ -42,5 +48,8 @@ namespace GenshinPlayerQuery.Model
 
         [JsonProperty(PropertyName = "common_chest_number")]
         public int CommonChestNumber { get; set; }
+
+        [JsonProperty(PropertyName = "magic_chest_number")]
+        public int MagicChestNumber { get; set; }
     }
 }
