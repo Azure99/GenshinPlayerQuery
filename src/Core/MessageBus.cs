@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,8 @@ namespace GenshinPlayerQuery.Core
 {
     internal static class MessageBus
     {
+        private const string MINIMUM_WEBVIEW2_VERSION = "94.0.992.31";
+
         private const string COOKIE_URL = "https://user.mihoyo.com/";
 
         private const string LOGIN_TICKET_FILE = "ticket.txt";
@@ -80,8 +83,35 @@ namespace GenshinPlayerQuery.Core
 
         public static void Login()
         {
+            if (!CheckWebView2Runtime())
+            {
+                if (MessageBox.Show("系统需要安装WebView2, 是否立刻安装?", "WebView2缺失", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    Process.Start(new ProcessStartInfo("https://go.microsoft.com/fwlink/p/?LinkId=2124703")
+                    {
+                        UseShellExecute = true
+                    });
+                }
+                Exit();
+            }
             MainWindow.Visibility = Visibility.Hidden;
             new LoginWindow().Show();
+        }
+
+        public static bool CheckWebView2Runtime()
+        {
+            Debug.WriteLine("version");
+            try
+            {
+                string localVersion = CoreWebView2Environment.GetAvailableBrowserVersionString();
+                if (CoreWebView2Environment.CompareBrowserVersions(localVersion, MINIMUM_WEBVIEW2_VERSION) >= 0)
+                {
+                    return true;
+                }
+            }
+            catch
+            { }
+            return false;
         }
 
         public static async void AfterLoginSuccessful()
