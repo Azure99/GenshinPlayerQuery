@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Navigation;
 using GenshinPlayerQuery.Core;
+using Microsoft.Web.WebView2.Core;
 
 namespace GenshinPlayerQuery.View
 {
@@ -19,9 +19,9 @@ namespace GenshinPlayerQuery.View
             MessageBus.LoginWindow = this;
         }
 
-        private void WebBrowserLogin_Navigated(object sender, NavigationEventArgs e)
+        private void WebViewLogin_SourceChanged(object sender, CoreWebView2SourceChangedEventArgs e)
         {
-            if (e.Uri != null && e.Uri.OriginalString == "https://user.mihoyo.com/#/account/home")
+            if (WebViewLogin.Source.ToString() == "https://user.mihoyo.com/#/account/home")
             {
                 _loginSuccessful = true;
                 MessageBus.AfterLoginSuccessful();
@@ -38,7 +38,7 @@ namespace GenshinPlayerQuery.View
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            WebBrowserLogin.Dispose();
+            WebViewLogin.Dispose();
         }
     }
 }

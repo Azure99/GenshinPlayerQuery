@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using GenshinPlayerQuery.Model;
 using GenshinPlayerQuery.View;
+using Microsoft.Web.WebView2.Core;
 using Newtonsoft.Json.Linq;
 
 namespace GenshinPlayerQuery.Core
 {
     internal static class MessageBus
     {
-        private const int COOKIE_HTTP_ONLY = 0x00002000;
         private const string COOKIE_URL = "https://user.mihoyo.com/";
 
         private const string LOGIN_TICKET_FILE = "ticket.txt";
@@ -84,9 +84,9 @@ namespace GenshinPlayerQuery.Core
             new LoginWindow().Show();
         }
 
-        public static void AfterLoginSuccessful()
+        public static async void AfterLoginSuccessful()
         {
-            LoginTicket = GetBrowserLoginTicket();
+            LoginTicket = await GetBrowserLoginTicket();
             File.WriteAllText(LOGIN_TICKET_FILE, LoginTicket);
             LoginWindow.Close();
             MainWindow.Visibility = Visibility.Visible;
@@ -104,17 +104,10 @@ namespace GenshinPlayerQuery.Core
             new RoleWindow(PageRender.RenderRolePage(role)).Show();
         }
 
-        public static string GetBrowserLoginTicket()
+        public static async Task<string> GetBrowserLoginTicket()
         {
-            StringBuilder loginTicket = new StringBuilder(1024);
-            uint size = Convert.ToUInt32(loginTicket.Capacity + 1);
-            InternetGetCookieEx(COOKIE_URL, null, loginTicket, ref size, COOKIE_HTTP_ONLY, IntPtr.Zero);
-            return loginTicket.ToString();
+            List<CoreWebView2Cookie> cookies = await LoginWindow.WebViewLogin.CoreWebView2.CookieManager.GetCookiesAsync(COOKIE_URL);
+            return string.Join("; ", cookies.Select(cookie => $"{cookie.Name}={cookie.Value}"));
         }
-
-        [DllImport("wininet.dll", SetLastError = true)]
-        private static extern bool InternetGetCookieEx(
-            string url, string cookieName, StringBuilder cookieData,
-            ref uint cookieSize, int flags, IntPtr reversed);
     }
 }

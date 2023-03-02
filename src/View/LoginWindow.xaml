@@ -1,4 +1,4 @@
-﻿<Window x:Class="GenshinPlayerQuery.View.LoginWindow"
+﻿<Window xmlns:Wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"  x:Class="GenshinPlayerQuery.View.LoginWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,7 @@
         Title="登录米哈游通行证 (用于调用米游社接口 可查询其他玩家 不会泄露您的账号)" Height="720" Width="1280" Closing="Window_Closing"
         WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Grid>
-        <WebBrowser Name="WebBrowserLogin" Navigated="WebBrowserLogin_Navigated"
-                    Source="https://user.mihoyo.com/#/login/password" />
+        <Wpf:WebView2 Name="WebViewLogin" SourceChanged="WebViewLogin_SourceChanged"
+                      Source="https://user.mihoyo.com/#/login/password" />
     </Grid>
 </Window>
