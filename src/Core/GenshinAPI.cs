@@ -21,6 +21,11 @@ namespace GenshinPlayerQuery.Core
             return GetPlayerInfo("100010001", "cn_gf01").Success;
         }
 
+        public static bool GetNeedCaptcha()
+        {
+            return GetPlayerInfo("100010001", "cn_gf01").ReturnCode == 1034;
+        }
+
         public static PlayerQueryResult GetPlayerData(string uid, string server)
         {
             ServerResponse<PlayerInfo> playerInfo = GetPlayerInfo(uid, server);
@@ -56,6 +61,18 @@ namespace GenshinPlayerQuery.Core
                 SpiralAbyss = $"[{spiralAbyss.Data}, {lastSpiralAbyss.Data}]",
                 Roles = roles.Data.ToString()
             };
+        }
+
+        public static ServerResponse<CaptchaChallenge> CreateCaptchaChallenge()
+        {
+            return Get<CaptchaChallenge>(
+                $"https://api-takumi-record.mihoyo.com/game_record/app/card/wapi/createVerification?is_high=true");
+        }
+
+        public static ServerResponse<object> VerifyCaptchaChallenge(CaptchaVerification captchaVerification)
+        {
+            return Post<object>(
+                $"https://api-takumi-record.mihoyo.com/game_record/app/card/wapi/verifyVerification", JsonConvert.SerializeObject(captchaVerification));
         }
 
         private static ServerResponse<PlayerInfo> GetPlayerInfo(string uid, string server)

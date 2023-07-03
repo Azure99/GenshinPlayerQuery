@@ -51,6 +51,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -70,10 +71,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\UpdateChecker.cs" />
+    <Compile Include="Model\CaptchaChallenge.cs" />
+    <Compile Include="Model\CaptchaVerification.cs" />
+    <Compile Include="View\CaptchaWindow.xaml.cs">
+      <DependentUpon>CaptchaWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\RoleWindow.xaml.cs">
       <DependentUpon>RoleWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\WebBrowserZoomInvoker.cs" />
+    <Page Include="View\CaptchaWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

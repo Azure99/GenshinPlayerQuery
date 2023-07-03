@@ -1,0 +1,12 @@
+﻿<Window xmlns:Wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" x:Class="GenshinPlayerQuery.View.CaptchaWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GenshinPlayerQuery.View"
+        mc:Ignorable="d"
+        Title="CaptchaWindow" Height="600" Width="400" Closed="Window_Closed">
+    <Grid>
+        <Wpf:WebView2 Name="WebViewCaptcha" CoreWebView2InitializationCompleted="WebViewCaptcha_CoreWebView2InitializationCompleted" NavigationStarting="WebViewCaptcha_NavigationStarting" />
+    </Grid>
+</Window>

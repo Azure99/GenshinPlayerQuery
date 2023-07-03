@@ -54,6 +54,7 @@ namespace GenshinPlayerQuery.Core
         public static List<string> QueryHistory { get; set; } = new List<string>();
         public static LoginWindow LoginWindow { get; set; }
         public static MainWindow MainWindow { get; set; }
+        public static CaptchaWindow CaptchaWindow { get; set; }
 
         public static void AddQueryHistory(string uid)
         {
@@ -81,6 +82,22 @@ namespace GenshinPlayerQuery.Core
             Environment.Exit(0);
         }
 
+        public static bool CheckWebView2Runtime()
+        {
+            Debug.WriteLine("version");
+            try
+            {
+                string localVersion = CoreWebView2Environment.GetAvailableBrowserVersionString();
+                if (CoreWebView2Environment.CompareBrowserVersions(localVersion, MINIMUM_WEBVIEW2_VERSION) >= 0)
+                {
+                    return true;
+                }
+            }
+            catch
+            { }
+            return false;
+        }
+
         public static void Login()
         {
             if (!CheckWebView2Runtime())
@@ -98,33 +115,48 @@ namespace GenshinPlayerQuery.Core
             new LoginWindow().Show();
         }
 
-        public static bool CheckWebView2Runtime()
-        {
-            Debug.WriteLine("version");
-            try
-            {
-                string localVersion = CoreWebView2Environment.GetAvailableBrowserVersionString();
-                if (CoreWebView2Environment.CompareBrowserVersions(localVersion, MINIMUM_WEBVIEW2_VERSION) >= 0)
-                {
-                    return true;
-                }
-            }
-            catch
-            { }
-            return false;
-        }
-
         public static async void AfterLoginSuccessful()
         {
             LoginTicket = await GetBrowserLoginTicket();
             File.WriteAllText(LOGIN_TICKET_FILE, LoginTicket);
             LoginWindow.Close();
-            MainWindow.Visibility = Visibility.Visible;
+            if (GenshinApi.GetNeedCaptcha())
+            {
+                CaptchaChallenge();
+            }
+            else
+            {
+                MainWindow.Visibility = Visibility.Visible;
+            }
         }
 
         public static void AfterLoginFailed()
         {
             MessageBox.Show("工具需要您的米游社Cookie来调用查询接口\r\n此操作不会泄露您的账号信息", "提示", MessageBoxButton.OK);
+            Exit();
+        }
+
+        public static void CaptchaChallenge()
+        {
+            ServerResponse<CaptchaChallenge> challenge = GenshinApi.CreateCaptchaChallenge();
+            new CaptchaWindow(challenge.Data.Challenge, challenge.Data.GT).Show();
+        }
+
+        public static void AfterCaptchaChallengeSuccessful(string challenge, string validate, string secCode)
+        {
+            GenshinApi.VerifyCaptchaChallenge(new CaptchaVerification
+            {
+                Challenge = challenge,
+                Validate = validate,
+                SecCode = secCode
+            });
+            CaptchaWindow.Close();
+            MainWindow.Visibility = Visibility.Visible;
+        }
+
+        public static void AfterCaptchaChallengeFailed()
+        {
+            MessageBox.Show("请完成验证码认证", "提示", MessageBoxButton.OK);
             Exit();
         }
 
