@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GenshinPlayerQuery.View"
         mc:Ignorable="d"
-        Title="CaptchaWindow" Height="600" Width="400" Closed="Window_Closed">
+        Title="验证码" Height="500" Width="350" Closed="Window_Closed" Closing="Window_Closing">
     <Grid>
         <Wpf:WebView2 Name="WebViewCaptcha" CoreWebView2InitializationCompleted="WebViewCaptcha_CoreWebView2InitializationCompleted" NavigationStarting="WebViewCaptcha_NavigationStarting" />
     </Grid>

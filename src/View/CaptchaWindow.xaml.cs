@@ -23,26 +23,22 @@ namespace GenshinPlayerQuery.View
     /// </summary>
     public partial class CaptchaWindow : Window
     {
-        private string challenge;
-        private string gt;
+        private string _challenge;
+        private string _gt;
+        private bool _verifySuccessful;
 
         public CaptchaWindow(string challenge, string gt)
         {
             InitializeComponent();
             MessageBus.CaptchaWindow = this;
             WebViewCaptcha.EnsureCoreWebView2Async();
-            this.challenge = challenge;
-            this.gt = gt;
-        }
-
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            WebViewCaptcha.Dispose();
+            _challenge = challenge;
+            _gt = gt;
         }
 
         private void WebViewCaptcha_CoreWebView2InitializationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2InitializationCompletedEventArgs e)
         {
-            WebViewCaptcha.CoreWebView2.Navigate($"https://www.rainng.com/ser/soft/genshin-player-query/static/geetest/v1/?challenge={challenge}&gt={gt}");
+            WebViewCaptcha.CoreWebView2.Navigate($"https://www.rainng.com/ser/soft/genshin-player-query/static/geetest/v1/?challenge={_challenge}&gt={_gt}");
         }
 
         private void WebViewCaptcha_NavigationStarting(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e)
@@ -50,9 +46,23 @@ namespace GenshinPlayerQuery.View
             Uri uri = new Uri(e.Uri);
             if (uri.Host == "rainng")
             {
+                _verifySuccessful = true;
                 NameValueCollection result = HttpUtility.ParseQueryString(uri.Query);
                 MessageBus.AfterCaptchaChallengeSuccessful(result["geetest_challenge"], result["geetest_validate"], result["geetest_seccode"]);
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!_verifySuccessful)
+            {
+                MessageBus.AfterCaptchaChallengeFailed();
+            }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            WebViewCaptcha.Dispose();
         }
     }
 }
