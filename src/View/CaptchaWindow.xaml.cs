@@ -59,10 +59,5 @@ namespace GenshinPlayerQuery.View
                 MessageBus.AfterCaptchaChallengeFailed();
             }
         }
-
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            WebViewCaptcha.Dispose();
-        }
     }
 }

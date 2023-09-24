@@ -35,10 +35,5 @@ namespace GenshinPlayerQuery.View
                 MessageBus.AfterLoginFailed();
             }
         }
-
-        private void Window_Closed(object sender, EventArgs e)
-        {
-            WebViewLogin.Dispose();
-        }
     }
 }
